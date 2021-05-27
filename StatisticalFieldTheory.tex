@@ -1,0 +1,85 @@
+\documentclass{book}
+\input{preamble}
+
+\begin{document}
+
+\chapter{Statistical Field Theory}
+test test
+There is a striking similarity between the form of the partition function in statistical field theory and the action in quantum field theory. The partition function in statistical field theory is given by
+\[
+Z[\beta] = \int D \phi \exp{- \beta \int d^d x \, \mathcal{F} (\phi)}
+\]
+After Wick rotating our quantum field theory path integral, we obtain
+\[
+Z[J] = \int D \phi \exp{-  \int d^4 x \, \mathcal{L} (\phi,J)}
+\]
+I'm not quite ready to write about this yet. First let's do some problems. Here is an exercise from Peskin {\&} Schroeder (9.2a):
+
+\textbf{Problem 9.2:} \newline
+(a) Evaluate the quantum statistical partition function
+\[
+Z = \tr [e^{-\beta H}]
+\]
+using the strategy of Section 9.1 (p{\&}s) for evaluating the matrix elements of $e^{-iHt}$ in terms of functional integrals. Show that one again finds a functional integral, over functions defined on a domain that is of length $\beta$ and periodically connected in the time direction. Note that the Euclidean form of the Lagrangian appears in the weight. 
+
+\textbf{Solution:} \newline
+We start in the position basis (since we're doing a method similar to 9.1). The trace is 
+\[
+\tr e^{-\beta H} = \int dx \bra{x} e^{-\beta H} \ket{x}
+\]
+Now we divide up $\beta$ into a million pieces:
+\[
+e^{-\beta H} = e^{-H\epsilon} \cdots e^{-H\epsilon}
+\]
+where $\epsilon = \beta/N$ (large N).
+We insert a resolution of the identity in the position basis between each factor:
+\[
+\tr e^{-\beta H} = \int \prod_{j=1}^{N-2} dq_j \bra{q_j} e^{-\epsilon H} \ket{q_{j+1}}
+\]
+with the last term being $q_1 = q_N$ (the notation gets sloppy here but it's fine). In order to evaluate this we insert momentum eigenstates; the matrix elements of $\bra{x} e^{-\beta H} \ket{y}$ are 
+\[
+\bra{x} e^{-\beta H} \ket{y} = \frac{1}{2\pi \hbar} \sqrt{\frac{2\pi m}{\epsilon}} e^{-m(x-y)^2/2\epsilon \hbar^2 -\epsilon V(y)},
+\]
+so the trace becomes\footnote{I am following Hitoshi on this step - where did the $m$ go?}
+\[
+Z = \int \prod_j dx_j \frac{1}{\sqrt{2\pi \hbar^2 \epsilon}} \exp{-S_E\hbar}
+\]
+where we have defined
+\[
+S_E = \hbar \sum_{j=1}^N \frac{m(x_i - x_{i-1})^2}{2\epsilon \hbar^2} + \epsilon V(x_i).
+\]
+Putting $\beta$ back in, this is
+\[
+S_E = \hbar \sum_{j=1}^N \frac{m(x_i - x_{i-1})^2}{2(\hbar \beta/N)} + V(x_i)
+\]
+Now comes the physical insight. We're doing an integral over all paths. If we assume that these $x_i$ aren't arbitrary but in the limit $N\to \infty$ look like differentiable paths, we can turn this difference into a derivative. We define the parameter $\tau$ to run from $0$ to $\hbar$, we have
+\[
+S_E = \int_0^{\hbar \beta} \left[\frac{m}{2} \left( \frac{dx}{dt} \right)^2 + V(x) \right] d\tau
+\]
+where we integrate with respect to the constraint $x(\hbar \beta) = x(0)$ to make sure we are taking the trace. So we may write
+\[
+Z = \int \prod_j dx_j \frac{1}{C(\beta)} \exp{-S_E}
+\]
+where $C(\beta)$ is some nasty divergent function.
+
+\textbf{b} Evaluate this integral for a simple harmonic oscillator, 
+\[
+L_E = \frac{1}{2} \dot{x}^2 + \frac{1}{2} \omega^2 x^2 ,
+\]
+by introducing a Fourier decomposition of $x(t)$:
+... 
+
+\textbf{c} Generalize this construction to field theory. Show that the quantum statistical partition function for a free scalar field can be written in terms of a functional integral. The value of this integral is given formally by the usual inverse root determinant of the Klein-Gordon operator. \newline
+\textbf{Solution:} \newline
+The same construction, instead of integrating over position eigenstates, but field configurations, produces the expression
+\[
+Z = \int D\phi \frac{1}{C(\beta)} \exp(-S_E),
+\]
+so the usual gaussian integral trick does the same thing. However, in this case, the Euclidean action is given by 
+\[
+\int_0^\beta \int d^d x \; \mathcal{L} \; d\tau
+\]
+
+Note to self: finish this problem. Extremely interesting.
+
+\end{document}

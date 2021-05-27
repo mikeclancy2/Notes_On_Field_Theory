@@ -95,7 +95,16 @@ It is in fact the case that this is isomorphic to $\cm^n$ as a complex vector sp
 \mb{z} = \frac{1}{\sqrt{2}} \left( \mb{x} + i\mb{y} \right) &, \\
 \overline{\mb{z}} = \frac{1}{\sqrt{2}} \left(\mb{x} -i \mb{y} \right)&
 \end{align*}
-We are going to want to write a term like $\overline{z}_i A_{ij} z_j$. In the coordinates $(z_1,\cdots,\overline{z}_n$), this becomes
+The determinant of the transformation $(\mb{x},\mb{y}) \to (\mb{z},\overline{\mb{z}})$ is $-(i^n)$. That is,
+\[
+d\overline{\mb{z}} d\mb{z} = - i^n d\mb{x} d\mb{y}.
+\]
+We don't really care about overall normalization anyway, but it's important to note that we can write the integral over the $z$'s instead of the $x,y$.
+We are going to want to write a term like
+\[
+\overline{\mb{z}}^T A \mb{z} := \overline{\mb{z}}_i A_{ij} \mb{z}_j
+\]
+In the coordinates $(z_1,\cdots,\overline{z}_n$), this becomes
 \[
 \overline{\mb{z}}_i A_{ij} \mb{z}_j = \frac{1}{2}
 \begin{pmatrix} 
@@ -110,10 +119,20 @@ A^T & 0
 \overline{\mb{z}}
 \end{pmatrix}
 \]
+But this is a symmetric matrix for arbitrary $A$! So all we need is positive definiteness of the real part of $A$.\footnote{or something like this} for convergence. Let's call this matrix in the middle $\mb{A}$, or big $A$. Note that 
+\[
+\det \, \mb{A} = \det A \det A^T = (\det A)^2.
+\]
+This can be proved algebraically (we will do this in the next section), or by intuition: it's mapping two subspaces to eachother, and so it stretches each one individually. The total stretch is given by the product of the stretches. Therefore, the integral
+\begin{equation} \label{eq:bosongauss}
+\boxed{\int d\mb{z} d\overline{\mb{z}} \exp{-\overline{\mb{z}}^T A \mb{z}} = \frac{1}{\det A}}
+\end{equation}
+by the results of the real Gaussian integral section.
 \section{Grassmann Gaussian integrals (fermions)}
+We've seen the basics of Grassmann integration in the previous section. Now, we will compute Grassmann integrals. (import that section here).
 
 \newpage
-\subsection{Completing the Square}
+\section{Completing the Square (Real case)}
 We have generalized the expression for Gaussian integrals from (\ref{1vg}) somewhat substantially. There is more we can do, however. We could consider arbitrary quadratic forms in the vector $x$, that is
 \begin{equation} \label{qform}
 Q(x) = \frac{1}{2} \langle x, A x \rangle + \langle b, x \rangle + c
@@ -197,7 +216,7 @@ We've now solved a large class of integrals. Let's try to extend this class a li
 \[
 I_p = \int \frac{d^n x}{(\sqrt{2\pi})^n} \, \exp{-Q(x) + g p(x)}
 \]
-Where $p(x)$ is some polynomial in $x$. We can rearrange this as 
+Where $p(x)$ is some polynomial in $x$ (this will play the role of an interaction). We can rearrange this as 
 \[
 = \int \frac{d^n x}{(\sqrt{2\pi})^n} \left(
 1 + g p(x) + \frac{1}{2!}g^2 p(x)^2 + \cdots 
@@ -209,11 +228,41 @@ I_p = \exp{g p \left( -\frac{\partial}{\partial b^i} \right)} \int \frac{d^n x}{
 \]
 This is clearly an absurd manipulation. Need to mention saddle points - or perhaps talk about variation of action etc.
 
+\newpage
+\section{Functional integral generalizations: Free theory}
+Let's quickly summarize the results of the previous section in full generality. We consider first the ``free'', ``source free'', theory (only a quadratic form). 
+
+For real vectors $\mb{x}$, we have:
+\begin{equation}
+\int d\mb{x} \, \exp{-\frac{1}{2} \mb{x}^T A \mb{x} } = \frac{1}{\sqrt{\det A}}
+\end{equation}
+For complex $\mb{z}$, we have
+\begin{equation}
+\int d\overline{\mb{z}} d\mb{z} \exp{-\overline{\mb{z}}^T A z } = \frac{1}{\det A}
+\end{equation}
+For Grassmann $\psi$, we have
+\begin{equation}
+\int d\overline{\psi} d\psi \exp{\overline{\psi}^T A \psi} = \det A.
+\end{equation}
+Now we generalize to fields. We are jumping from discrete degrees of freedom to continuous degrees of freedom. Everywhere we see a vector, we replace it with a field. So we just guess what the right answer is going to be. It would be a very cool mathematics question to see why this is the case, but as far as I know the mathematical theory of path integrals lags far behind the stuff we end up doing with them.
+
+So let's do it. For real scalar fields $\phi$, we have
+\[
+\int D \phi \exp{-\frac{1}{2} \langle \phi, A \phi \rangle} = \frac{1}{\sqrt{\det A}}
+\]
+For complex scalar $\phi$, this is
+\[
+\int D \phi D\overline{\phi} \exp{-\langle \overline{\phi},A\phi \rangle} = \frac{1}{\det A}
+\]
+For Grassmann $\psi$, this is
+\[
+\int D \psi D \overline{\psi} \exp{-\langle \overline{\psi}, A\psi \rangle} = \det A.
+\]
 \section{To do list} 
 \begin{itemize}
 \item include $\frac{1}{A_1 \cdots A_n}$ integral
-\item generalize to functional integrals (easy)
-\item include complex integrals: 1/det A, hermitian and anti-hermitian piece, check convergence conditions: arbitrary bosonic integral.
+\item (somewhat done) generalize to functional integrals (easy)
+\item (mostly done now) include complex integrals: 1/det A, hermitian and anti-hermitian piece, check convergence conditions: arbitrary bosonic integral.
 \item talk about the difference between minkowski and euclidean integrals
 \end{itemize}
 

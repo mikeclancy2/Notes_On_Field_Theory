@@ -1,0 +1,190 @@
+\documentclass{book}
+\input{preamble}
+
+\begin{document}
+
+\chapter{Gaussian Integrals}
+
+Gaussian integrals are paramount to computing correlation functions in quantum field theory. This will be a story told in a few parts. First, we will work with Gaussians in a single real variable. This will provide some geometric intuition for the cases we will care about in general. Furthermore, the real scalar field is our favorite field to practice stuff in, so this discussion is worthwhile on its own. However, in general, it is helpful to think of the ``bosonic'' (complex scalar) and ''fermionic'' (Grassmann-valued) cases. This is a bit of a lie, as our gauge bosons will require a different type of path integral, but we ignore that and abuse terminology for fun. Just as a sneak peak, in the complex scalar field we will explore infinite dimensional generalizations of:
+\[
+\int d^n z d^n \overline{z} \exp{\frac{1}{2} \overline{z}^T A z } = \frac{1}{\det A}
+\]
+for complex $z$ and in the fermionic case we will have
+\[
+\int d^n \psi d^n \overline{\psi} \exp{\frac{1}{2} \overline{\psi}^T A \psi} = \det A
+\]
+
+\section{Gaussian Integrals in a Single Real Variable}
+
+The single variable is like a physicist's favorite limerick. Its derivation is simple, geometrical, and easy to remember. This is
+\[
+\int dx \, e^{-\frac{1}{2} x^2} = \sqrt{2 \pi}.
+\]
+If you are not familiar with the trick used to compute this, I would recommend going back over it now.
+
+If we put an $a$ in the exponent above, and normalize the overall integral, a simple $u$ substitution yields
+\begin{equation} \label{1vg}
+\boxed{\int \frac{dx}{2\pi} e^{-\frac{1}{2} ax^2} = \frac{1}{\sqrt{a}}.}
+\end{equation}
+We are now experts in the Gaussian Integral in a Single Real Variable. Well, kind of. Let's be a little careful. The right hand side gives us problems when $a = 0$. The left hand side clearly diverges when $a < 0$. If we extend the conversation to complex $a$ (but real $x$), the left hand side clearly converges when $a$ has \textbf{positive real part.} Since we already know the expression for the positive part of the real axis, we can analytically continue the RHS of (\ref{1vg}) to the entire right half plane, and use the same formula there. If you read the chapter on complex analysis, this might seem reasonable to you. If not, just take it as it is. Moving forward, we will frequently go between working with real positive $a$ and extending the answer to complex $a$ with positive real part.
+
+\section{Gaussian Integrals in Multiple Real Variables}
+
+The easiest extension of (\ref{1vg}) is:
+\[
+\int \frac{d^n x}{\left(\sqrt{2\pi}\right)^n} e^{-\frac{1}{2} a x^2 } = \frac{1}{\sqrt{a^n}}
+\]
+by just doing $n$ u-substitutions, with $a > 0$. We can even extend this a little further, if we pick a different $a_i$ for each $x_i$:
+\begin{equation} \label{dum}
+\int \frac{d^n x}{\left(\sqrt{2\pi}\right)^n} \exp{-\frac{1}{2} a_i x_i^2} = \frac{1}{\sqrt{a_1 \cdots a_n}}
+\end{equation}
+To guarantee convergence of the left-hand-side, we must that $a_i > 0$. We can actually write the left hand side of (\ref{dum}) in a clever way. Writing the matrix 
+\[
+A = \begin{pmatrix}
+a_1 & \\
+& \ddots \\
+& & a_n
+\end{pmatrix},
+\]
+we can rewrite the exponent in (\ref{dum}) as $-\frac{1}{2}\langle x, A x \rangle$. Then the quantity in the denominator of the right hand side of (\ref{dum}) is just square root of the determinant of $A$. Conditions on convergence of (\ref{dum}), framed in terms of $A$, are restated as $A$ being \textit{positive definite} - literally just meaning its eigenvalues are positive. 
+
+Now we can start being a little clever. If we start with an arbitrary symmetric (real) matrix $A$, we can diagonalize it with an orthogonal transformation, i.e. $A = O^{-1} D O = O^T D O$ for diagonal $D$ and special orthogonal $O$. Now consider the integral
+\begin{equation} \label{dumr}
+\int \frac{d^n x}{(\sqrt{2 \pi})^n} \exp{-\frac{1}{2} \langle x, A x \rangle}
+\end{equation}
+for such an $A$. The exponent can be rewritten $\langle x, O^T D O x \rangle = \langle Ox, D Ox \rangle$. If we make the substitution $x \to Ox$, since $O$ is orthogonal and thus volume-preserving, we can just erase the $O$'s. So the integral (\ref{dumr}) becomes one like (\ref{dum}), with $a_i$ replaced by $d_i$, the diagonal elements of $D$. Convergence of this integral requires positive definite-ness of $D$ (which is equivalent to positive definiteness of $A$). Lastly, recall that by properties of determinant, 
+\[
+\text{det} \, A = \text{det} \, O^{-1} \; \text{det} \, D \; \text{det} \, O = \text{det} \, D.
+\]
+Summarizing this, let $A$ be a real positive definite symmetric matrix. Then:
+\begin{equation} \label{nvg}
+\boxed{\int \frac{d^n x}{(\sqrt{2 \pi})^n} \exp{-\frac{1}{2} \langle x, A x \rangle} = \frac{1}{\sqrt{\det A}}.}
+\end{equation}
+This equation, as well as its friends, are going to become our very best friends in the world. They will pop up over and over again. Let's extend this a tiny bit further. Suppose $A$ is an arbitrary real, positive definite matrix. Recall that this condition is equivalent to either having $\langle x, A x \rangle > 0$ for all $x$ or that it has all positive eigenvalues. Then $A$ can always be written as the sum of a symmetric and anti-symmetric matrix:
+\[
+A = A_S + A_{AS}.
+\]
+Lots of linear algebra theorems can have subtle, clever proofs. This one does not. The symmetric part is $A_S = \frac{1}{2}\left(A + A^T \right)$, and you can guess the anti-symmetric part. Note that for any anti-symmetric matrix $B$, $\langle x, B x \rangle = 0$\footnote{check this for yourself if you aren't sure. Alternatively, just check (\ref{sprod}) directly by definition of $A_S$, it's probably easier.}. So 
+\begin{equation} \label{sprod}
+\langle x, A x \rangle = \langle x, A_S x \rangle.
+\end{equation}
+Therefore, we can generalize (\ref{nvg}) to arbitrary real positive-definite matrices. Let $A$ be such a matrix. Then
+\begin{equation} \label{almost}
+\int \frac{d^n x}{(\sqrt{2 \pi})^n} \exp{-\frac{1}{2} \langle x, A x \rangle} = \frac{1}{\sqrt{\det A_S}}.
+\end{equation}
+Finally, let $C$ be an arbitrary complex matrix with positive-definite real part. Write $C = A + i B$. Then we can analytically continue the formula\footnote{in the matrix component variables} (\ref{almost}) to:
+\begin{equation} \label{nvgf}
+\boxed{\int \frac{d^n x}{(\sqrt{2 \pi})^n} \exp{-\frac{1}{2} \langle x, C x \rangle} = \frac{1}{\sqrt{\det C_S}}.}
+\end{equation}
+Incredible. Let's have some more fun.
+
+\section{Complex gaussian integrals}
+
+\section{Grassmann gaussian integrals}
+
+\newpage
+\subsection{Completing the Square}
+We have generalized the expression for Gaussian integrals from (\ref{1vg}) somewhat substantially. There is more we can do, however. We could consider arbitrary quadratic forms in the vector $x$, that is
+\begin{equation} \label{qform}
+Q(x) = \frac{1}{2} \langle x, A x \rangle + \langle b, x \rangle + c
+\end{equation}
+Where $b$ is some vector and $A$ is a matrix with positive definite real part. We will also assume $A$ is symmetric from the outset. If we include non-symmetric matrices, we don't get any more quadratic forms $Q$. So if you started with some $A$ which wasn't symmetric, just replace $A$ with $A_S$ in the forthcoming discussion. Now we generalize the integral (\ref{dumr}) to
+\begin{equation} \label{quadint}
+\int \frac{d^n x}{(\sqrt{2\pi})^n} \exp{-Q(x)}.
+\end{equation}
+It might seem like now our job is much harder - we have to do an $x^2$ term \textit{and} an $x$ term (the c term just pulls out). However, we can get rid of the $x$ term in the following way. Let's go back to one variable. Remember we can rewrite an arbitrary parabola as
+\begin{equation} \label{grade8}
+\frac{1}{2} a x^2 + bx + c = \frac{1}{2} a\left( x + \frac{b}{a} \right)^2 + \left( c - \frac{b^2}{2a} \right)
+\end{equation}
+The way to do this is by completing the square: try to write it as a shifted parabola, and add the part that messes it up. It may be shown that the vector generalization of this is\footnote{Do this exercise. Remember that inner products are real, so you can swap the left and right. Also recall that $A$ is symmetric, so it can go back and forth in the inner product. (if it's not symmetric, that part doesn't contribute anyway)}
+\[
+Q(x) = \frac{1}{2} \langle x + A^{-1}b, A \left( x + A^{-1}b\right) \rangle + c - \frac{1}{2}\langle b, A^{-1} b \rangle.
+\]
+Note that $\overline{x} = -A^{-1} b$ minimizes this expression.\footnote{I am borrowing this discussion from \cite{Co1} and making it my own.} We may therefore write
+\[
+Q(x) = \frac{1}{2} \langle x - \overline{x}, A(x - \overline{x}) \rangle + Q(\overline{x}).
+\]
+
+where $Q(\overline{x})$ are the constant terms. Now recall that we are putting $Q(x)$ in an integral over. Shifting an integral doesn't affect its value, and constants can be pulled out. So in fact, by completing the square we can reduce (\ref{quadint}) to a problem we've already solved. For the choice of $Q(x)$ in (\ref{qform}), (\ref{quadint}) becomes
+\begin{equation} \label{cts}
+\int \frac{d^n x}{(\sqrt{2\pi})^n} \exp{-Q(x)} = \exp{-Q(\overline{x})} \frac{1}{\sqrt{\det A)}}.
+\end{equation}
+Now there's one last trick we can do to generalize this, and the payoff will be big so bear with me. 
+
+\newpage
+\subsection{Differentiating under the integral sign}
+Let's go back to one variable for a second, the argument is nearly identical for $n$ variables. Let's consider a quadratic form $Q(x) = \frac{1}{2} ax^2 + bx + c$ in one variable. Let us start by defining the answer we know.
+\[
+I = \int \frac{dx}{\sqrt{2\pi}} \exp{-Q(x)} = \int \frac{dx}{2\pi} \exp{-\frac{1}{2}ax^2 - bx - c}
+\]
+Now suppose our life wasn't so easy. Suppose a little goblin came in and put an $x$ in front of the integrand. That is, instead of just $I$, we have
+\begin{equation} \label{bobby}
+I (x) = \int \frac{dx}{\sqrt{2\pi}} \, x \exp{-\frac{1}{2} a x^2 - bx - c}. 
+\end{equation}
+You might be tempted to complete the square and integrate by parts, or something like this. That would work. But we can get the answer in a more clever and useful way. Here's how: this integral can be done for any $b$. If we take the derivative of $\exp{-Q(x)}$ with respect to $b$, it only sees $b$ as a variable and everything else is constant. So a $-x$ falls down from the exponent:
+\[
+\frac{\partial}{\partial b} \exp{-\frac{1}{2}ax^2 + bx + c} = - x \exp{-\frac{1}{2} ax^2 + bx + c}.
+\]
+But this is exactly the integrand of (\ref{bobby}). Well, not exactly. This would be rectified if I took $-\frac{\partial}{\partial b}$. So let's do that. We may rewrite (\ref{bobby}) as 
+\begin{equation}
+I (x) = \int \frac{dx}{\sqrt{2\pi}} \left(-\frac{\partial}{\partial b}\right) \exp{-Q(x)}.
+\end{equation}
+Now, at first glance, we've just rewritten (\ref{bobby}) in a less compact notation. But we've actually done something incredible. We've taken an $x$ in an integral over $x$, and replaced it with $-\frac{\partial}{\partial b}$ - this doesn't depend on $x$. So we can pull it out! Therefore, we may write
+\begin{equation} \label{amazing}
+I(x) = \left( -\frac{\partial}{\partial b}\right) I.
+\end{equation}
+Amazing. We know how to solve $I$, so we compute that and then take its derivative. We've defeated the little goblin. Now suppose the little goblin's bigger, more powerful cousin came for revenge, and instead put an arbitrary polynomial in front of the integrand:
+\[
+I(P(x)) = \int \frac{dx}{\sqrt{2\pi}} P(x) \exp{-Q(x)}
+\]
+Well, just take more $-\frac{\partial}{\partial b}'s$. For the $a x^n$ term, just do $a (-\frac{\partial}{\partial b})^n$, and pull those derivatives out of the integral. Do the other terms, and we end up with
+\[
+I(P(x)) = P\left( - \frac{\partial}{\partial b} \right) I.
+\]
+If you don't believe me, check. It's a fun exercise.
+
+Now we move to the $n$ variable case. Consider an arbitrary polynomial $P(x)$ in the variables $x_1,...,x_n$. For example, $P_0 (x) = x_1 x_2 + 2 x_3$. The big boss goblin heard about what you did to the big goblin and the little goblin, and he's pissed. He puts a $P(x)$ in front of (\ref{quadint}), i.e. 
+\[
+\mathbf{I} (P(x)) = \int \frac{d^n x}{(\sqrt{2\pi})^n} P(x) \exp{-Q(x)}
+\]
+Luckily our work is pretty much cut out for us. There's a $\langle b,x \rangle$ term in $Q(x)$, with $b = (b_1, \cdots, b_n)$. So any time I need an $x_i$ in the polynomial, I take a $-\frac{\partial}{\partial b_i}$. So all we need to do is do the polynomial in the $\frac{\partial}{\partial b_i}$'s outside, as we did before. So we have
+\begin{equation} \label{bbg}
+\boxed{\mathbf{I} (P(x)) = P\left(-\frac{\partial}{\partial b_i}\right) \mathbf{I}.}
+\end{equation}
+In the case of $P_0$, then, this would be
+\[
+\int \frac{d^n x}{(\sqrt{2\pi})^n} (x_1 x_2 + 2x_3) \exp{-Q(x)} =
+\left(\frac{\partial}{\partial b_1} \frac{\partial}{\partial b_2} - 2 \frac{\partial}{\partial b_3} \right) \int \frac{d^n x}{(\sqrt{2\pi})^n} \exp{-Q(x)}
+\]
+Finally, we've already done the integral on the RHS of this. So the most general type of integral we can solve is
+\begin{equation} \label{bigdaddy}
+\boxed{\int \frac{d^n x}{(\sqrt{2\pi})^n} P(x) \exp{-Q(x)} = P\left(-\frac{\partial}{\partial b_i}\right)  \frac{1}{\sqrt{\det A}} \exp{-Q(x)}.}
+\end{equation}
+This is an extraordinary formula. This is, more or less, the formula we will allow us to calculate path integrals for interacting field theories. Well, kind of. Let's speak a little more on that.
+
+\section{Nearly there}
+We've now solved a large class of integrals. Let's try to extend this class a little more by cheating. Suppose we have an integral of the form 
+\[
+I_p = \int \frac{d^n x}{(\sqrt{2\pi})^n} \, \exp{-Q(x) + g p(x)}
+\]
+Where $p(x)$ is some polynomial in $x$. We can rearrange this as 
+\[
+= \int \frac{d^n x}{(\sqrt{2\pi})^n} \left(
+1 + g p(x) + \frac{1}{2!}g^2 p(x)^2 + \cdots 
+\right) \exp{-Q(x)}
+\]
+Now, term by term, we can do this integral by \ref{bigdaddy}. We swap the polynomials in $x$ with polynomials in $-\frac{\partial}{\partial b}$, pull those out, and regroup them outside the integral. This gives us
+\[
+I_p = \exp{g p \left( -\frac{\partial}{\partial b^i} \right)} \int \frac{d^n x}{(\sqrt{2\pi})^n}\exp (-Q(x))
+\]
+This is clearly an absurd manipulation. Need to mention saddle points - or perhaps talk about variation of action etc.
+
+\section{To do list} 
+\begin{itemize}
+\item include $\frac{1}{A_1 \cdots A_n}$ integral
+\item generalize to functional integrals (easy)
+\item include complex integrals: 1/det A, hermitian and anti-hermitian piece, check convergence conditions: arbitrary bosonic integral.
+\item talk about the difference between minkowski and euclidean integrals
+\end{itemize}
+
+\end{document}

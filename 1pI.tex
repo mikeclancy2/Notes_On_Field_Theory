@@ -1,0 +1,81 @@
+\documentclass{book}
+\input{preamble}
+
+\begin{document}
+
+\chapter{Taming Feynman Diagrams: 1PI, Loop Corrections}
+We're going to do something important. We're going to compute the exact propagator 
+\[
+\frac{1}{i}\mathbf{\Delta}(x-y) = \bra{0} T \phi(x) \phi(y) \ket{0}
+\]
+We know, in principle, that we should compute this order by order in $g$ by using Feynman diagrams. It is also easier in general to write it in momentum space. This will matter in a little but. In any case we have an expansion
+\[
+\frac{1}{i}\mathbf{\Delta}(k^2) = \sum_n g^n \times \left( \sum \text{diagrams with $g^n$ factor} \right)
+\]
+so we have a double sum. For small $g$, it makes sense to calculate everything up to some order $g^n$, and then stop. To do this, we need to sum up each diagram of order $n$. Unfortunately, there are infinitely many diagrams of this kind. If we had infinitely many graduate students or infinite time, we could do this. But these notes apply to one graduate student with a few hours before their problem set is due.
+
+The first realization we should make is this: infinite sums that we don't compute by approximating with the first few terms are familiar. If we see something like
+\[
+\sum_n r^n,
+\]
+for $0 < r < 1$, we know that this sum is just
+\[
+\frac{1}{1-r}.
+\]
+In fact, this is more than an instructive example: this is exactly what we will do. We are going to compute diagrams by doing a geometric series. We will get to that shortly. I will explain first how we are led there. \newpage
+
+\section{1PI diagrams}
+Let's say I draw a diagram. Here's one:
+
+(one $\phi^3$ loop diagram) (A)
+
+Very cool. This diagram is easy. Let's do an ugly one:
+
+(hammock $\phi^3$ diagram: line, triangle, square, triangle, line) (B)
+
+Gross. I've got to keep track of a whole bunch of terms. What about this one?
+
+(external prop, $\phi^3$ loop, internal prop, hammock, external prop) (A+B)
+
+This actually isn't bad if we've already done the previous two: it's just
+\[
+\text{prop times loop times prop times hammock times prop}
+\]
+In other words, any time a diagram consists of two ugly pieces connected by a single internal line, the diagram factors as above. We will organize diagrams in this way, but we have to do so systematically: so even if a subdiagram is ugly, I want to make sure I check if it can also be seen as two ugly diagrams connected by a single internal line. This motivates the following definition:
+
+\begin{defn}
+A diagram is called \textbf{one-particle irreducible}, or just \textbf{1PI}, if cutting a single internal line doesn't separate it into two disconnected diagrams.
+\end{defn}
+So (A), (B) are 1PI, while (A+B) is clearly not 1PI. 
+
+By the definition of 1PI, we have that any diagram is a bunch of 1PI's connected in a chain by internal lines. Picture these as little knots. If we want to sum over all diagrams, we are motivated to define the following quantity:
+\[
+i\Pi(k^2) = \sum(\text{all 1PI diagrams with incoming \& outgoing momentum $k$})
+\]
+We refer to $i\Pi^2$ as the \textit{self-energy}, because it consists of all internal processes of a single particle coming in and going out, without existing as a single particle at any point inbetween.
+
+So, if we want to add up all possible diagrams, we organize terms by how many 1PIs there are connected by links:
+
+(Srednicki picture)
+
+Therefore we may write
+\begin{align}
+&\frac{1}{i} \mathbf{\Delta} (k^2) = &\\ & \frac{1}{i}\Delta(k^2) +& \\ 
+&\frac{1}{i}\Delta(k^2) (i \Pi(k^2)) \frac{1}{i}\Delta(k^2) + & \\ 
+&\frac{1}{i}\Delta(k^2) (i\Pi(k^2)) \frac{1}{i}\Delta(k^2)  (i \Pi(k^2)) \frac{1}{i}\Delta(k^2) + & \\
+&\cdots &
+\end{align}
+Now comes a really beautiful idea. Nothing here is an operator or anything stupid like that. It's all numbers. So this is really just a geometric series! The exact propagator  given by
+\[
+\mathbf{\Delta} = \Delta \frac{1}{1-\Delta\Pi}
+\]
+But $\Delta = 1/x$ for $x = k^2 + m^2 - i\epsilon$. So we can write this as 
+\[
+\mathbf{\Delta} = \frac{1}{x - \Pi}
+\]
+Rewriting this in full notation we have:
+\begin{equation} \label{eq:wowgeo}
+\mathbf{\Delta} (k^2) = \frac{1}{k^2 + m^2 - i\epsilon - \Pi(k^2)}
+\end{equation}
+This is kind of incredible. In order to compute the exact propagator, we can just compute the self-energy order by order.
+\end{document}

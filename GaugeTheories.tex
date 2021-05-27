@@ -1,0 +1,559 @@
+\documentclass{book}
+\input{preamble}
+
+\begin{document}
+
+\chapter{Gauge Theories}
+In this chapter, I will describe the standard prescription for creating gauge theories. Say I hand you a group $G$, and tell you to make a gauge field theory with that group. I will first describe the way to do this with non-abelian gauge theories. Abelian gauge theories pop out when we erase some of the non-abelian stuff. After that, I will generalize this method some after we talk about group representations.
+
+I will assume you know at a bit about what a Lie group is, what its Lie algebra is, but not much - vague intuitions should do. Perhaps I will include a chapter on that at a later date.
+
+What I will \textit{not} talk about is the so-called ``physicality'' of gauge transformations, or where they come from. It is a fact that the standard model is a gauge theory. However, you might also hear that gauge transformations are totally non-physical. This is irrelevant to their \textit{construction}. Models are not physics. Constructing physical models in isolation is, for the most part, kind of easy. Attaching physical/experimental/tangible significance to some, or all elements of a theory, is extremely difficult. The difficulty holds also in the converse, when constructing elements for a theory from physically significant experimental results. It is my goal here to do that modeling part in sufficient isolation; borrowing only necessary physical intuition, and not relying on it when I don't want to construct my model carefully.
+
+I can start with quantum field theories that I understand, introduce the idea of gauge transformations, and see what happens. Much of what I say here will be my own terminology, to keep things straight - but won't differ significantly from what is found in the literature. 
+
+I will introduce the systematic process for introducing gauge fields in a later section. Skip there if you are using these notes for reference. If you are learning QFT for the first or second time, start here. 
+
+We begin from the idea that I want to apply local $G$-valued transformations to the fields. By asking very simple natural questions about how to do things independently of this $U$, we are led through the story of connections, covariant derivatives, $F_{\mu \nu}$'s, and Wilson loops. 
+
+\section{Local Gauge Transformations}
+Let us start with the notion of local gauge transformations. We will define this only for $G = SU(N)$. Actually, we will only use this $S$ when $N > 1$. When $N = 1$, we use $G = U(1)$. This is because when we these $SU(N)$'s, actually what we are looking at is the connected component of the identity of $U(N)$ for $N > 1$. Tacking the $S$ on just follows because $U(N)$ is disconnected for $N > 1$; it ensures we are looking at the component connected to the identity - the part of the $U(N)$ that we can get to my moving continuously away from the identity. So in the following discussion, when I say $SU(N)$, I really mean the connected component of the identity in $U(N)$. So, if $N=1$ just erase the $S$. If you skipped this paragraph and get confused later, you will be confused by this.
+
+We will generalize this a little bit later, but this is the main idea. We will start with $N$ fields $\phi_i$; they can be vector, spinor, or scalar, and the definition won't change. Picture scalar if it makes it easier. We arrange these fields in a column vector $\phi(x)$. Later, these degrees of freedom will play the role of the color degrees of freedom in, for example, $G = SU(3)$.
+
+\begin{defn}
+A \textbf{local gauge transformation} [?]\footnote{perhaps this will change when we consider representation stuff} of $SU(N)$ on the fields $\phi_i$ as a choice of matrix $U(x)$ at each $x$, acting by
+
+\begin{equation} \label{localgaugetrans}
+ \boxed{\phi (x) \to U(x) \phi(x),}
+\end{equation}
+
+so for each $i$ we have
+\[
+\phi_i(x) \to U(x)_{ij} \phi_j (x).
+\]
+\end{defn}
+Let us also generally impose smoothness of $U$ on the choice of $x$. We can think of each $U(x)$ as being the exponential of some element of the Lie aglebra $\mathfrak{su} (N)$. Let us write $T_a$ as a basis for this Lie algebra, $a = 1,\cdots, N^2 -1$. Then we can write these transformations as
+\[
+U(x) = \exp{- i \theta^a (x) T_a}
+\]
+for real parameters $\theta^a (x)$. For infinitesimal transformations $\theta$, this becomes
+\[
+U(x) = I - i \theta^a (x) T_a.
+\]
+If you like, put $jk$'s on the matrices above. Either way, we find that 
+\[
+\partial_\mu U (x) = -i \partial_\mu \theta^a (x) T_a.
+\]
+
+Let's take a quick interlude to think about our friend $\partial_\mu$ after applying $U$. There's this weird $U(x)$ thing that I'm doing to the fields at all those points. How does the field vary with position now? Well, let $\tilde{\phi}(x) = U (x) \phi(x)$ denote the transformed field. Let $\epsilon^\mu$ be an infinitesimal vector (the same for each point $x$), with length $\epsilon$. Then
+\begin{align*}
+\partial_\mu \tilde{\phi} (x) =
+\frac{\tilde{\phi} (x + \epsilon^\mu) - \tilde{\phi}(x)}{\epsilon} = 
+\frac{U(x + \epsilon^\mu) \phi(x + \epsilon^\mu) - U(x) \phi(x)}{\epsilon} \\ =
+\frac{\left( U (x) + \epsilon \partial_\mu U (x)\right) \left(\phi(x) + \epsilon \partial_\mu \phi \right) - U(x) \phi(x)}{\epsilon}.
+\end{align*}
+Now, in the FOIL, the F term cancels the term after the FOIL, and the L term is $\epsilon^2$, and the OI terms cancel the $\epsilon^\mu$ in the denominator. So, we are left with
+\begin{align*}
+\partial_\mu \tilde{\phi} (x) = \partial_\mu U (x) \phi(x) + \partial_\mu \phi (x) \\ =
+-i \partial_\mu \theta^a (x) T_a \phi(x) + \partial_\mu \phi (x)
+\end{align*}
+We are therefore left with how the derivative changes as we apply a local gauge transformation:
+\begin{equation} \label{ugly}
+-i \partial_\mu \theta^a (x) T_a \phi(x) 
+\end{equation}
+Now, I haven't done any physics or said anything yet. All I've done is introduce some local transformations and see what happens as we move to the side after transforming. I've introduced an obvious problem. I screwed up the fields and did nothing about it. What did I expect?
+
+Now, we turn to the business of symmetry. I want this $U$ to be basically useless. I don't want my derivative of $\phi$ to see how $U$ is changing with $x$ as it did in (\ref{ugly}). I want to have a consistent way of taking derivatives that doesn't depend on what transformation $U$ I apply. A reasonable way of doing this would be finding a derivative operator $D_\mu$, which contains $\partial_\mu$, such that when $\phi (x) \to U(x) \phi(x)$, we also have $D_\mu \phi(x) \to U(x) D_\mu \phi(x)$. In other words, we want the field derivatives to vary the same way the fields do when we apply $U$.
+
+\section{Wilson Links and Covariant Derivatives}
+So what went wrong? Well, if you are familiar with general relativity, you might have picked up on it. When we try to take a derivative of a field, we need a connection. A connection is something that tells you how to subtract vectors at two different positions: in the Euclidean case, we can just ``move'' one from a point to another. The technical way to do this that generalizes is to use the Levi-Civita connection generated by the standard Pythagorean metric on $\re^3$. The obvious way to do it is to just subtract them because you'll get the same answer. 
+
+In our case, what we seek is a map $W(y,x)$ which takes the $N$-vector of fields at $x$, $\phi(x)$, and brings those fields to fields at $y$, $\phi(y)$. Furthermore, I don't want my derivatives to keep track of the gauge transformation $U$, so I want $W$ to transform when the fields transform. That is, when $\phi (z) \to U(z) \phi(z)$, we have the transformation law
+\[
+W(y,x) \to U(y) W(y,x) U(x)^{-1}.
+\]
+We will refer to this field as the \textbf{Wilson connection},\textbf{Wilson comparator}, or \textbf{Wilson link}. \footnote{Peskin and Schroeder call it the comparator. \cite{pas} Srednicki calls it the Wilson link \cite{sred}.} Note that I didn't say $W(y,x) \phi(x)$ is \textit{equal} to $\phi(y)$. Just that I need a way of transporting vectors from point to point, which I will transform when the fields transform so the way I do it doesn't depend so heavily on transformation $U(x)$. Now, na\"ively, this is just an $N \times N$ matrix. But $W$ is an object that is connecting the fields that are rotated by $SU(N)$, so $W(y,x)$ should be $SU(N)$ valued as well. Further, we should probably enforce continuity of $W$, as well as that $W(x,x) = I$, and $W(z,y) W(y,x) = W(z,x)$.\footnote{Mathematicians call objects like this groupoids.} The $W$'s and $U$'s come in one package: $U$ rotates the fields, $W$ connects them across points. Wilson links will be at the forefront of our entire discussion of gauge theories, in tandem with covariant derivatives. 
+
+Now we can construct a derivative operator, by moving the vector of fields from point to point according to $W$. We define the covariant derivative $D_\mu$ by
+\begin{equation} \label{Dmu1}
+D_\mu \phi (x)= \frac{\phi(x + \epsilon^\mu) - W(x + \epsilon^\mu,x) \phi(x)}{\epsilon}
+\end{equation}
+where $\epsilon^\mu$ is a four-vector with infinitesimal $\epsilon$ in the $\mu$ slot. Because of our constraints on the type of $W$'s we allow, as well as the fact that we must have $W(x,x) = I$, we know that $W(x + \epsilon^\mu,x)$ must be infinitesimally close to the identity. Therefore, for each $\mu$, we must be able to express $W(x+\epsilon^\mu,x)$ as 
+\begin{equation} \label{inf1}
+W(x +\epsilon^\mu,x) = 1 + i \epsilon g A_\mu (x) + O (\epsilon^2)
+\end{equation}
+for some matrix $A_\mu (x) \in \mathfrak{su}(N)$ at each $x$. \boxed{\text{Note the sign weirdness here.}} Normally we have $-i$ where this $+i$ is. This is an unfortunate convention\footnote{I suspect that mathematicians like Wilson lines, and mathematicians also typically exponentiate like $e^{i A}$, not $e^{-i A}$ as physicists do.}. Every other exponentiated generator we have ever used in physics has a $-i$ in front, this $A$ has a $+i$ in front. Yes, it's confusing. Yes, I'm going to stick to that convention. Otherwise all my equations will be inconsitent with the literature.
+
+We may then write
+\begin{equation} \label{Amu1}
+\boxed{A_\mu (x) = - \frac{i}{g} \lim_{\epsilon \to 0} \frac{W(x + \epsilon^\mu,x) - I}{\epsilon}}
+\end{equation}
+This is how we may \textit{define} the $A_\mu (x)$ - as the infinitesimal generators of a particular choice of connection $W(y,x)$. We will, abusively, also call $A_\mu$ the connection ($A_\mu$ is called the connection much more than $W$ is, in the literature).
+
+I introduced a $g$ here, which technically does nothing, but later will play the role of the coupling constant. We may also express $A_\mu(x)$ in terms of a basis $T_a$ for $\mathfrak{su}(N)$, so that
+\[
+A_\mu (x) = A^a_\mu (x) T_a
+\]
+for some real valued functions $A^a_\mu$.
+
+In other words, the object $W(y,x)$ which is an element of $SU(N)$ for each pair $x,y$, for infinitesimal transformations $W(x +\epsilon^\mu,x)$ elements it suffices to know $A_\mu (x)$. You might expect that we can reconstruct $W$ by integrating the $A$'s over a path. Let $W(y,x)$ be a Wilson comparator, which determines a connection $A_\mu (x)$. Let $\gamma$ be a path connecting $x$ to $y$. Then we write down the obvious line integral:
+\begin{equation} \label{WL1}
+W_\gamma (b,a) = \mathcal{P} \exp{ i g \int_{\gamma} A_\mu(x) d\gamma^\mu (x)}
+\end{equation}
+Where $\mathcal{P}$ denotes the path ordering symbol, which makes sure we  integrate in the right order since the $A_\mu$'s might not commute. We may express this in less compact notation as 
+\begin{equation} \label{WL2}
+W_\gamma (b,a) = \Lambda \exp{ i g \int_0^1 A_\mu (x) 
+\frac{d \gamma^\mu}{d\lambda} d\lambda}.
+\end{equation}
+where $\Lambda$ is the ``time'' ordering symbol in the ``time'' parameter $\lambda$, assuming $\gamma(0) = a$ and $\gamma(1) = b$.\footnote{perhaps we should just use the proper time here?} Last, but certainly not least, we will have one more expression for this object. If we replace $A_\mu (x)$ with $A_\mu^a (x) T_a$, we can actually do the integral inside of the exponential. We can do this for (\ref{WL1}) or (\ref{WL2}), I choose the former.
+\begin{equation} \label{WLT}
+\boxed{W_\gamma (b,a) = \Lambda \exp{ ig T_a \int_\gamma A_\mu^a (x) d^\mu (x)}}
+\end{equation}
+
+$W_\gamma (b,a)$ is called the \textbf{Wilson line} for the path $\gamma$. You might expect that this gives us the comparator. However, that is wrong. In general,
+\[
+W_\gamma (y,x) \neq W(y,x)
+\]
+even though $W_\gamma$ was defined, at least implicitly, by $W$. $W_\gamma$ is not like the work done by a force - it is a path dependent quantity. This might seem bad. $W_\gamma$ was defined in terms of $W$. We went to the infinitesimal $A_\mu$, and when we tried to ``integrate'' it back up we found a path dependence. Can we recover $W$? Can we at least recover an object with its properties? (list properties here). We will answer this in the next section.
+
+Back to $D_\mu$ for now.
+
+Making the replacement (\ref{inf1}) in (\ref{Dmu1}), we find
+\[
+D_\mu \phi (x) = \frac{\phi(x + \epsilon^\mu) - \phi(x) - i \epsilon g A_\mu (x) \phi(x)}{\epsilon} = \left(
+\partial_\mu - ig A_\mu 
+\right) \phi(x)
+\]
+so that
+\begin{equation} \label{Dmu2}
+\boxed{D_\mu = \partial_\mu - i g A_\mu}.
+\end{equation}
+Something interesting to note here is that the Wilson comparator $W$ overspecified how to connect points for the purpose of a covariant derivative. We only really need the $A_\mu (x)$.
+
+\subsection{Transformations of $A$ and $D$}
+Note that $W(y,x)$ defines both $D_\mu$ and $A_\mu$ here. We know how $W$ transforms. How about $D$, then? Let's go back to (\ref{Dmu1}). After transforming, we find
+\[
+D_\mu \phi (x) \to \lim_{\epsilon \to 0} \frac{1}{\epsilon} \left( U(x + \epsilon^\mu) \phi(x + \epsilon^\mu) - U(x + \epsilon^\mu) W(x + \epsilon^\mu,x) U(x)^\dagger U(x) \phi(x) \right)
+\]
+Now, since $U(x)^\dagger U(x) = I$, we can rewrite the RHS of above as 
+\begin{align*}
+=\lim_{\epsilon \to 0} U(x + \epsilon^\mu) \left(
+\frac{\phi(x + \epsilon^\mu) - W(x + \epsilon^\mu, x) \phi(x)}{\epsilon}
+\right) \\ = 
+U(x) D_\mu \phi(x) = U(x) D_\mu U(x)^\dagger U(x) \phi(x)
+\end{align*}
+In other words, when $U$ transforms $\psi$, we have
+\begin{equation}
+\boxed{D_\mu \to U(x) D_\mu U(x)^\dagger}.
+\end{equation}
+For $A_\mu$, we don't think about $D_\mu$, but instead again about $W$, since $W$ defines both at once as you take infinitesimal translations. Looking at (\ref{Amu1}),
+\[
+A_\mu (x) = - \frac{i}{g} \lim_{\epsilon \to 0} \frac{W(x,x - \epsilon^\mu) - I}{\epsilon} \to \frac{i}{g} \lim_{\epsilon \to 0} \frac{U(x) W(x,x- \epsilon^\mu) U(x-\epsilon^\mu)^\dagger - I}{\epsilon},
+\]
+where we have opted to take the derivative from the left instead of the right.\footnote{The reason is so that the expression we get readily agrees with convention.} We may expand $U(x - \epsilon^\mu)^\dagger$ as $U(x)^\dagger - \epsilon \partial_\mu U^\dagger (x)$. Let's suppress the arguments when it's clear. The above becomes 
+\[
+= - \frac{i}{g} \lim \frac{1}{\epsilon} \left(
+U W U^\dagger - UW \epsilon \partial_\mu U^\dagger - I
+\right)
+\]
+Since $U I U^\dagger = I$, we have
+\begin{align*}
+= -\frac{i}{g} \lim_{\epsilon \to 0} \frac{U (W - I)U^\dagger}{\epsilon} + \frac{i}{g} \lim_{\epsilon \to 0} U(x) W(x,x- \epsilon)\partial_\mu U(x)^\dagger \\ =
+U (x) A_\mu (x) U(x)^\dagger + \frac{i}{g} U(x) \partial_\mu U^\dagger (x).
+\end{align*}
+If we took the derivative from the right instead, we would have
+\[
+A_\mu (x) \to U(x) A_\mu (x) U(x)^\dagger - \frac{i}{g} (\partial_\mu U (x)) U(x)^\dagger.
+\]
+We could box either of these transformation rules\footnote{I originally had the wrong exponentiation convention (really the normal one used in physics), so there were many sign errors. I hope I corrected them all.}. I'm just a fan of a $U \cdot U^\dagger$, so I'll box the former. When the fields transform by $U$, we have
+\begin{equation} \label{Amu2}
+\boxed{A_\mu (x) \to U (x) A_\mu (x) U(x)^\dagger + \frac{i}{g} U(x) \partial_\mu U^\dagger (x).}
+\end{equation}
+Let us express $A_\mu (x) = A_\mu^a T_a (x)$, and also express $U(x) = e^{- i g \Gamma(x)}$, for $\Gamma(x)$ an $\mathfrak{su}(N)$ valued function. The we can also write $\Gamma(x) = \Gamma^a(x) T_a$. Consider only an infinitesimal transformation, $U(x) = 1 - i \epsilon \Gamma^a (x) T_a$. Then we may write
+\[
+A_\mu^a (x) T_a \to 
+(1 - i \epsilon \Gamma^a (x) T_a) \Big(
+A_\mu^b (x) T_b + \frac{i}{g} \partial_\mu
+\Big)
+(1 + i \epsilon \Gamma^a (x) T_a)
+\]
+Now, we collect terms in powers of $\epsilon$. The above becomes
+\begin{align*}
+A_\mu^a T_a & \to A_\mu^a T_a - \epsilon \partial_\mu \Gamma^a T_a 
+-i \epsilon \Gamma^a A_\mu^b T_a T_b 
++i \epsilon A_\mu^b \Gamma^a T_b T_a \\ & = 
+(A_\mu^a - \frac{1}{g}\epsilon \partial_\mu \Gamma^a) T_a - i \epsilon \Gamma^a A_\mu^b [T_a,T_b]
+\\ & = 
+(A_\mu^c - \frac{1}{g} \epsilon \partial_\mu T^c + \epsilon f^{abc} \Gamma^a A_\mu^b)T_c.
+\end{align*}
+This means the transformation law (\ref{Amu2}) can be rewritten for infinitesimal transformations in terms of components by means of:
+\begin{equation} \label{Amua}
+\boxed{A_\mu^c \to A_\mu^c - \frac{\epsilon}{g} \partial_\mu \Gamma^c + \epsilon f^{abc} \Gamma^a A_\mu^b}
+\end{equation}
+under the gauge transformation $U = \exp{-i \Gamma}$.
+So, the definition of these quantities and their transformation rules wasn't necessary to enforce gauge invariance of the Lagrangian, as some might suggest. I just wanted a notion of derivative consistent with the $U(x)$, the definitions and transformation rules followed. Now let us introduce a little perspective that we will come to in a couple sections. If we think of the $\phi$ fields as having an internal symmetry, and the $U$ as implementing that symmetry, we need need to introduce some other fields $A_\mu (x)$ which connects fields at different points, on which to also implement that symmetry. 
+
+We have now defined how our basic gauge quantities transform under gauge transformations $U(x)$.
+
+\section{Wilson Lines}
+Wilson lines are very cool. I want to spend some time describing their algebraic properties.
+\subsection{Categorical Interlude}
+Skip this subsection if you aren't familiar with categories, or just don't care for them. This is just some geometric intuition that might be useful, as well as an easy way of organizing some properties in a familiar language. Recall that a groupoid is a category with invertible morphisms. The prototypical groupoid is the path groupoid of a topological space $M$. Objects are points in $M$, and for two points $x,y$ the collection of arrows from $x$ to $y$, $\text{Hom} \, (x,y)$ is all paths from $x$ to $y$. Composition of a path from $x$ to $y$ and a path from $y$ to $z$ amounts simply to concatenation of the paths (go from $x$ to $y$, then from $y$ to $z$. Look! I went from $x$ to $z$). Inversion of a path $\gamma$ is done by going back along the path $\gamma$. We will write $\mathcal{PG}(M)$ for the path groupoid of a topological space $M$ (and use the same notation if we are considering, say, smooth paths in a smooth manifold).
+
+Na\"ively then, once we pick $A_\mu (x)$ we might think of the Wilson lines as a functor from the groupoid of paths to the gauge group $G$, $W: \mathcal{PG}(M) \rightarrow G$, if we sent every point to the single point of $G$ and path $\gamma: a \to b$ to the line integral (\ref{WL1}).
+
+That is, if we are to na\"ively think of $W_\gamma(b,a)$ as just an element of $G$. If, instead, we think of $W_\gamma (b,a)$ as a connecting the fields at $\phi(a)$ to the fields at $\phi(b)$, or something like that, how should we refine this functor? Seems like we're throwing out information. As well, notice that this functor depends on the choice of potential $A_\mu (x)$. Let's come back to this in a section on higher gauge theory. 
+
+\subsection{Transformation Properties of Wilson Lines}
+Consider a Wilson line $W_\gamma (b,a)$. How does it transform when we transform the gauge fields? We don't get to choose, the right hand side of the following does:
+\[
+W_\gamma(b,a) = \mathcal{P} \exp{ig \int_\gamma A_\mu (x) d \gamma^\mu}.
+\]
+Now, what we wrote down here is really just a fancy integral version of a much simpler expression (at least, as far as gauge transformations are concerned). This is really giving me a way of moving fields $\phi$ by carrying them along a bunch of infinitesimal Wilson links generated by $A_\mu$ along a given path $\gamma$. So we rewrite it as
+\begin{equation} \label{gammagamma}
+W_\gamma (b,a) = 
+W_\gamma (b, \gamma(1-\epsilon)) 
+W_\gamma(\gamma(1-\epsilon),\gamma(1-2\epsilon)) \cdots
+W_\gamma(\gamma(2\epsilon),\gamma(\epsilon))
+W_\gamma(\gamma(\epsilon),a)
+\end{equation}
+After a gauge transformation, consider a baby line $W(x + \epsilon^\mu, x)$ (we have already called them Wilson links but perhaps not so justifiedly so). Set $g = 1$ for simplicity. We have
+\[
+W_\gamma (x+ \epsilon^\mu,x) = 1 + i \epsilon A_\mu (x).
+\]
+Let us consider the $A_\mu (x)$ to come by themselves, not from an original Wilson link $W$. Under a gauge transformation, we have (using the first form of $A_\mu$ transformation law):
+\[
+W_\gamma(x + \epsilon^\mu,x) \to 1 + i \epsilon U A_\mu U^\dagger + \epsilon \partial_\mu U U^\dagger
+\]
+We can write $I = U U^\dagger$. Now comes a trick. We're only keeping terms of order $\epsilon$. So we are free to write the above as 
+\[
+(U + \epsilon \partial_\mu U)(1 + i \epsilon A_\mu)U^\dagger
+\]
+Sticking back in the argument $x$, the above becomes
+\[
+U(x + \epsilon^\mu)(1 + i \epsilon A_\mu (x) U(x)^\dagger = U(x + \epsilon)W_\gamma(x + \epsilon,x)U(x)
+\]
+as we would hope. Looking back at (\ref{gammagamma}), we find all the inner unitaries cancel, and we only get the outer terms. So when $U$ acts on the fields $\psi$, we find the $W_\gamma$'s transform as 
+\begin{equation} \label{wilsontrans}
+\boxed{W_\gamma (y,x) \to U(y) W_\gamma (y,x) U(x)^\dagger}
+\end{equation}
+This is very good. The $W_\gamma$ satisfy the same transformation laws as a Wilson link would. Let's do something real quick.
+
+\subsubsection{Reconstructing the Wilson Link from $A_\mu$}
+Skip this section if you're not interested, it has categories. In this section I demonstrate that we can make a Wilson link $W^*$ from the potential $A_\mu (x)$ via integration. There is a small caveat: If we start with a Wilson link $W$, we can construct the potential $A_\mu$. Then, in the procedure I presently describe, we reconstruct a Wilson link $W^*$. In general, $W^* \neq W$. However, they will be equivalent in the sense that they generate the same covariant derivative.
+
+The essence of the problem is this: Wilson links are functors from the pair groupoid of $M = \re^4$ to $SU(N)$, and Wilson lines are functors from the path groupoid of $M$ to $SU(N)$. If we want to turn a Wilson line into a Wilson link, all we have to get a functor from the pair groupoid to the path groupoid. The Wilson part follows for free - the only nontrivial part there was done when we found the transformation equation (\ref{wilsontrans}). 
+
+So let's construct one such functor. Essentially we need a ``central network'' of paths in our space $M$. Doing so means choosing a single path for every points $x,y$. 
+
+For the general case $M$ will be an arbitrary path-connected topological space. Let $PM$ denote the pair groupoid of $M$, and let $P_\gamma M$ denote the path groupoid. We will define a functor $\gamma:PM \to P_\gamma M$. To do this, we're going to use a trick: we're going to pick a point $\Omega$ to act like a Grand Central Station. For arbitrary points $a$ and $b$, we will go from $a$ to $\Omega$, then $\Omega$ to $b$. 
+
+So let $a$ be arbitrary. Pick any path in the collection of paths from $a$ to $\Omega$. We write $\gamma (a, \Omega)$ for this path, and is the image of $(a,\Omega)$ under our functor $\Omega$. For $\gamma(\Omega,a)$, just pick $\gamma(a,\Omega)^{-1}$. Now for arbitrary points $a,b$, we pick the path
+\[
+\gamma(a,b) := \gamma(a,\Omega) \gamma(\Omega,b).
+\]
+It is readily checked that $\gamma$ defined in this way is a functor.
+
+Unfortunately this construction is... not constructive, since we needed the axiom of choice. In the case $M = \re^4$, just pick $\Omega = 0$ and let $\gamma(a,0)$ be the straight line path from $a$ to $0$.
+
+Finally, once we pick such a $\gamma$, we define a Wilson link via
+\[
+W^* (b,a) = W_\gamma (b,a),
+\]
+where $\gamma$ is the path from $a$ to $b$.
+
+\subsection{Wilson Loops}
+We've noticed that Wilson lines are dependent on the path $\gamma$ and not just the endpoints $a,b$. If you recall facts about conservative vector fields, you might remember something like path invariance of $\int_a^b F\cdot dl$ $\iff$ $\oint F \cdot dl = 0$ for every loop. We know the Wilson line integral depends on path. Let's call Wilson line integrals with $a = b$ \textbf{Wilson loop-paths}. The reason I do not call this the Wilson loop is because of a convention that the trace of this thing is called the Wilson loop. However, I will call this thing just a loop, and give it a Wilson prefix when I take its trace. 
+
+Since Wilson line values depend on the path, the loops will probably be non-trivial. Let $\gamma$ be a loop in spacetime centered at point $a$. Let us define the \textbf{holonomy} of $A$ along $\gamma$ via
+\[
+H_\gamma (A) = W_\gamma (a,a) = \mathcal{P} \exp{ig \oint_\gamma A_\mu dx^\mu}
+\]
+The holonomy measures exactly the extent that $W_\gamma$ fails to be the identity. Now, we define the \textbf{Wilson loop} $W^L_\gamma$ via
+\[
+W^L_\gamma (A) = \text{Tr}\, H_\gamma (A).
+\]
+The reason we call this the Wilson loop is that it is the quantity we will use to calculate things. In the literature, this is just called $W_\gamma$ without the $L$. I put the $L$ here because this convention is bad and inconsistent with the conventional definition of Wilson lines. However, I do not mess with the naming convention. We will come back to this later.
+
+Let's try to picture this holonomy. Write $C$ for the graph of $\gamma$. This $C$ encloses a surface $\Sigma_C$, like a soap bubble, so that $C = \partial \Sigma_C$, i.e. $C$ is the boundary of $\Sigma_C$. This surface is not unique, so we will just pick one. Then since $W_{\gamma^{-1}} (a,b) = W_\gamma (b,a)^{-1}$, we can think of the loop $W$ as the sum of a bunch of baby loops on the surface $\Sigma_C$. Let's consider a baby loop $\beta$ at the point $0$, and compute the loop integral $W_\beta 0,0)$. We can do the same for any point $x$ but this makes notation easier. For simplicity, make $\beta$ a square which is $\epsilon$ on each side in the $x,y$ plane. Then we can break up $W_\beta$ into four parts\footnote{We will abuse notation and refer to $\beta$ restricted to smaller Wilson lines, again, by $\beta$}. Then we have
+\begin{align*}
+W_\beta(0,0) = 
+W_\beta(0,\epsilon \hat{y})
+W_\beta(\epsilon \hat{y},\epsilon(\hat{x} + \hat{y}))
+W_\beta(\epsilon(\hat{x} + \hat{y},\epsilon \hat{x}))
+W_\beta(\epsilon \hat{x},0)
+\end{align*}
+We can expand $W_\beta$ in terms of the $A_1$ and $A_2$ since these transformations are infinitesimal. I will set $g = 1$ in these expressions to simplify them and stick it back in later. The above becomes
+
+\begin{align*}
+W_\beta (0,0) = & \; (1 - i \epsilon A_2 (\epsilon \hat{y}) +i \epsilon^2 \partial_2 A_2 (\epsilon \hat{y}) \\
+\times & \; (1 - i \epsilon A_1 (\epsilon \hat{x} + \epsilon \hat{y})) \\
+\times & \; (1 + i \epsilon A_2 (\epsilon \hat{x})) \\
+\times & \; (1 + i \epsilon A_1 (0) + i \epsilon^2 \partial_1 A_1 (0))
+\end{align*}
+Note that I have very carefully inserted higher order terms in each of the $W_\beta$'s by Taylor expanding $A$\footnote{In the first term, there is an unexpected $+i\epsilon^2$ instead of $-i\epsilon^2$. This is because we are moving down, check for yourself if you are not convinced.} : although not all of them - we will be dropping terms later of $O(\epsilon^3)$ and higher. I'm not going to write out every term, but I encourage the reader to do what I did the expression above: Any time you have $A_1 (a + \epsilon \hat{y})$, replace it with $A_1 (a) + \epsilon \partial_y A_1(a)$. Do the same for $1,2$ and $x,y$ combinations. Continue doing this until you have only $A_i (0)$'s. Any time you get terms of $O(\epsilon^3)$, drop them.
+\begin{align*} 
+& \left(
+1 - i \epsilon A_2 (0) - i \epsilon^2 \partial_2 A_2 (0) + i \epsilon^2 \partial_2 A_2 (0)
+\right) \\
+& \left(
+1 - i \epsilon A_1 (0) - i \epsilon^2 (\partial_1 A_1 (0) + \partial_2 A_1 (0))
+\right) \\
+& \left(
+1 + i \epsilon A_2 (0) + i \epsilon^2 \partial_1 A_2 (0)
+\right) \\
+& \left( 
+1 + i \epsilon A_1 (0) + i \epsilon^2 \partial_1 A_1 (0)
+\right)
+\end{align*}
+With one glance, all $O(\epsilon)$ terms vanish. There is only one term of $O(1)$ - this is what we expect if $W$ were like a conservative vector field. So let's take the difference of $W_\beta$ and what we expect ($1$), to find its variation away from the identity. The remaining terms, after cancellations, dropping $O(\epsilon^3)$, and sticking $g$ back in, are
+\begin{equation} \label{thegoods}
+W_\beta - 1 = i \epsilon^2 \left( \partial_1 A_2 (0) - \partial_2 A_1 (0) - i g [A_1, A_2]
+\right).
+\end{equation}
+We can imagine recreating the same exercise for each choice of $t,x,y,z$ - not just $x,y$. Clearly the above is anti-symmetric, so we actually only need to do about half to know the rest. In any case, let's summarize all this data by letting $\mu,\nu$ vary, and performing this exercise at a point $x \neq 0$. We define
+\begin{equation} \label{Fholo}
+F_{\mu \nu} (x) = \lim_{\epsilon \to 0} \frac{1}{i \epsilon^2} \left(W_{\beta^{\mu \nu}} (x) - 1 \right),
+\end{equation}
+if we call $W_{\beta^{\mu \nu}}$ the curve we used a minute ago \footnote{don't worry about the location of the indices on $W$.}. We may also write this as
+\[
+F_{\mu \nu} (x) = \left. \frac{\delta H_{\gamma}(A)}{\delta \beta^{\mu \nu}} \right\vert_{\gamma = 0}
+\]
+considering $H_\gamma (A)$ as an $SU(N)$ valued functional of $\gamma$.
+What we have done with the $A_\mu (x)$ is introduced a vector in $\mathfrak{su}(N)$ at each point in $M = \re^4$. These arrows twist and turn as we move around space, and this is reflected in the nontriviality of (\ref{Fholo}). 
+
+If we express $F_{\mu \nu}$ in terms of (\ref{thegoods}), we have
+\begin{equation} \label{emfs}
+\boxed{F_{\mu \nu} = \partial_\mu A_\nu - \partial_\nu A_\mu - \frac{i}{g} [A_\mu, A_\nu].}
+\end{equation}
+$F_{\mu \nu}$ is usually called the electromagnetic field strength in the cause $G = U(1)$ (in this case the commutator part vanishes). 
+
+Note that it is the curvature of the covariant derivative,\footnote{This is just a name, don't worry if you haven't seen the curvature of a connection defined before.}
+\[
+F_{\mu \nu} = \frac{i}{g}[D_\mu, D_\nu].
+\]
+We may see from the transformation properties of Wilson lines (\ref{wilsontrans}) that when $\phi$ goes to $U \phi$, by definition (\ref{emfs}), $F_{\mu \nu}$ transforms as
+\begin{equation} \label{emfstrans}
+\boxed{F_{\mu \nu} (x) \to U(x) F_{\mu \nu} (x) U(x)^\dagger.}
+\end{equation}
+In the case $N = 1$, we have $U(x)$ just a complex number, so that $F_{\mu \nu}$ is gauge invariant. This argument generalizes to arbitrary non-Abelian gauge theories. In non-Abelian gauge theories, however, $F_{\mu \nu}$ is only gauge covariant, in the sense of (\ref{emfstrans}).
+
+Back to our baby loop. We may express it as (I should justify this)
+\[
+W_\beta (x) -1 = F_{\mu \nu} d\sigma^{\mu \nu} = F_{\mu \nu}  dx^\mu \wedge dx^\nu
+\]
+Before, we argued that we could compute a big loop by summing up the little loops. This is a little bit of a lie, because we really need to take care of a surface path ordering\cite{broda}. Since we could compute the holonomy normally or add up all the baby loops on the surface, we end up with with the non-Abelian generalization of Stoke's theorem:
+\[
+\mathcal{P} \exp{i g\oint_\gamma A_\mu dx^\mu} = 
+\Sigma \exp{i g \int_{\Sigma_C} F_{\mu \nu} \, d\sigma^{\mu \nu}}
+\]
+where $\Sigma$ is a surface ordering symbol that we are yet to define - hopefully, however, this formula feels somewhat reasonable. Also, we should note that we have actually exponentiated Stoke's theorem, but the non-exponentiated version doesn't really exist in the non-Abelian case\cite{broda}.
+
+\newpage
+\section{Gauge Invariance}
+We have now set up all of the major players in constructing gauge field theories. You may have heard, before, the mantra ``gauge invariance''. These $U(x)$ will serve as \textit{internal symmetries}. All physical theories function as black boxes that are handed to experimentalists. Their value to them is tantamount to their predictive capability. The gauge transformation $U(x)$ is like a finicky knob they can turn on the box. The only thing it changes is how the gears move inside the box, not what comes out. As it will turn out, luckily sometimes turning it to the left works faster, sometimes turning it to the right works faster. However, the output is always the same. The $U$ transformation is \textit{internal} to the theory itself and by virtue of this, represents something like a \textit{redundancy} in the way I put together the machine. This is not a redundancy like an extra set of gears that I forgot to take out. It is much more intricately sewn into the workings of all mechanisms. I don't really know how to make the machine without it\footnote{This is perhaps untrue. I've seen that gauge theories can also be implemented as theories with constraints. Is this true in the extension to quantized theories? Perhaps it's more accurate to say I don't like taking it out.}. Gauge theory can be done with constraints the same way $GR$ in $4$ dimensions can be done in flat space in $252$ dimensions.\cite{RandArt1}
+
+Let's take a look at all of our quantities so far. When we implement a local gauge transformation $U(x) = \exp{-i\Gamma}$, what we are doing is
+\label{basetrans}
+\begin{align}
+\phi(x) & \to  U(x) \phi  \nonumber \\
+D_\mu \phi (x) & \to U(x) D_\mu \phi(x) \nonumber \\
+A_\mu (x) & \to   U(x) A_\mu (x) U(x)^\dagger + \frac{i}{g} U(x) \partial_\mu U^\dagger (x) \nonumber\\
+W_\gamma (y,x) & \to  U(y) W_\gamma (y,x) U(x)^\dagger \nonumber\\
+H_\gamma (A) = W_\gamma (x,x) & \to U(x) H_\gamma (A) U(x)^\dagger \nonumber\\
+W^L_\gamma (x) & \to  W^L_\gamma (x) \nonumber\\
+F_{\mu \nu} (x) & \to U(x) F_{\mu \nu} (x) U(x)^\dagger&
+\end{align}
+\footnote{Note to self: maybe put $A_\mu^a$ in here.} Unsurprisingly, almost all of our base quantities are not gauge invariant - only the Wilson loop which I mentioned in passing was. The rest are more or less \textit{gauge covariant}. They transform according to a simple rule - either in the adjoint representation or the fundamental representation, all just group actions. At this point, we make an axiom. 
+\begin{center}
+\textbf{Observable quantities must be gauge invariant.} 
+\end{center}
+Why is this? Well, the unsatisfactory answer is that gauge symmetries are symmetries internal to the system. The real answer is I don't know. This is all a recipe for constructing theories - the why will lead us to more insight, but for now is a disconnected piece of the puzzle that can be attached or reattached to the standard model at one junction without disruption to its functioninings.
+
+So how can we construct gauge invariant quantities using the ones in (\ref{basetrans}) Well, without worrying about exhaustively categorizing them, there's a pretty systematic way of doing it: Get rid of the $U$'s. If there's a $U$ on the left, hit it with a $U^\dagger$ on the right. Daggering something like $\phi$ puts a $U^\dagger$ on the right. Lastly, we saw with Wilson loops that the cyclic property of the trace could be used to get rid of things with a $U$ on the left and $U^\dagger$ on the right. So let's just make some other than the Wilson loop:
+\begin{subequations} \label{eq:gaugeinv}
+\begin{align}
+\phi^\dagger \phi & \label{eq:gi1} \\
+\phi^\dagger D_\mu \phi & \label{eq:gi2}\\
+(D_\mu \phi)^\dagger D_\mu \phi & \label{eq:gi3} \\
+\text{Tr} \, F_{\mu \nu} & \label{eq:gi4}\\
+\text{Tr} \, F^{\mu \nu} F_{\mu \nu} & \label{eq:gi5}
+\end{align}
+\end{subequations}
+Recall, this is all for scalar fields. Note that (\ref{eq:gi4}) is not Lorentz invariant, so we chuck it. Roughtly speaking, when we work with spinors\footnote{we will need instead $\slashed{D}_\mu$}, (\ref{eq:gi2}) will be Lorentz invariant, but with scalars instead (\ref{eq:gi3}) will be Lorentz invariant.  (\ref{eq:gi1}) and (\ref{eq:gi5}) will always be Lorentz invariant. So given a Dirac fermion $\Phi$, we introduce extra gauge degrees of freedom $i=1,...,N$, and the Lagrangian for this field is (spinor indices suppressed):
+\label{eq:nicelag}
+\begin{equation}
+i \overline{\Phi}_{i} \slashed{D}_{ij} \Phi_j - m \overline{\Phi}_i \Phi_i -\frac{1}{2} \, \text{Tr} \, F^{\mu \nu} F_{\mu \nu}
+\end{equation}
+You might ask - why did we not include Wilson loops? They are perfectly gauge invariant (Lorentz invariant too? Check). The main reason that it is a nonlocal term.\cite{PSE1} Lagrangians should be local. If we consider the ``local limit'' of Wilson loops, we would be picking up some $F_{\mu \nu}$, so in a sense we are picking them up.
+\section{Interlude: Looking Forward}
+We are almost entirely ready to describe all of the particles in the standard model. The story of gauge theories has essentially already been told. We will only make one minor modification to the beginning of the story, and it will be straightforward how to retell the story with this modification. Instead of the group $G$ acting by $\phi \to U \phi$, it instead acts via a more general group representation. So instead of transforming $\phi \to U \phi$, we will instead have $\phi \to U_R \phi$ for some representation of $R$. Then the gauge connection $A_\mu$ will instead only be in a representation of the Lie algebra $\mathfrak{g}$ corresponding the the representation $R$. Choosing a representation fixes the particle we are talking about. There will be, essentially, four fermions in total. The standard model contains, for some odd reason, three copies of these fermions, called the ``generations'', each being the same thing but with higher masses. The bosons will come from the gauge fields, and the Higgs field will kinda be its own thing, coupling to a bunch of particles to give them mass via the Yukawa interaction. 
+
+In the next chapter, we will discuss group representations. In it, we will discuss the ways to modify our discussion here.
+
+First, it will be instructive to do everything without having to worry so much about the representation business. That is, we will consider the Lagrangian (\ref{eq:nicelag}) and figure out how to quantize it and do Feynman diagrams and calculate scattering amplitudes.
+
+\newpage
+\section{Path Integrals for Gauge Fields (Faddeev-Popov method)}
+In this section, we will develop path integral methods for the quantum field theory of gauge fields.\footnote{I reproduce, in my own manner, the discussion of Coleman\cite{Co1}.} We will start with the free field case.
+\[
+\mathcal{L}_0 [A] = -\frac{1}{2} \text{Tr}\, F^{\mu \nu} F_{\mu \nu}.
+\]
+In order to couple this to a current, we introduce $J$'s in the form (note:this is not gauge invariant: check this later?)
+\[
+\mathcal{L} [A,J] = \mathcal{L}_0 + J^{a \mu} A^a_\mu
+\]
+and so $S[A,J]$ would be the integral of this over spacetime:
+\[
+S[A,J] = \int d^4 x \left( \mathcal{L}_a [A] + JA \right)
+\]
+We might guess (incorrectly) that the right path integral to write down is then
+\label{eq:badGTint} %bad gauge theory integral
+\begin{equation}
+Z[J] = \int DA  \exp{iS[A,J]}.
+\end{equation}
+But this is wrong. Let's think a bit about this. We wrote down $S$ to be a gauge invariant action.\footnote{Perhaps this was wrong from the start. But the way I describe will work.} $Z[J]$ will be summing over histories. However, $A$ is allowed to vary over its gauge degrees of freedom, so there will be multiple $A(x)$'s that contribute to the integral (\ref{eq:badGTint}). In order to count each history exactly once in $Z[J]$, we will have to \textit{fix} the gauge. The method used to do this \textit{inside the path integral} (\ref{eq:badGTint}) is known as the Faddeev-Popov method \cite{FaPo}. So before we can write down the correct expression to modify (\ref{eq:badGTint}), we have two items on our itinerary: (i) talk briefly about ``gauge fixing'', and (ii) figure out how to fix a gauge inside the path integral that we have written down.
+
+\subsection{Gauge fixing}
+If you are reading these notes, you are no doubt familiar with classical E\&M, and so the business of picking Coulomb gauge to do electrostatics more easily should be at least distantly familiar. The situation will be $50 \%$ exactly the same here. We will be choosing certain gauges to make things easier. However, gauge fixing will also play the much more important role of making (\ref{eq:badGTint}) physical. 
+
+So let's be precise about what we mean for gauge fixing. First we start with a vector-valued \textbf{gauge functional} $G(A)$. This takes in vector potentials $A_\mu$ and spits out $N^2 -1$ numbers. Na\"ively, then, a gauge constraint would then be the equation
+\label{gaugeconstraint}
+\begin{equation}
+G(A) = 0.
+\end{equation}
+We need this constraint to be vector-valued to remove $N^2 -1$ degrees of freedom. In simple cases, we maybe be able to impose constraints 
+\[
+G^a (A^a) = 0,
+\]
+for something like a diagonal $G$.
+
+First, we have to impose some extra conditions for this to be an actual constraint. Obviously the gauge functional \textit{defined by} $G^a(A^a) = 0$ for every $A$ is useless, and wouldn't constrain anything. What's important, then, is that we hit all possible \textit{inequivalent} gauge field configurations \textit{exactly once} with this constraint (I will briefly say what this means). We say two gauge fields $A,\tilde{A}$ are \textbf{equivalent} if they are related by a Gauge transformation, i.e. $A \to \tilde{A}$ under the map (\ref{Amu2}).
+
+Let's think about what it would mean for $G$ to hit all inequivalent field configurations exactly once. Let $\Omega$ denote the space of field configurations. Then for every $A \in \Omega$, it must be related to some zero of $G$ by a gauge transformation. Furthermore, it is related to \textit{exactly} one zero (including itself). Such a $G$ is then called a \textbf{gauge constraint}, and \textbf{gauge fixing} is done by considering only the $A$ which are zeroes of the $G$ functional (this last definition is kept a little vague - we won't care so much about how to transform an arbitrary $A$ into its cousin which is a zero of $A$. The zero will just be the one we put in the path integral).
+
+\subsection{Landau gauge $R_\xi$ gauge(ish)}
+When we fix a gauge, we will say things like ``picking Lorenz Gauge'' - this is a shorthand for the long-winded thing we did a minute ago. Let's start with the most familiar one. Referred to both by \textbf{Lorenz gauge} and \textbf{Landau gauge} (I will call it the latter), it is fixed by imposing the constraint
+\begin{equation}\label{l_gauge} %landau gauge
+G_L (A) = \partial^\mu A_\mu = 0,
+\end{equation}
+which is really $N^2 -1$ uncoupled equations
+\[
+G_L^a(A) = \partial^\mu A_\mu^a = 0
+\]
+Later, we will see that this is a special case of the $R_\xi$ gauge for $\xi = 0$. The $R_\xi$ gauges will be determined by the gauge fixing constraint
+\[
+G(A) = \partial^\mu A_\mu - \omega = 0
+\]
+where $\omega$ is an expression we will explore in a later section, as well as the axial gauge. The axial gauge will be determined by constraints of the form
+\[
+G(A) = n^\mu A_\mu - \omega = 0,
+\]
+where $n$ is some four-vector. 
+
+It will turn out that most of the time we will care about \textbf{Feynman gauge}, where $\xi = 1$, as it will make computations easier. However, defining it here will make use of things we haven't used yet, so I put it off until a later section (which?). I will only say here that $R_\xi$ gauges will be the ones we use throughout these notes. For now, all we need is an idea of a gauge constraint.
+
+I will argue roughly why this is a valid gauge fixing constraint. Looks like Jackson does gives an explicit form for Lorenz gauge transformations \cite{jackson2}, so one could explicitly use the transformation things I mentioned. We don't really need to do this to understand how to do the Faddeev-Popov method, but we won't know if it'll give us the right answers unless we check.
+
+The equation (\ref{landaucons}) removes $dim G$ degrees of freedom from $A$ at each $x$ and $\mu$. (think of finite dimensional case for linear maps, can i make this work?)
+
+So now we know how to fix a gauge: Pick a gauge fixing function $G$. In order to implement this in the path integral (\ref{eq:badGTint}), we will start with an easy case over $\re^n$.
+
+\subsection{Integrating over surfaces of constraint}
+Let's consider what we want to do in function space ($A$), but recast in vector space language via the analogies in the functional calculus section. So 
+\[A \to (x,y,z), \quad \int DA \to \int dxdydz, \quad F(A) \to f(x,y,z) \]
+Now, constraints become things of the form $G(x,y) = 0$. Let us consider a simple constraint, 
+\[
+G(x,y) = y = 0
+\]
+This corresponds to integrating only over the line $y = 0$. So let's suppose we wanted to integrate a function $f$ only over the surface satisfying this constraint. One way to do this is to just do it, i.e.
+\[
+I_y = \int dx f(x,0). 
+\]
+Note that we could, however, do the $2$-space integral as long as we put in a delta-function:
+\[
+I_y = \int dx dy \, \delta(y) \, f(x,y)
+\]
+In effect, then, what we're saying is: make sure we satisfy $y = G(x,y) = 0$, and integrate there. In our case, we then have
+\begin{equation} \label{okayG}
+I_y = \int dx dy \, \delta(G(x,y)) f(x,y).
+\end{equation}
+However, more generally, we know that $\delta (g(x))$ does more than integrate setting $g(x) = 0$, it also picks up some derivatives of $g$. We will have to be a little careful about generalizing (\ref{okayG}) for arbitrary constraints.
+
+Let's again go back to $\re^2$, and consider instead the constraint
+\[
+G(x,y) = x - 2y.
+\]
+We know by the implicit function theorem that there's a function $g(x)$ such that $G(x,g(x)) = 0$ for all $x$. We know from seventh grade that this function is $g(x) = \frac{x}{2}$. Suppose we want to integrate some function $f$ over this surface. Then we must integrate
+\[
+I = \int dx dy \, \delta(y - g(x)) f(x,y).
+\]
+We could instead use $\delta(G(x,y))$, if we use the derivative term. That is,
+\begin{equation}\label{goodG}
+I = \int dx dy \, \delta( G(x,y) ) \abs{\frac{\partial G}{\partial y}} f(x,y)
+\end{equation}
+Here, this derivative term is $2$.
+
+Now suppose we are working in arbitrary $n + k$ dimensions, with coordinates $x_1,\cdots,x_n,y_1,\cdots,y_k$. Then the generalization of the above means we have $k$ functions $G^b (x_1,\cdots,y_k)$ and we are imposing the constraints
+\[
+G^b (x_1,\cdots,y^k) = 0
+\]
+for each $b = 1,\cdots,k$. Let $g(x) = y$ be the function that satisfies, $G(x,g(x)) = 0$, then the generalization of (\ref{goodG}) becomes
+\begin{equation}
+\boxed{\int \, d^nx d^ky \delta(y - g(x)) f(x,y) = \int \, d^nx d^ky \delta(G(x,y)) \abs{\det \left(
+\frac{\partial G}{\partial y}
+\right)}f(x,y).}
+\end{equation}
+If we wish to be explicit about indices (we should), this becomes
+\begin{equation} \label{ddf_fp}% discrete degrees of freedom faddeev popov
+\boxed{I_G = \int \, d^n x d^k y \;\abs{\det \left( \frac{\partial G^i}{\partial y^j}\right)}\; \prod_a G^a (x,y) f(x,y)}
+\end{equation}
+Let us assume that $\frac{\partial G^i}{\partial y^j}$ is positive. Then we can drop the absolute values. Then we have 
+\[
+I_G = \int d^n x d^k y \; \det B \prod_a G^a (x,y) f(x,y)
+\]
+Note, here, that we have a determinant in the numerator. That's a fermionic integral! It turns out, as we will explore in the next section, by fixing a gauge we introduce new fermionic fields, which are not physical, but help us compute path integrals in non-Abelian gauge theories.
+\subsection{The Faddeev-Popov integral}
+So far, everything we have done involves discrete degrees of freedom. We are going to generalize to the case where we integrate over fields. In order to generalize (\ref{ddf_fp}), we are going to have to understand what will play the role of the $y$. Let's explore the Landau constraint to see this.
+
+\section{Single Particles, Wong's equations}
+\section{To do List}
+\begin{itemize}
+\item check the $A_\mu^a$ transformation.
+\item quantize gauge fields.
+\item infinitesimal $A_\mu^a$ transformation? or finite?
+\item find feynamn rules.
+\item Include theta terms.
+\item introduce fadeev popov integrals
+\item what is the difference between the Amu? how does this connection relate to something physical?
+\end{itemize}
+
+\begin{thebibliography}{9}
+\bibitem{pas}
+Peskin and Schroeder QFT
+
+\bibitem{sred}
+Srednicki. Wilson link chapter 82.
+
+\bibitem{broda}
+Broda \url{https://cds.cern.ch/record/291757/files/9511150.pdf}
+
+\bibitem{PSE1}
+\url{https://physics.stackexchange.com/questions/488367/why-dont-we-add-wilson-loops-to-the-sm-lagrangian}
+
+\bibitem{FaPo}
+L.D. Faddeev and V.N. Popov, Phys. Lett. 25B, 29 (1967)
+
+random physics stackexchange article
+
+\bibitem{Co1} 
+Coleman lectures
+
+\bibitem{jackson2}
+https://arxiv.org/ftp/physics/papers/0204/0204034.pdf
+
+\bibitem{RandArt1}
+http://www.ams.org/journals/bull/1969-75-06/S0002-9904-1969-12407-9/S0002-9904-1969-12407-9.pdf
+\end{thebibliography}
+\end{document}

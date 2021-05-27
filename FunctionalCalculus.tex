@@ -1,0 +1,271 @@
+\documentclass{book}
+\input{preamble}
+
+\begin{document}
+\chapter{Functional Calculus}
+In the previous section, we saw how to compute a large class of Gaussian integrals using a couple simple tricks. We will extend those methods to functional integrals, which will help us evaluate path integrals.
+
+A full discussion of functional calculus can be found in something like Arnold. I only wish to intuitively explain the big ideas and write down all the rules we will use for our field theories.
+
+I don't wish to be totally rigorous here. I don't know much about the strong topology. I don't really want to. I want to do the integrals, not know they exist. So a lot of what will be done here should be taken as definitions, not as proofs. Whether or not these definitions are consistent isn't really of interest to me right now.
+
+\section{From 3 or 4 to countably or uncountably many}
+Let's think about where we're situated in field theory right now. In the physics of a single particle, the particle has a finite number of degrees of freedom. In non-relativistic 3d mechanics, it has... 3 degrees of freedom. We can label these degrees of freedom $x_1,x_2,x_3$. In field theory, we have a degree of freedom (the field) for every point in space. So while those points in space are labeled $1,2,3,4$, the fields themselves are labeled \textit{by that point in space}. $x,y,z$ and $t$ are now no longer degrees of freedom, they are now \textit{themselves} labels for the degrees of freedom of the field. 
+We will generalize the notion of a real valued function of a vector $x$. In field theories, we are concerned with the \textit{action functional}
+\[
+S[\phi,J] = \int d^4 x \, \mathcal{L} [\phi] + J \phi.
+\]
+S is therefore a map from the space of fields to the set of real numbers. Really, we care about the exponential of this action as a functional. Then we take \textit{integrals} of these functionals \textit{over the space of field configurations.} These are things like $Z[J]$\footnote{Which I have not yet defined or motivated},
+\[
+Z[J] = \int D \phi \exp{i S[\phi,J]}.
+\]
+The important thing though is that for a fixed ``value'' of $J$ (a choice of function $J(x)$), this $Z[J]$ is a real number. This is never how we will use $Z[J]$. However, it is important to state so that we may keep the right analogies in mind for later. 
+\newpage
+
+\section{Functional derivatives}
+Let us summarize the properties we touched on in the previous section a little more quantitatively.
+\begin{enumerate} [(i)]
+\item A position vector vector $r$ can be thought of as a function $r \{x,y,z\} \mapsto \re$.\footnote{Note $\{x,y,z\}$ is the set with three elements. We can also call them $\{1,2,3\}$.} It is a function which tells you what its value is for each of the degrees of freedom in your theory. Well will call these $r(i)$ \textbf{discrete degrees of freedom}, or \textbf{ddf}.
+
+\item Now, a field $\phi$ is a function $ \phi: \re^4 \rightarrow \re$ which takes each degree of freedom it may have and tells you what its value is there. We will call these $\phi(x)$ \textbf{continuous degrees of freedom}, or \textbf{cdf}.
+\end{enumerate}
+
+For ddf, we define functions $f$ of those quantities, $f(r)$. Derivatives of those functions are what we get when we consider how $f$ changes as we vary $r$. We may vary $r$ in each of the three (or four, or $N$) degrees of freedom, and we end up with partials: $\partial_1 f$, $\partial_2 f$, and $\partial_3 f$, etc. In order to easily do cdf stuff, we have to first think of this ddf derivative more generally. How do functions $f$ vary with arbitrary variations in $r$? Let $\delta r$ be such a variation, so $\delta r = \epsilon n$ for some vector $n$ and infinitesimal $\epsilon$.
+Then $f$ will vary too, with $f(r + \delta r) = f + \delta f$. $\delta f$ is given by
+\begin{equation} \label{deltaf}
+\delta f = \epsilon \sum_{i = 1}^N \frac{\partial f}{\partial r^i} n^i + \frac{1}{2} \epsilon^2 \sum_i \sum_j \frac{\partial^2 f}{\partial r^i \partial r^j} n^i n^j + \cdots
+\end{equation}
+Quickly, let's note that we wrote a taylor expansion with the first order term linear in the variation vector $n$, then quadratic, and so on.
+
+Now, a sensible derivative of $f$ with respect to the variation $\delta r$ is given by
+\[
+\frac{\delta f}{\delta r} = \lim_{\epsilon \to 0} \frac{f(r + \delta r) - f(r)}{\epsilon},
+\]
+which, in light of (\ref{deltaf}), is
+\begin{equation} \label{dfdr}
+\boxed{\frac{\delta f}{\delta r} = \sum_{i = 1}^N \frac{\partial f}{\partial r^i} n^i}
+\end{equation}
+
+\subsection{cut below}
+Now, let's go into cdf derivatives. In our Lagrangians, we usually have a kinetic term involving the derivative of $\phi$ in the $\mu$ direction, $\partial_\mu \phi$. This is the ordinary type of derivative for ddf, considering $\phi$ as a function of space. However, we will be interested in a new type of derivative: one which considers change as we vary \textit{field} degrees of freedom.
+
+Let $\Omega$ be the space of field configurations. For example, $\phi(x,y,z,t) = 1$, the field with constant value $1$ everywhere, is an element of $\Omega$. Then \textbf{functionals} $F$ are real valued functions of the field configurations, $F:\Omega \to \re$. 
+\subsection{resume}
+So let's start with a functional $F(f)$. How would $F$ change if we varied $f$ a little bit? By varying $f$ a little bit, we mean sending
+\[
+f(x) \to f(x) + \delta f(x),
+\]
+with
+\[
+\delta f(x) = \epsilon \eta (x)
+\]
+for some function $\eta$, and infinitesimal parameter $\epsilon$. In order to do this, let's think harder about the form of $F$. Let's \textit{assume} we can Taylor expand it as we could for (\ref{deltaf}). This would involve a first order term linear in $\eta$, an second order term quadratic, and so on:
+\begin{equation} \label{taylorF}
+\boxed{F(f + \delta f) = F(f) + \epsilon \int c_1(x) \eta(x) dx + \frac{1}{2} \epsilon^2 \int c_2 (x,y) \eta(x) \eta(y) dx dy + \cdots}
+\end{equation}
+This is an important equation. I have boxed it because we will use it again and again.
+
+Now, we sensibly define the derivative of $f$ with respect to the variation $\delta f$ via
+\[
+\frac{\delta F}{\delta f} = \lim_{\epsilon \to 0} \frac{F(f + \delta f) - F(f)}{\epsilon}
+\]
+With this, we obtain the cdf derivative:
+\begin{equation} \label{delta F}
+\frac{\delta F}{\delta f} = \int c_1 (x) \eta (x) dx
+\end{equation}
+Where $c_1 (x)$ is the function we assumed we could approximate $F$ with. In practice, we won't need to make such non-constructive assumptions, it will simply come from doing stuff with $F$. 
+
+Note the strong analogy with (\ref{dfdr}). This suggests we define the cdf generalization of ``partials'' via
+\begin{equation}
+\frac{\delta F}{\delta f(x)} = c_1 (x),
+\end{equation}
+We will call these \textbf{cdf partials}.
+
+With this definition, (\ref{delta F}) can be rewritten as 
+\begin{equation} \label{dFdf}
+\boxed{\frac{\delta F}{\delta f} = \int \frac{\partial F}{\partial f(x)} \eta (x) dx}
+\end{equation}
+The analogy with (\ref{dfdr}) is now exact. In order to find the derivative of $F$ in the direction of $\delta{f}$, we add up how $F$ varies at each $x$ from each variation $f(x)$. Instead of summing up these variations over $N$ degrees of freedom, we integrate over the continuous degrees of freedom. \textbf{The easiest way to think about the functional derivative is by analogy with total derivatives.}
+
+Let's look at some examples. The easiest is when $F$ is a linear functional, i.e. there is some $c$ such that
+\[
+F(f) = \int c(x) f(x) dx.
+\]
+Then under an arbitrary variation $\delta f = \epsilon \eta(x)$, we have
+\[
+\frac{\delta F}{\delta f} = \int c(x) \eta (x) dx
+\]
+so that
+\begin{equation} \label{linearF}
+\boxed{\frac{\delta F}{\delta f(x)} = c(x)}
+\end{equation}
+for linear $F$. The second easiest is tricky. Pick your favorite point $y$. Then for any function $f$, we may \textit{evaluate} $f$ at $y$. This is a linear functional. So we define
+\[
+F_y (f) = f(y).
+\]
+We know how to write $f(y)$ as an integral with a delta function. Let's call it by its new name:
+\[
+F_y (f) = \int \delta(x-y) f(x) dx.
+\]
+Note this also has the form of a linear functional, with kernel $\delta (x-y)$. We just did linear functionals. So calling $F_y$ by its old name again, we have
+\begin{equation} \label{deltafcn}
+\boxed{\frac{\delta}{\delta f(x)} f(y) = \delta (x -y)}.
+\end{equation}
+This is perhaps not so surprising - recall $\frac{\partial x^i}{\partial x_j} = \delta_{ij}$. We are generalizing from discrete to continuous degrees of freedom. Kronecker deltas become delta functions, and sums become integrals. Everything is about what you would expect. (\ref{deltafcn}) is the most important equation in the last few pages. 
+
+\subsection{Computing cdf partials}
+So far, everything we have done is build up an intuition for what it means to take functional derivatives. Unfortunately, we haven't really set up a systematic way of taking cdf partials without writing $F$ in a certain way and looking at it from the right angle and saying "there it is". But it was the same way in ordinary calculus before we built up things like the power rule and chain rule. So we'll derive those in this section. I will box the important equations, and the proofs look like ordinary calculus, so if you skip this section and just look at the boxed equations, you'll be fine.
+
+The name of the game in taking functional derivatives is the following: Let $f$ vary $\epsilon \eta$, keep terms of order $\epsilon$, and the thing the $\epsilon$ is in front of is the thing you are calculating.
+
+\subsubsection{The cdf power rule}
+Let's start by doing the power rule for functional derivatives. Crucially, we assume variations have a taylor expansion like (\ref{taylorF}). We're only going to keep terms of order $\epsilon$, so only the first term matters. That is, we will assume
+\begin{equation} \label{varF}
+F(f + \delta f) = F(f) + \epsilon \int c_1 (x) \eta(x) dx + \cdots 
+\end{equation}
+Let's start with $F^2$. Let's introduce some slightly clunky notation that we will drop once we feel comfortable abusing notation. Define this functional $F^2$, i.e.
+\[
+F^2(f) := F(f)^2
+\]
+Then
+\begin{align*}
+F^2(f + \delta f) = F(f + \delta f)^2 \\ =
+\left(F(f) + \epsilon \int c_1 (x) \eta(x) dx \right)^2 \\ =
+F(f)^2 + 2\epsilon F(f) \int c_1 (x) \eta(x) + O(\epsilon^2)
+\end{align*}
+Now, the first term is just $F^2(f)$, and $F(f)$ is \textit{just a number}. So it can go inside the integral. This means the variation is given by
+\[
+\delta F^2 = \int \left( 2 F(f) c_1 (x) \right) \eta(x) dx
+\]
+so that
+\[
+\frac{\delta F^2}{\delta f(x)} = 2F \frac{\delta F}{\delta F(x)}.
+\]
+The same algebra generalizes when we do $F^n$, so we get the \textbf{cdf power rule}
+\begin{equation} \label{cdfpower}
+\boxed{\frac{\delta F^n}{\delta f(x)} = n F^{n-1} \frac{\delta F}{\delta F(x)}.}
+\end{equation}
+In particular, when we pick $F = F_y$, we have
+\[
+\frac{\partial}{\partial f(x)} f(y)^n = n f(y)^{n-1} \delta(x-y).
+\]
+\subsubsection{The cdf product rule}
+We have already gotten a sense of working with functional derivatives. Therefore, it is left to the reader as an exercise to prove the \textbf{cdr product rule},
+\begin{equation} \label{cdfprod}
+\boxed{\frac{\partial}{\partial f(x)} \left( FG \right) = G \frac{\partial F}{\partial f(x)} + F \frac{\partial G}{\partial f(x)}} 
+\end{equation}
+using the methods of the previous section. 
+
+In particular when when $F(f) = f(y)$ and $G(f) = f(z)$ we have
+\[
+\frac{\partial}{\partial f(x)} \left( f(y) f(z) \right) = f(y) \delta(x - y) + \delta(x - z) f(z)
+\]
+\subsubsection{The cdf chain rule}
+We won't really need to prove the chain rule in 
+\section{Functional Integrals}
+We've got a good sense of functional derivatives, and even made some stuff pretty rigorous. However, I'm going to drop the mathematical facade in this section. I don't know the state of functional integration theory in mathematics. It seems that all the rigorous stuff is either far behind what we do in calculations, or far removed from the things we're concerned with.
+
+There's also the point that if we \textit{did} do things rigorously, instead of postulating the existence of it with properties that I need it to have, we would develop a lot of machinery to find the objects with certain other properties we need, and show that when we restrict some highly technical and barely usable definition to this set of objects, the integral has the properties we need. 
+
+Ultimately, you should think of it a little like this: physicists use the \textit{commercial} version of mathematical constructions. I've never computed electric flux using a Lebesgue integral. An integral is something I need to have a good intuition with, and a manual for manipulating. A photographer doesn't need to know how a CCD array works to be good at taking pictures. 
+
+Luckily, we built up a good intuition for transitioning from discrete degrees of freedom to continuous degrees of freedom with the derivatives. So we just postulate some properties with our intuition guiding us.
+
+\subsection{The Heuristics}
+
+In these discussions, we're just going to write down the kinds of integrals we expect heuristically, so the manipulations we expect, and see whether the quantities we get out make any sense.
+
+In the ddf case, we have some finite dimensional space $V$ (with either finite or infinite volume), and we integrate functions $f$ of those degrees of freedom over that volume. So we have things like
+\[
+\int_{V} dx f(x) = \int_V \prod_{i=1}^N dx^i f(x^1,\cdots x^N).
+\]
+Following our typical prescription, we just replace all the quantities above with their cdf analogues. So a \textbf{functional integral} will be something like
+\[
+\int D \phi F(\phi) = \int \prod_x d \phi (x) F(\phi(x)),
+\]
+where the space we are integrating over is the space of all functions. This is a bit problematic. We know that most function spaces are infinite dimensional, so the total volume of our space $\int D \phi$ is already infinite, and likely so too will be the integral over $F$. We might want to regulate this integral by picking finitely many degrees of freedom on a lattice (in a finite volume of spacetime, perhaps). This is, in fact, the derivation of the path integral from the outset. But then I'd be relying on my knowledge of discrete degrees of freedom as a crutch. I'm trying to do things with a degree of freedom at each point in space.
+
+We're therefore going to normalize things. We will instead be interested in formal expressions of the form
+\[
+Z(J) = \frac{\int D\phi F(\phi,J)}{\int D\phi F(\phi,0)}
+\]
+so we're actually taking the ratio of two things that are generally infinite. If $J$ did nothing, this ratio would be $1$. How much worse could $J$ make it? Luckily we're only going to be interested in how the above varies with $J(x)$ near 0, i.e. we're going to be computing things like $\frac{\delta Z}{\delta J(x)}\Big\vert_{J=0}$. Plugging in our expression for variations in $F$ (\ref{varF}), we get for the variation in $Z$
+\begin{equation} \label{varJ}
+-\left. \frac{\delta Z}{\delta J(x)} \right\vert_{J=0} = \frac{\frac{\delta}{\delta J(x)}\int D \phi F(\phi,J)
+}{\int D \phi F(\phi,0)}
+\end{equation}
+so really we just need convergence of (\ref{varJ}) in whatever manipulation we do. Let's take a look at a prime example.
+
+\subsection{The free scalar field theory functional integral}
+Consider the action functional $S_0$ determined by 
+\[
+\mathcal{L}_0 = \frac{1}{2} \partial^\mu \phi \partial_\mu \phi - \frac{1}{2} \mu^2 \phi^2
+\]
+Then let's write down the numerator of $Z[J]$ in explicit detail. Since we're working in euclidean spacetime,
+\[
+Z[J]_{\text{num}} = \int D \phi \exp{- \int d^4 x_E ( \partial_\mu \phi \partial_\mu \phi) + \frac{1}{2} \mu^2 \phi^2} + J\phi
+\]
+We can move a $\partial_\mu$ over if we pick up a minus sign and impose boundary conditions on $\phi$, like vanishing at infinity. If we do this, we obtain
+\[
+Z[J]_{\text{num}} =  \int D \phi \exp{ - \int d^4 x_E \phi(x) \left( 
+-\Box^2_E + \mu^2
+\right) \phi(x) + J(x) \phi(x)}.
+\] 
+Now we take note of something. Since moving $\partial_\mu$ over twice would pick up two minus signs, $-\Box_E^2$ is a symmetric operator, and therefore so too is $(-\Box_E^2 + \mu)^2$. $J(x) \phi(x)$ inside an integral is like an inner product. So the above can be written
+\[
+Z[J]_{\text{num}} = \int D \phi \exp{- Q(\phi)},
+\]
+where $Q(X)$ is a quadratic form in $\phi$! The analogy with the discrete degrees of freedom Gaussian integral is exact. So, we could, again, do some rigorous mathematics and find conditions in which we could do the manipulations from the Gaussian integral chapter. Or we could just do the manipulations anyway. Therefore we obtain
+\[
+Z[J]_{\text{num}} = \frac{1}{\sqrt{\det (-\Box_E^2 + \mu^2)}} \exp{\frac{1}{2}\int d^4 x J(x) [- \Box_E^2 + \mu^2]^{-1}  J(x)}
+\]
+It turns out, perhaps expectedly, that this determinant is infinite. However, if we insert a momentum cutoff, the determinant becomes finite, and this term is exactly the term in the denominator of (\ref{varJ}). So this determinant goes away forever.\footnote{See \cite{Co1} for more.} So we can write
+\[
+Z_E[J] = \exp{\frac{1}{2}\int d^4 x_E J(x) [-\Box_E^2 + \mu^2]^{-1} J(x)}
+\]
+Let us write this out in a helpful way. First we analytically continue this back to Minkowski space, so $\Box_E^2$ becomes $\Box^2$, and we get an $i \epsilon$. Then this is
+\[
+Z[J] = \exp{i \frac{1}{2} \int d^4 x J(x) [-\Box^2 + \mu^2 + i\epsilon]^{-1} J(x)}
+\]
+We may Fourier transform the $J(x)$ on the right twice:
+\[
+J(x) = \int \frac{d^4 k}{(2\pi)^4} e^{-ikx} \int d^4 y e^{iky} J(y)
+\]
+Now, notice that $-\Box^2 + \mu^2$ is diagonal w.r.t. the momentum basis, so this becomes
+\[
+J(x) = \int d^4 y \int \frac{d^4 k}{(2\pi)^4} e^{-ik(x-y)} \frac{i}{k^2 - \mu^2 + i \epsilon}
+J(y)
+\]
+We therefore make the definition
+\[
+\Delta_F (x - y) = \int \frac{d^4 k}{(2\pi)^4}e^{-ik(x-y)} \frac{i}{k^2 - \mu^2 + i \epsilon}
+\]
+so that $Z[J]$ becomes
+\[
+Z[J]= \exp{-\frac{1}{2} \int d^4 x d^4 y J(x) \Delta_F (x-y) J(y)}
+\]
+At first glance, we have made this more complicated by taking it from a single integral to a double integral. In fact, we have actually made it a ton simpler: the operator $\Box^2$ has been replaced by an integral over $k^2$, and the $e^{-ikx}$ will hit the $e^{ikx}$ in the $LSZ$ formula and will spit out delta functions in momentum. We will come back to scalar field theories in the next chapter. If the reader wishes to skip there now, they may do so without loss of continuity. However, since we're in the functional integrals chapter, I wish to develop some stuff about fermionic functional integrals, generalizing the results of the previous chapter. 
+
+\subsection{Functional $\delta$-functions}
+We have seen that $\delta(x-y)$ has been useful to describe functional derivatives, i.e. $\frac{\delta f(x)}{\delta f(y)} = \delta(x-y)$. We can take this a step further. Now that we are considering functional integrals, we may define the functional delta function $\delta$ via
+\[
+\int df \delta(g) F(f) = F(g)
+\]
+That is, when every we are evaluating a functional integral over a functional $F$, it picks out the value at $g$. This delta function satisfies
+\[
+\delta(g) = \prod_x \delta(g(x)),
+\]
+similar to the case in discretely many degrees of freedom,
+\[
+\delta(r) = \prod_i \delta(r_i)
+\]
+\subsection{Functional determinants}
+We will make use of these in the Gauge theories section when developing the Faddeev-Popov method.
+
+\section{Gaussian integrals in }
+\section{To do list}
+\begin{itemize}
+\item computing cdf partials: establish things like the chain rule.
+\end{itemize}
+
+\end{document}

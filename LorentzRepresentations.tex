@@ -1,0 +1,81 @@
+\documentclass{book}
+\input{preamble}
+
+\begin{document}
+
+\chapter{Lorentz Group Representations}
+
+\section{intro stuff}
+
+\section{field transformation equations}
+There are certain things where I'm not sure of a rigorous justification. I will indicated this with a [?]. However, I want at least some heuristic justification to myself of the equation
+\begin{equation} \label{desiderata} 
+U(\Lambda)^{\dagger} \phi(x) U(\lambda) = \phi(\Lambda^{-1} x).
+\end{equation}
+Where $U(\Lambda)$ is some unitary representation of the Lorentz group.
+
+I can think of a pretty good reason. We want to think of the field $\phi(x)$ acting at on the vacuum as creating a particle at the spacetime point $x$ [?]\footnote{Already?}. Watch me do it.
+\[
+\phi(x) \ket{0} = \ket{x}.
+\]
+Wow, very cool. So I know how to create a particle at $x$. Now how can I create a particle at $x + a$? Well, if the particle at $x$ didn't impress you, check this out:
+\[
+\phi(x + a) \ket{0} = \ket{x + a}.
+\]
+But I can actually do it another way. I could go \textit{back} to $x$, make a particle there, and move everything back to where it was. In other words, I could do
+\[
+U(a) \phi(x) U(-a) \ket{0} = \ket{x + a} = \phi(x + a) \ket{0}.
+\]
+Now let's consider transformations more general than translations. Then we have
+\[
+U(\Lambda) \phi(x) U(\Lambda^{-1}) \ket{0}= \phi(\Lambda x) \ket{0}
+\]
+Now, erase the $\ket{0}$. [?]\footnote{Should we consider the action of $\phi$ on arbitrary states? I mean, this seems at least plausible for why we'd consider fields that transform this way. Do I need much more justification? Who cares about necessary conditions?} Replace $\Lambda$ by $\Lambda^{-1}$, use the $U$ group homomorphism, and use that $U$ is unitary. Equation \ref{desiderata} pops out. 
+
+Now, if we are not creating scalar fields, we have to be a little more careful. We might want to create a vector valued excitation or something. In that case, we would, for example, need to consider how the field rotated when we apply some rotation. If I have fields $\phi_\mu$ that I want to transform like a four-vector, that means I want them to rotate and boost the way I expect as I rotate and boost. Let's forget the nuance of relativity for a second and just picture creating a unit vector field at a point $\vec{x} \neq 0$ pointing in the $x$ direction. The equations
+\begin{equation} \label{whats}
+U(R)^\dagger \phi_a (x) U(R) \ket{0} = \phi_a (R^{-1} x) 
+\end{equation}
+would not do the right thing - I'd just translate all the arrows around in a weird disgusting smushy vortical way that would only look right again after a $2\pi$ rotation. So we replace the right hand side of Equation \ref{whats} with an $R_{ab} \psi_b$ instead of a naked $\psi_a$. If I have fields $\phi_\mu$ that I want to transform like a four-vector, that means I want them to rotate and boost the way I expect as I rotate and boost.
+\[
+U(\Lambda)^\dagger \phi^\mu (x) U(\Lambda) = {\Lambda^\mu}_\nu \phi^\nu (x)
+\]
+At low energies, the $W^\pm$ and $Z$ bosons are described by these fields. \ref{co2}
+
+Let's pause. You might be thinking to yourself,  ``a lot of this is something you might only guess if somebody gave you the answer.'' I will not put up a front. That is exactly what I'm doing here. I will supplement this with resources that explain this in better detail. [?] \footnote{I have not. Find resources that flesh this out in more detail. To be honest, I don't need much more to be convinced.} However, for now, I will proceed to wave my hands around, as a physicist is wont to do.
+
+We may want to generalize this somewhat. We've seen scalar fields. We've seen four-vector fields. What other fields might we want to consider? The obvious next extension is tensor fields. You guessed it: the transformation equation is
+\[
+U(\Lambda)^\dagger T^{\mu \nu} (x) U(\Lambda) = {\Lambda^\mu}_\rho {\Lambda^\nu}_\sigma T^{\rho \sigma} (\Lambda^{-1}x).
+\]
+How much more general can this get? Let's consider that we have some fields $\phi_a$ and be dumb about where to put indices for a bit. Let us write $D(\Lambda)_{ab}$ for the matrix that will mix up the fields, which depends on what kind of transformation we do.\footnote{I do not consider a $D$ that depends on $x$ as well. It seems this would break Lorentz invariance in some way.} In formulae then, we expect something like
+\begin{equation} \label{allfields}
+\boxed{U(\Lambda)^\dagger \phi_a (x) U(\Lambda) = D(\Lambda)_{ab} \phi_b (x)}
+\end{equation}
+This is the most general type of field transformation we will consider. How general is it? Are there any constraints we can put on $D$? Well, stare at Equation \ref{allfields} for a bit. 
+
+$U$ is already a group homomorphism. First, let's do nothing, $\Lambda = I$. Then $U(I) = I$. So
+\[
+\phi_a (x) = D(I)_{ab} \phi_b (x),
+\]
+so we need $D(I)_{ab} = \delta_{ab}$.
+
+If we do two transformations, we have
+\[
+U(\Lambda_2)^\dagger U(\Lambda_1)^\dagger \phi_a (x) U(\Lambda_1) U(\Lambda_2) = D(\Lambda_1 \Lambda_2) \phi_b (\Lambda_2^{-1} \Lambda_1^{-1}x)
+\]
+The left hand side has a term in the middle that we already understand:
+\[
+U(\Lambda_2)^\dagger D(\Lambda_1)_{ac} \phi_c(\Lambda_1^{-1} x) U(\Lambda_2) = D(\Lambda_1 \Lambda_2)_{ab} \phi_b (\Lambda_2^{-1} \Lambda_1^{-1} x).
+\]
+Let's work with the left hand side for a second. $D_ac$ is just a number. So the $U(\Lambda_2)^\dagger$ on the far left can ignore it. Using the same trick as above we ged
+\[
+D(\Lambda_1)_{ac} D(\Lambda_2)_{cb} \phi_b (\Lambda_2^{-1} \Lambda_1^{-1} x) = D(\Lambda_1 \Lambda_2)_{ab} \phi_b (\Lambda_2^{-1} \Lambda_1^{-1} x).
+\]
+But the left hand side is just matrix multiplication in indices. So we must have
+\[
+D (\Lambda_1 \Lambda_2) = D(\Lambda_1) D(\Lambda_2).
+\]
+We may similarly check that $D(\Lambda^{-1}) = D(\Lambda)^{-1}$. So $D$ must also be a representation of the Lorentz group. Does it have to be unitary? Of course not - that constraint never came up in my discussion here. For one, there are no finite dimensional irreducible\footnote{Why do we care about irrep?} representations of the Lorentz group. Second, and more importantly, we won't be able to describe particles we see in Nature if we even tried to impose such a constraint.
+
+\end{document}

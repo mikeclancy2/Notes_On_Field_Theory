@@ -1,11 +1,17 @@
-\documentclass{book}
-\input{preamble}
+\documentclass[main.tex]{subfiles}
 
 \begin{document}
 
 \chapter{Lorentz Group Representations}
 
-\section{intro stuff}
+Quantum field theory arises as a result of trying to construct relativistic quantum theories. Relativistic means invariance under Lorentz transformations. Quantum means a Hilbert space is involved. In non-relativistic quantum mechanics, we build Hilbert spaces by considering a complete set of commuting observables $O_i$, identifying their eigenvalues $\{\lambda_i\}$, and constructing superpositions of these eigenstates:
+\[
+\psi =  \sum_{\lambda} c(\lambda_1,\cdots,\lambda_N) \ket{\lambda_1 \cdots \lambda_N}
+\]
+For example, we could construct a general single particle state in three dimensions via
+\[
+\ket{\psi} = \int dx dy dz \; \psi(x,y,z) \ket{x,y,z}
+\]
 
 \section{field transformation equations}
 There are certain things where I'm not sure of a rigorous justification. I will indicated this with a [?]. However, I want at least some heuristic justification to myself of the equation
@@ -14,23 +20,8 @@ U(\Lambda)^{\dagger} \phi(x) U(\lambda) = \phi(\Lambda^{-1} x).
 \end{equation}
 Where $U(\Lambda)$ is some unitary representation of the Lorentz group.
 
-I can think of a pretty good reason. We want to think of the field $\phi(x)$ acting at on the vacuum as creating a particle at the spacetime point $x$ [?]\footnote{Already?}. Watch me do it.
-\[
-\phi(x) \ket{0} = \ket{x}.
-\]
-Wow, very cool. So I know how to create a particle at $x$. Now how can I create a particle at $x + a$? Well, if the particle at $x$ didn't impress you, check this out:
-\[
-\phi(x + a) \ket{0} = \ket{x + a}.
-\]
-But I can actually do it another way. I could go \textit{back} to $x$, make a particle there, and move everything back to where it was. In other words, I could do
-\[
-U(a) \phi(x) U(-a) \ket{0} = \ket{x + a} = \phi(x + a) \ket{0}.
-\]
-Now let's consider transformations more general than translations. Then we have
-\[
-U(\Lambda) \phi(x) U(\Lambda^{-1}) \ket{0}= \phi(\Lambda x) \ket{0}
-\]
-Now, erase the $\ket{0}$. [?]\footnote{Should we consider the action of $\phi$ on arbitrary states? I mean, this seems at least plausible for why we'd consider fields that transform this way. Do I need much more justification? Who cares about necessary conditions?} Replace $\Lambda$ by $\Lambda^{-1}$, use the $U$ group homomorphism, and use that $U$ is unitary. Equation \ref{desiderata} pops out. 
+I can think of a pretty good reason. Let $\phi$ be a quantum field. This means we have an operator at each point $x$ in spacetime, $\phi(x)$. In the single particle quantum mechanics case, we would build general states out of position eigenstates $\ket{x}$. 
+
 
 Now, if we are not creating scalar fields, we have to be a little more careful. We might want to create a vector valued excitation or something. In that case, we would, for example, need to consider how the field rotated when we apply some rotation. If I have fields $\phi_\mu$ that I want to transform like a four-vector, that means I want them to rotate and boost the way I expect as I rotate and boost. Let's forget the nuance of relativity for a second and just picture creating a unit vector field at a point $\vec{x} \neq 0$ pointing in the $x$ direction. The equations
 \begin{equation} \label{whats}

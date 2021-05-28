@@ -1,13 +1,11 @@
-\documentclass{book}
-\input{preamble}
-
+\documentclass[main.tex]{subfiles}
 \begin{document}
 \chapter{Functional Calculus}
 In the previous section, we saw how to compute a large class of Gaussian integrals using a couple simple tricks. We will extend those methods to functional integrals, which will help us evaluate path integrals.
 
 A full discussion of functional calculus can be found in something like Arnold. I only wish to intuitively explain the big ideas and write down all the rules we will use for our field theories.
 
-I don't wish to be totally rigorous here. I don't know much about the strong topology. I don't really want to. I want to do the integrals, not know they exist. So a lot of what will be done here should be taken as definitions, not as proofs. Whether or not these definitions are consistent isn't really of interest to me right now.
+I don't wish to be totally rigorous here. I don't know much about the strong topology. I don't really want to. I want to do the integrals, not know they exist. So a lot of what will be done here should be taken as definitions, not as proofs. Whether or not these definitions are consistent isn't really of interest to me right now. 
 
 \section{From 3 or 4 to countably or uncountably many}
 Let's think about where we're situated in field theory right now. In the physics of a single particle, the particle has a finite number of degrees of freedom. In non-relativistic 3d mechanics, it has... 3 degrees of freedom. We can label these degrees of freedom $x_1,x_2,x_3$. In field theory, we have a degree of freedom (the field) for every point in space. So while those points in space are labeled $1,2,3,4$, the fields themselves are labeled \textit{by that point in space}. $x,y,z$ and $t$ are now no longer degrees of freedom, they are now \textit{themselves} labels for the degrees of freedom of the field. 

@@ -1,0 +1,144 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Spin}
+
+The purpose of this chapter is to introduce the subject of spin. I am only writing about this because I think it's geometrically very interesting, and I want to understand spin better. The only thing you need to know about spin to do QFT are the Lorentz transformation properties of a spinor field, which are discussed in the Lorentz transformation section. This section comes much later as it relates heavily to gauge theory.
+
+In order to get a good geometric picture of spin, we need to introduce some ideas from general relativity. This will also make doing quantum field theory easier in curved spacetimes\footnote{I think?}, so that is an added bonus. But we won't do that here. 
+
+\section{Tetrads}
+The notion of a tetrad is so natural that it's easy to overlook.
+
+When working on a general spacetime, usually we start by introducing coordinates $x^\mu$. These canonically introduce vector fields $\partial_\mu$, the derivatives in the direction of $x^\mu$. Then we do all of our tensor calculus working with the $\partial_\mu$ as an orthonormal (w.r.t. $g_{\mu \nu}$) basis. 
+
+But we could just as well have chosen a different ON basis for the tangent space at a given point $x$, completely regardless of the coordinates $x^\mu$. Such a choice of basis for each point is called a \textbf{vielbien} on a manifold. In $d = 4$, it is called a \textbf{vierbien}, or \textbf{tetrad}. I'll use the last term. I'll also work in special relativity so that $g_{\mu \nu}$ is the usual flat metric $(-1,+1,+1,+1)$. We write this basis as $e_a(x)$. We may express this basis in terms of the canonical coordinate vector fields via
+\begin{equation} \label{eq:tetrad}
+e_a (x) = e_a^{\mu} (x) \partial_\mu
+\end{equation}
+Orthonormality of these basis vectors is expressed via
+\begin{equation} \label{eq:ortho}
+\eta(e_a,e_b) = \eta_{ab}
+\end{equation}
+It makes sense, as was the case with regular coordinates, to define the dual vector $e^a$ via
+\begin{equation} \label{eq:dual}
+e^a = \eta^{ab} e_b
+\end{equation}
+In coordinates, this becomes
+\[
+{e_a}^\mu {e_b}^\nu \eta_{\mu \nu} = \eta_{ab}
+\]
+so with the substitution (\ref{eq:dual}) we have
+\begin{equation}
+{e_a}^\mu e_{\mu b}  = \eta_{ab}
+\end{equation}
+We know that $e_a = \partial_a$ is a valid tetrad, so let's see how many possible choices of tetrad there are by mixing the $\partial_\mu$. Mixing these amounts to a linear transformation ${\Lambda_a}^\mu$. So we consider a new tetrad defined via
+\[
+e_a = {\Lambda_a}^\mu \partial_\mu
+\]
+In order to satisfy Eq. (\ref{eq:ortho}), we must have
+\[
+\eta ({\Lambda_a}^\mu \partial_\mu, {\Lambda_b}^\nu \partial_\nu) = \eta_{ab}.
+\]
+This becomes
+\[
+\eta_{\mu \nu} {\Lambda_a}^\mu {\Lambda_b}^\nu = \eta_{ab}
+\]
+which is just the equation that means $\Lambda$ must be a Lorentz transformation! This should not come as a surprise: in something like a flat case, choosing a new frame amounts to rotating it as you please at each point, so frames are related by $SO(3)$ matrices.
+
+\section{Spin connections}
+Of course, none of our physics or equations should change, the only thing that's changed are the coordinates we use to express things. But, if we start with a tetrad $e_a$, then we know it's related to a tetrad by a Lorentz transformation. So we need to make sure that
+\[
+e_a (x) \to {\Lambda_b}^{a} (x) e_a (x)
+\]
+doesn't change or physics. This is a gauge symmetry, with gauge group $G = SO(1,3)$! So let's just do a speedrun of the gauge theory section, skipping over Wilson links: We need to replace our derivative $\partial_\mu$ with a covariant derivative $D_\mu = \partial_\mu + \omega_\mu$, where $\omega_\mu$ is in the Lie algebra of $SO(1,3) = \mathfrak{so}(1,3)$. Under the gauge transformation $e(x) \to \Lambda(x) e(x)$, the gauge field should transform as
+\[
+\omega_\mu \to \Lambda \omega_\mu \Lambda^{-1} - \partial_\mu \Lambda \cdot \Lambda^{-1}
+\]
+The gauge field $\omega_\mu (x)$ is called the \textbf{spin connection}. So let's do gauge theory with this gauge field. We are going to concern ourselves with fields $\psi_a$, which have degrees of freedom which transform locally in some representation of the Lorentz group. The $\omega_\mu$ are then in the Lie algebra of that representation. We can label the basis vectors of that Lie-alg rep in whatever way is convenient. In the fundamental representation (generators of the Lorentz group), we usually use two labels, so we keep that convention:
+\[
+\omega_\mu = \frac{1}{2} {\omega_\mu}^{ab} \Sigma_{ab}
+\]
+where $\frac{1}{2} \Sigma_{ab}$ are the basis matrices in the representation. Then we write the covariant derivative as
+\[
+D_\mu = \partial_\mu + \frac{1}{2} {\omega_\mu}^{ab} \Sigma_{ab}.
+\]
+Let's work in the fundamental representation for now, mirroring the work we did in the gauge theory section: next we will discuss representations of $SO(1,3)$, and then we'll talk about gauge theories that transform according to those representations.
+
+First we need to be a little more coherent about what these tetrads are doing. Whenever we have vector fields, really what we have are numbers $V^a$. The tetrad gauge freedom means that these numbers are free to transform via
+\[
+V^a (x) \to {\Lambda^a}_b (x) V^b (x),
+\]
+which is how these vector fields would transform under a different choice of tetrad. 
+
+\newpage
+
+\subsection{Spinor Representations of the Lorentz Group}
+As we did with other Gauge fields, we're going to take the Lie algebra-valued $A_\mu$ and stick in other matrices instead which were similar. We start by introducing 4 $4 \times 4$ $\gamma$ matrices, which algebraically satisfy:
+\[
+\{\gamma^a,\gamma^b\} = -2\eta^{ab}.
+\]
+We construct the spinor representation via
+\[
+\Sigma^{\alpha b} = \frac{i}{4} [\gamma^a, \gamma^b].
+\]
+By antisymmetry, there are only $4*(4-1)/2 = 6$ linearly independent $\Sigma^{ab}$. 
+
+Therefore the field $\psi$ picks up an index $b$, and transforms under infinitesimal Lorentz transformations $\epsilon_{\alpha \beta} M_{\alpha \beta}$ as 
+\[
+\psi_a (x) \to \epsilon_{\alpha \beta} (x) {{\Sigma^{\alpha \beta}}_a}^b \psi_b.
+\]
+Therefore, (to be filled in here, but) under a finite rotation by $2\pi$, $\psi_a \to -\psi_a$.
+\newpage
+\section{Representations of the Lorentz group}
+We have discussed the properties of a gauge theory whose local degrees of freedom transform in the fundamental representation of the Lorentz group, i.e. that of four-vector fields. In line with our previous discussion of gauge theories, we prepare to describe fields whose local degrees of freedom transform in some other representation of the Lorentz group. What do these representations look like?
+
+\subsection{$SL(2,\cm)$}
+Take a (real) four vector $V^\mu$. I'm going to represent it in a weird way: as a $2 \times 2$ complex Hermitian matrix.
+\begin{equation}
+V^\mu \to \begin{pmatrix}
+V^0 + V^3 & V^1 - iV^2 \\
+V^1 + V^2 & V^0 - V^3
+\end{pmatrix} = V^\mu \sigma_\mu =: v,
+\end{equation}
+where $\sigma_\mu$ are the Pauli matrices with $\sigma_0 = I$. This map is a bijection by inspection, so real four vectors and $2\times 2$ Hermitian matrices are in 1-1 correspondence. If we want to transform $v$ in this representation, the obvious way to do it is conjugation:
+\begin{equation} \label{eq:vtovdag}
+v \to \lambda v \lambda^\dagger
+\end{equation}
+where $\lambda$ is some $2\times 2$. This will make sure we are sending four vectors to four vectors. If we want this $\lambda$ to be implementing a Lorentz transformation, we require $V_\mu V^\mu$ be left invariant, so 
+\[
+(V^1)^2 + (V^2)^2 + (V^3)^2 - (V^0)^2 
+\]
+is constant. But note that this quantity is precisely the negative determinant of $v$:
+\[
+V_\mu V^\mu = - \det v.
+\]
+If we want the transformation (\ref{eq:vtovdag}) to be Lorentz, then this determinant must be constant. This is
+\[
+\det{\lambda v \lambda^{\dagger}} = \det {\lambda} \det{\lambda^\dagger} \det v.
+\]
+This means
+\[
+\det \lambda \; \overline{\det \lambda} = 1,
+\]
+or
+\[
+\abs{\det \lambda} = 1.
+\]
+So let us pick such a $\lambda$ Since this transformation conserves norm, it is given implicitly by some $\Lambda$ acting on $V$:
+\[
+\lambda v \lambda^\dagger = ({\Lambda^\mu}_\nu (\lambda) V^\nu)\sigma_\mu.
+\]
+It may also be verified that $\Lambda(\lambda \eta) = \Lambda(\lambda) \Lambda(\eta)$, so $\Lambda$ really is a representation. It is also apparent that for any two matrices $\lambda,\eta$ which differ by a phase implement the same transformation by looking at (\ref{eq:vtovdag}), so we can without loss of generality assume
+\[
+\det \, \lambda = 1.
+\]
+We have not gotten rid of this phase ambiguity altogether, however: since these are $2\times 2$ matrices, if $\det \lambda = 1$ then $\det (-\lambda) = 1$ also, so we are actually sending two transformations to the same $\Lambda$. So we may identify 
+\[
+SO(1,3) \equiv SL(2,\cm)/\mathbb{Z}_2
+\]
+To see more on this and projective representations, see Weinberg Volume I section 2.7. I'm going to change gears at this point, however.
+
+I think I want to finish this section so I can talk about superselection rules - this seems really important. But it's for later.
+\end{document}

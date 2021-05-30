@@ -2,11 +2,16 @@
 
 \begin{document}
 
-\chapter{Lorentz Group Representations}
+maybe include some intro about the poincare group.
 
-Quantum field theory arises as a result of trying to construct relativistic quantum theories. Relativistic means invariance under Lorentz transformations. Quantum means a Hilbert space is involved. Let's try to think about what this Hilbert space would look like. First, we will restrict ourselves to a single particle subspace. We take as our complete set of commuting observables the four momenta $P^\mu$. We also consider the possibility of other degrees of freedom, which we label with $\sigma$. Therefore, we label our states
+\chapter{Relativity in Quantum Mechanics}
+
+Quantum field theory arises as a result of trying to construct relativistic quantum theories. Relativistic means invariance under Poincare transformations. Quantum means, at the level of states, that a Hilbert space is involved. Let's try to think about what this Hilbert space would look like. 
+
+\section{Single Particles}
+First, we will restrict ourselves to the single particle subspace. We take as our (nearly) complete set of commuting observables the four momenta $P^\mu$. We start with indices upper so that $p \to \Lambda p$, otherwise we'd get an inverse. We also consider the possibility of other degrees of freedom, which we label with $\sigma$. Therefore, we label our states
 \[
-\ket{p_0,p_1,p_2,p_3} = \ket{p,\sigma}.
+\ket{p^0,p^1,p^2,p^3} = \ket{p,\sigma}.
 \]
 This state satisfies, then,
 \[
@@ -14,14 +19,24 @@ P^\mu \ket{p} = p^\mu \ket{p,\sigma}.
 \]
 Now let's consider what should happen to these states under Lorentz transformations. Clearly, if I apply a transformation $\Lambda$ to my coordinates, I expect this state to change. Clearly we should have $p \to \Lambda p$. However, it could also mix the $\sigma$, and the way it does this could perhaps depend on both $p$ and $\Lambda$ independently. To account for this, we therefore have:
 \[
-\ket{p} \to \sum_{\sigma'} C \ket{\Lambda p}
+\ket{p,\sigma} \to \sum_{\sigma'} C_{\sigma' \sigma} (\Lambda,p) \ket{\Lambda p,\sigma'}
 \]
-under a boost $\Lambda$. In order for the probabilities of outcomes to be Lorentz invariant, these transformations $\Lambda$ should be unitary. That is, in order for things like $\bra{in}\ket{out}$ to be invariant, we must have
+under a boost $\Lambda$. In order for the probabilities of outcomes to be invariant under Lorentz transformations, as well as Poincare transformations in general, transformations must be implemented by unitary matrices. That is, in order for things like $\bra{in}\ket{out}$ to be invariant, we must have
 \[
-\ket{in} \to U(\Lambda) \ket{in}, \quad \ket{out} \to U(\Lambda \ket{out}
+\ket{in} \to U(\Lambda,a) \ket{in}, \quad \ket{out} \to U(\Lambda,a) \ket{out}
 \]
-for the same operator $U(\lambda)$.
+for the same operator $U(\Lambda,a)$, with $a$ some translation parameter.  Therefore, a relativistic quantum theory enforces for single particle momentum eigenstates the following transformation rule:
+\begin{equation} \label{eq:qmrelstate} 
+\boxed{U(\Lambda) \ket{p,\sigma} = \sum_{\sigma'} C_{\sigma \sigma'} (\Lambda,p) \ket{\Lambda p, \sigma'}}
+\end{equation}
+Since the left hand side is implemented by group representations, the matrices $C(\Lambda,p)$ must also be a representation of the Lorentz group for each $p$. Let's classify their irreducible representations to get a better sense of what kind of relativistic quantum state spaces we have; the reducibles will break into a direct sum of these.
 
+\subsection{The $C$ matrix}
+Classification of these matrices amounts to classification of the coefficients. In order to do this, we stare at Eq. (\ref{eq:qmrelstate}). Let's take some momentum $k$. Consider a $p$ related to $k$ by $p = L(p) k$, with $L(p)$ some Lorentz transformation. Apply the transformation $U(\Lambda)$ on $k$. Then we get
+\[
+U(L(p))\ket{k,\sigma} = \sum_{\sigma'} C_{\sigma' \sigma} (L(p),k) \ket{p,\sigma'}.
+\]
+By linearity on the right hand side, this is an eigenstate of $P^\mu$ with eigenvalue $p^\mu$. 
 
 \section{field transformation equations}
 There are certain things where I'm not sure of a rigorous justification. I will indicated this with a [?]. However, I want at least some heuristic justification to myself of the equation

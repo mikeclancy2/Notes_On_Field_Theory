@@ -3,25 +3,25 @@
 \begin{document}
 
 \chapter{Gauge Theories}
-In this chapter, I will describe the standard prescription for creating gauge theories. Say I hand you a group $G$, and tell you to make a gauge field theory with that group. I will first describe the way to do this with general non-abelian gauge theories. Abelian gauge theories pop out when we erase some of the non-abelian stuff. I will generalize the results of this section in the next chapter.
+In this chapter, I will describe the standard prescription for creating gauge theories. Say I hand you a group $G$, and tell you to make a gauge field theory with that group. I will first describe the way to do this with non-abelian gauge theories. Abelian gauge theories pop out when we erase some of the non-abelian stuff. After that, I will generalize this method some after we talk about group representations.
 
 I will assume you know at a bit about what a Lie group is, what its Lie algebra is, but not much - vague intuitions should do. Perhaps I will include a chapter on that at a later date.
 
-I have tried to use the standard terminology in all places, and not appeal too heavily to my own idiosyncrasies.
+What I will \textit{not} talk about is the so-called ``physicality'' of gauge transformations, or where they come from. It is a fact that the standard model is a gauge theory. However, you might also hear that gauge transformations are totally non-physical. This is irrelevant to their \textit{construction}. Models are not physics. Constructing physical models in isolation is, for the most part, kind of easy. Attaching physical/experimental/tangible significance to some, or all elements of a theory, is extremely difficult. The difficulty holds also in the converse, when constructing elements for a theory from physically significant experimental results. It is my goal here to do that modeling part in sufficient isolation; borrowing only necessary physical intuition, and not relying on it when I don't want to construct my model carefully.
+
+I can start with quantum field theories that I understand, introduce the idea of gauge transformations, and see what happens. Much of what I say here will be my own terminology, to keep things straight - but won't differ significantly from what is found in the literature. 
+
+I will introduce the systematic process for introducing gauge fields in a later section. Skip there if you are using these notes for reference. If you are learning QFT for the first or second time, start here. 
+
+We begin from the idea that I want to apply local $G$-valued transformations to the fields. By asking very simple natural questions about how to do things independently of this $U$, we are led through the story of connections, covariant derivatives, $F_{\mu \nu}$'s, and Wilson loops. 
 
 \section{Local Gauge Transformations}
-Let us start with the notion of local gauge transformations. We will define this only for $G = SU(N)$, but methods won't change in the general case.\footnote{Actually, we will only use this $S$ when $N > 1$. When $N = 1$, we use $G = U(1)$. This is because when we these $SU(N)$'s, actually what we are looking at is the connected component of the identity of $U(N)$ for $N > 1$. Tacking the $S$ on just follows because $U(N)$ is disconnected for $N > 1$; it ensures we are looking at the component connected to the identity - the part of the $U(N)$ that we can get to my moving continuously away from the identity. So in the following discussion, when I say $SU(N)$, I really mean the connected component of the identity in $U(N)$. So, if $N=1$ just erase the $S$. If you skipped this footnote, you will be confused by this later.}
+Let us start with the notion of local gauge transformations. We will define this only for $G = SU(N)$. Actually, we will only use this $S$ when $N > 1$. When $N = 1$, we use $G = U(1)$. This is because when we these $SU(N)$'s, actually what we are looking at is the connected component of the identity of $U(N)$ for $N > 1$. Tacking the $S$ on just follows because $U(N)$ is disconnected for $N > 1$; it ensures we are looking at the component connected to the identity - the part of the $U(N)$ that we can get to my moving continuously away from the identity. So in the following discussion, when I say $SU(N)$, I really mean the connected component of the identity in $U(N)$. So, if $N=1$ just erase the $S$. If you skipped this paragraph and get confused later, you will be confused by this.
 
-Here is the general idea. We have some fields. A field is a quantity defined \textit{globally}, with \textit{local} degrees of freedom. This should strike you. It might not. I'll tell you why it strikes me. Ignore the issue of causality; that is totally separate. We'll just think about fields in space, $\re^3$ for now. Let's say I have a field defined on all space. Pick a point $Y$ on Mars, and a point $x$ right in front of you\footnote{Sorry for the ambiguity, if you are reading this on Mars.} Let's say the field has two local degrees of freedom, i.e. it has two indices $\phi_i$. Suppose these fields are equal:
-\[
-\phi_i (x) = \phi_i (y)
-\]
-But $x$ and $y$ are different points, what does it even mean for \textit{local} quantities at \textit{different} points to take on the same value? If we keep an open mind, maybe we should allow the way we describe these degrees of freedom to vary at each point. But if we do, we will have to find a way to compare fields at different points. We will describe this in the next section.
-
-To describe this, let's suppose we have $N$ degrees of freedom at each point, so we have $\phi_i (x)$, $i = 1,...,N$. Let's mix them up with $SU(N)$. 
+We will generalize this a little bit later, but this is the main idea. We will start with $N$ fields $\phi_i$; they can be vector, spinor, or scalar, and the definition won't change. Picture scalar if it makes it easier. We arrange these fields in a column vector $\phi(x)$. Later, these degrees of freedom will play the role of the color degrees of freedom in, for example, $G = SU(3)$.
 
 \begin{defn}
-A \textbf{local gauge transformation} \footnote{this is technically a gauge transformation in the fundamental representation, this will change in the next chapter.} of $SU(N)$ on the fields $\phi_i$ as a choice of matrix $U(x)$ at each $x$, acting by
+A \textbf{local gauge transformation} [?]\footnote{perhaps this will change when we consider representation stuff} of $SU(N)$ on the fields $\phi_i$ as a choice of matrix $U(x)$ at each $x$, acting by
 
 \begin{equation} \label{localgaugetrans}
  \boxed{\phi (x) \to U(x) \phi(x),}
@@ -32,9 +32,7 @@ so for each $i$ we have
 \phi_i(x) \to U(x)_{ij} \phi_j (x).
 \]
 \end{defn}
-Let us also generally impose smoothness of $U$ on the choice of $x$. If you don't like the way I introduced this idea, just think of a local gauge transformation operationally: it's a thing that mixes up the degrees of freedom, that we will later want to get rid of.
-
-If we want to write things in terms of parameters, we can think of each $U(x)$ as being the exponential of some element of the Lie aglebra $\mathfrak{su} (N)$. Let us write $T_a$ as a basis for this Lie algebra, $a = 1,\cdots, N^2 -1$. Then we can write these transformations as
+Let us also generally impose smoothness of $U$ on the choice of $x$. We can think of each $U(x)$ as being the exponential of some element of the Lie aglebra $\mathfrak{su} (N)$. Let us write $T_a$ as a basis for this Lie algebra, $a = 1,\cdots, N^2 -1$. Then we can write these transformations as
 \[
 U(x) = \exp{- i \theta^a (x) T_a}
 \]
@@ -65,7 +63,7 @@ We are therefore left with how the derivative changes as we apply a local gauge 
 \end{equation}
 Now, I haven't done any physics or said anything yet. All I've done is introduce some local transformations and see what happens as we move to the side after transforming. I've introduced an obvious problem. I screwed up the fields and did nothing about it. What did I expect?
 
-Now, we turn to the business of symmetry. I don't want my derivative of $\phi$ to see how $U$ is changing with $x$ as it did in (\ref{ugly}). I want to have a consistent way of taking derivatives that doesn't depend on what transformation $U$ I apply. A reasonable way of doing this would be finding a derivative operator $D_\mu$, which contains $\partial_\mu$, such that when $\phi (x) \to U(x) \phi(x)$, we also have $D_\mu \phi(x) \to U(x) D_\mu \phi(x)$. In other words, we want the field derivatives to vary the same way the fields do when we apply $U$.
+Now, we turn to the business of symmetry. I want this $U$ to be basically useless. I don't want my derivative of $\phi$ to see how $U$ is changing with $x$ as it did in (\ref{ugly}). I want to have a consistent way of taking derivatives that doesn't depend on what transformation $U$ I apply. A reasonable way of doing this would be finding a derivative operator $D_\mu$, which contains $\partial_\mu$, such that when $\phi (x) \to U(x) \phi(x)$, we also have $D_\mu \phi(x) \to U(x) D_\mu \phi(x)$. In other words, we want the field derivatives to vary the same way the fields do when we apply $U$.
 
 \section{Wilson Links and Covariant Derivatives}
 So what went wrong? Well, if you are familiar with general relativity, you might have picked up on it. When we try to take a derivative of a field, we need a connection. A connection is something that tells you how to subtract vectors at two different positions: in the Euclidean case, we can just ``move'' one from a point to another. The technical way to do this that generalizes is to use the Levi-Civita connection generated by the standard Pythagorean metric on $\re^3$. The obvious way to do it is to just subtract them because you'll get the same answer. 
@@ -193,9 +191,9 @@ This means the transformation law (\ref{Amu2}) can be rewritten for infinitesima
 \boxed{A_\mu^c \to A_\mu^c - \frac{\epsilon}{g} \partial_\mu \Gamma^c + \epsilon f^{abc} \Gamma^a A_\mu^b}
 \end{equation}
 under the gauge transformation $U = \exp{-i \Gamma}$.
-So, the definition of these quantities and their transformation rules wasn't necessary to enforce gauge invariance of a Lagrangian or anything advanced like that. I just wanted a notion of derivative consistent with the $U(x)$, the definitions and transformation rules followed. Now let us introduce a little perspective that we will come to in a couple sections. If we think of the $\phi$ fields as having an internal symmetry, and the $U$ as implementing that symmetry, we need need to introduce some other fields $A_\mu (x)$ which connects fields at different points, on which to also implement that symmetry. 
+So, the definition of these quantities and their transformation rules wasn't necessary to enforce gauge invariance of the Lagrangian, as some might suggest. I just wanted a notion of derivative consistent with the $U(x)$, the definitions and transformation rules followed. Now let us introduce a little perspective that we will come to in a couple sections. If we think of the $\phi$ fields as having an internal symmetry, and the $U$ as implementing that symmetry, we need need to introduce some other fields $A_\mu (x)$ which connects fields at different points, on which to also implement that symmetry. 
 
-We have now defined how our basic gauge quantities transform under gauge transformations $U(x)$. I'll conclude this section with one brief remark. We didn't \textit{really} need the Wilson link. We only really needed $D_\mu$, which is defined in terms of $A_\mu$. But it's good to introduce for a few reasons. One is that it makes the definition of $D_\mu = \partial_\mu - iA_\mu$ unambiguously the obvious thing to do, instead of an Ansatz one might guess. The other is that in lattice QCD, we only have discrete points so to connect them the Wilson link comes back up.
+We have now defined how our basic gauge quantities transform under gauge transformations $U(x)$.
 
 \section{Wilson Lines}
 Wilson lines are very cool. I want to spend some time describing their algebraic properties.
@@ -382,7 +380,7 @@ So how can we construct gauge invariant quantities using the ones in (\ref{baset
 \text{Tr} \, F^{\mu \nu} F_{\mu \nu} & \label{eq:gi5}
 \end{align}
 \end{subequations}
-Note to self: include theta term. Recall, this is all for scalar fields. Note that (\ref{eq:gi4}) is not Lorentz invariant, so we chuck it. Roughtly speaking, when we work with spinors\footnote{we will need instead $\slashed{D}_\mu$}, (\ref{eq:gi2}) will be Lorentz invariant, but with scalars instead (\ref{eq:gi3}) will be Lorentz invariant.  (\ref{eq:gi1}) and (\ref{eq:gi5}) will always be Lorentz invariant. So given a Dirac fermion $\Phi$, we introduce extra gauge degrees of freedom $i=1,...,N$, and the Lagrangian for this field is (spinor indices suppressed):
+Recall, this is all for scalar fields. Note that (\ref{eq:gi4}) is not Lorentz invariant, so we chuck it. Roughtly speaking, when we work with spinors\footnote{we will need instead $\slashed{D}_\mu$}, (\ref{eq:gi2}) will be Lorentz invariant, but with scalars instead (\ref{eq:gi3}) will be Lorentz invariant.  (\ref{eq:gi1}) and (\ref{eq:gi5}) will always be Lorentz invariant. So given a Dirac fermion $\Phi$, we introduce extra gauge degrees of freedom $i=1,...,N$, and the Lagrangian for this field is (spinor indices suppressed):
 \label{eq:nicelag}
 \begin{equation}
 i \overline{\Phi}_{i} \slashed{D}_{ij} \Phi_j - m \overline{\Phi}_i \Phi_i -\frac{1}{2} \, \text{Tr} \, F^{\mu \nu} F_{\mu \nu}

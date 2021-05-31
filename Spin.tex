@@ -74,27 +74,9 @@ which is how these vector fields would transform under a different choice of tet
 
 \newpage
 
-\subsection{Spinor Representations of the Lorentz Group}
-As we did with other Gauge fields, we're going to take the Lie algebra-valued $A_\mu$ and stick in other matrices instead which were similar. We start by introducing 4 $4 \times 4$ $\gamma$ matrices, which algebraically satisfy:
-\[
-\{\gamma^a,\gamma^b\} = -2\eta^{ab}.
-\]
-We construct the spinor representation via
-\[
-\Sigma^{\alpha b} = \frac{i}{4} [\gamma^a, \gamma^b].
-\]
-By antisymmetry, there are only $4*(4-1)/2 = 6$ linearly independent $\Sigma^{ab}$. 
-
-Therefore the field $\psi$ picks up an index $b$, and transforms under infinitesimal Lorentz transformations $\epsilon_{\alpha \beta} M_{\alpha \beta}$ as 
-\[
-\psi_a (x) \to \epsilon_{\alpha \beta} (x) {{\Sigma^{\alpha \beta}}_a}^b \psi_b.
-\]
-Therefore, (to be filled in here, but) under a finite rotation by $2\pi$, $\psi_a \to -\psi_a$.
-\newpage
-\section{Representations of the Lorentz group}
-We have discussed the properties of a gauge theory whose local degrees of freedom transform in the fundamental representation of the Lorentz group, i.e. that of four-vector fields. In line with our previous discussion of gauge theories, we prepare to describe fields whose local degrees of freedom transform in some other representation of the Lorentz group. What do these representations look like?
-
 \subsection{$SL(2,\cm)$}
+As in regular gauge theory, we include particles which transform in different representations of the gauge group. In this case, we will include also projective representations.
+
 Take a (real) four vector $V^\mu$. I'm going to represent it in a weird way: as a $2 \times 2$ complex Hermitian matrix.
 \begin{equation}
 V^\mu \to \begin{pmatrix}
@@ -141,4 +123,98 @@ SO(1,3) \equiv SL(2,\cm)/\mathbb{Z}_2
 To see more on this and projective representations, see Weinberg Volume I section 2.7. I'm going to change gears at this point, however.
 
 I think I want to finish this section so I can talk about superselection rules - this seems really important. But it's for later.
+
+Blah blah blah,
+
+It turns out that $SO(1,3)$ admits projective representations, which are
+\[
+\lambda(\Lambda_1) \lambda(\Lambda_2) = -\lambda(\Lambda_1 \Lambda_2).
+\]
+maybe this should go later? who knows.
+\newpage
+\subsection{Spinor Representations of the Lorentz Group}
+As we did with other Gauge fields, we're going to take the Lie algebra-valued $A_\mu$ and stick in some other Lie algebra with the same commutation relations, let's call it $T^a_R$. Then the fields $\phi$ transform according to
+\[
+\phi \to \exp{i \theta^a T^a_R} \phi
+\]
+instead of just $\exp{i \theta^a T^a}$.
+ We start by introducing 4 $4 \times 4$ $\gamma$ matrices, which algebraically satisfy:
+\[
+\{\gamma^a,\gamma^b\} = -2\eta^{ab}.
+\]
+We construct the spinor representation via
+\[
+\Sigma^{\alpha b} = \frac{i}{4} [\gamma^a, \gamma^b].
+\]
+By antisymmetry, there are only $4*(4-1)/2 = 6$ linearly independent $\Sigma^{ab}$. 
+
+Therefore the field $\psi$ picks up an index $b$, and transforms under infinitesimal Lorentz transformations $\epsilon_{\alpha \beta} M_{\alpha \beta}$ as 
+\[
+\psi_a (x) \to 1+ i\epsilon_{\alpha \beta} (x) {{\Sigma^{\alpha \beta}}_a}^b \psi_b.
+\]
+Therefore, (to be filled in here, but) under a finite rotation by $2\pi$, $\psi_a \to -\psi_a$. 
+\newpage
+\subsection{$SL(2,\cm)$}
+As in regular gauge theory, we include particles which transform in different representations of the gauge group. In this case, we will include also projective representations.
+
+Take a (real) four vector $V^\mu$. I'm going to represent it in a weird way: as a $2 \times 2$ complex Hermitian matrix.
+\begin{equation}
+V^\mu \to \begin{pmatrix}
+V^0 + V^3 & V^1 - iV^2 \\
+V^1 + V^2 & V^0 - V^3
+\end{pmatrix} = V^\mu \sigma_\mu =: v,
+\end{equation}
+where $\sigma_\mu$ are the Pauli matrices with $\sigma_0 = I$. This map is a bijection by inspection, so real four vectors and $2\times 2$ Hermitian matrices are in 1-1 correspondence. If we want to transform $v$ in this representation, the obvious way to do it is conjugation:
+\begin{equation} \label{eq:vtovdag}
+v \to \lambda v \lambda^\dagger
+\end{equation}
+where $\lambda$ is some $2\times 2$. This will make sure we are sending four vectors to four vectors. If we want this $\lambda$ to be implementing a Lorentz transformation, we require $V_\mu V^\mu$ be left invariant, so 
+\[
+(V^1)^2 + (V^2)^2 + (V^3)^2 - (V^0)^2 
+\]
+is constant. But note that this quantity is precisely the negative determinant of $v$:
+\[
+V_\mu V^\mu = - \det v.
+\]
+If we want the transformation (\ref{eq:vtovdag}) to be Lorentz, then this determinant must be constant. This is
+\[
+\det{\lambda v \lambda^{\dagger}} = \det {\lambda} \det{\lambda^\dagger} \det v.
+\]
+This means
+\[
+\det \lambda \; \overline{\det \lambda} = 1,
+\]
+or
+\[
+\abs{\det \lambda} = 1.
+\]
+So let us pick such a $\lambda$ Since this transformation conserves norm, it is given implicitly by some $\Lambda$ acting on $V$:
+\[
+\lambda v \lambda^\dagger = ({\Lambda^\mu}_\nu (\lambda) V^\nu)\sigma_\mu.
+\]
+It may also be verified that $\Lambda(\lambda \eta) = \Lambda(\lambda) \Lambda(\eta)$, so $\Lambda$ really is a representation. It is also apparent that for any two matrices $\lambda,\eta$ which differ by a phase implement the same transformation by looking at (\ref{eq:vtovdag}), so we can without loss of generality assume
+\[
+\det \, \lambda = 1.
+\]
+We have not gotten rid of this phase ambiguity altogether, however: since these are $2\times 2$ matrices, if $\det \lambda = 1$ then $\det (-\lambda) = 1$ also, so we are actually sending two transformations to the same $\Lambda$. So we may identify 
+\[
+SO(1,3) \equiv SL(2,\cm)/\mathbb{Z}_2
+\]
+To see more on this and projective representations, see Weinberg Volume I section 2.7. I'm going to change gears at this point, however.
+
+I think I want to finish this section so I can talk about superselection rules - this seems really important. But it's for later.
+
+Blah blah blah,
+
+It turns out that $SO(1,3)$ admits projective representations, which are
+\[
+\lambda(\Lambda_1) \lambda(\Lambda_2) = -\lambda(\Lambda_1 \Lambda_2).
+\]
+maybe this should go later? who knows.
+\newpage
+
+\section{Representations of the Lorentz group}
+We have discussed the properties of a gauge theory whose local degrees of freedom transform in the fundamental representation of the Lorentz group, i.e. that of four-vector fields. In line with our previous discussion of gauge theories, we prepare to describe fields whose local degrees of freedom transform in some other representation of the Lorentz group. What do these representations look like?
+
+
 \end{document}

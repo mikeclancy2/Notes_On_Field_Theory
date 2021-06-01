@@ -8,6 +8,8 @@ The purpose of this chapter is to introduce the subject of spin. I am only writi
 
 In order to get a good geometric picture of spin, we need to introduce some ideas from general relativity. This will also make doing quantum field theory easier in curved spacetimes\footnote{I think?}, so that is an added bonus. But we won't do that here. 
 
+The way to think about spin is extremely straight forward: It is a local degree of freedom that arises naturally when we consider an $SO(1,3)$ gauge field corresponding to choice of tetrad. When we consider fields which transform in different representations of $SO(1,3)$, especially projective representations called spinor representations, we get spinors.
+
 \section{Tetrads}
 The notion of a tetrad is so natural that it's easy to overlook.
 
@@ -37,6 +39,7 @@ We know that $e_a = \partial_a$ is a valid tetrad, so let's see how many possibl
 \[
 e_a = {\Lambda_a}^\mu \partial_\mu
 \]
+
 In order to satisfy Eq. (\ref{eq:ortho}), we must have
 \[
 \eta ({\Lambda_a}^\mu \partial_\mu, {\Lambda_b}^\nu \partial_\nu) = \eta_{ab}.
@@ -75,21 +78,9 @@ which is how these vector fields would transform under a different choice of tet
 \newpage
 
 \subsection{Spinor Representations of the Lorentz Group}
-As we did with other Gauge fields, we're going to take the Lie algebra-valued $A_\mu$ and stick in other matrices instead which were similar. We start by introducing 4 $4 \times 4$ $\gamma$ matrices, which algebraically satisfy:
-\[
-\{\gamma^a,\gamma^b\} = -2\eta^{ab}.
-\]
-We construct the spinor representation via
-\[
-\Sigma^{\alpha b} = \frac{i}{4} [\gamma^a, \gamma^b].
-\]
-By antisymmetry, there are only $4*(4-1)/2 = 6$ linearly independent $\Sigma^{ab}$. 
+We could extend the discussion of the previous discussion, incorporating $\omega$ as a gauge field. As it will turn out, $\omega$ is determined by the metric $g$, and I state without proof that for the flat metric $\omega$ has to vanish, so we erase it for now. The important idea was the local Lorentz symmetry induced by the arbitrariness of the choice of tetrad. This is the fact we will consider in borrowing other ideas from gauge theory. 
 
-Therefore the field $\psi$ picks up an index $b$, and transforms under infinitesimal Lorentz transformations $\epsilon_{\alpha \beta} M_{\alpha \beta}$ as 
-\[
-\psi_a (x) \to \epsilon_{\alpha \beta} (x) {{\Sigma^{\alpha \beta}}_a}^b \psi_b.
-\]
-Therefore, (to be filled in here, but) under a finite rotation by $2\pi$, $\psi_a \to -\psi_a$.
+What happened in gauge theory is that we considered fields whose degrees of freedom transformed under some representation of the group action.
 \newpage
 \section{Representations of the Lorentz group}
 We have discussed the properties of a gauge theory whose local degrees of freedom transform in the fundamental representation of the Lorentz group, i.e. that of four-vector fields. In line with our previous discussion of gauge theories, we prepare to describe fields whose local degrees of freedom transform in some other representation of the Lorentz group. What do these representations look like?

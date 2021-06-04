@@ -3,7 +3,7 @@
 \begin{document}
 
 \chapter{Gauge Theories}
-In this chapter I introduce gauge theories. I will try my best to convince you that gauge theories arise almost necessarily from some very simple physical considerations about locality. I originally wrote this chapter appealing to gauge theories as an entirely ad hoc construction, and I think it's actually really helpful to leave it that way. I will start by introducing why gauge theories are pretty natural, but it separate from understanding how to do it and construct one.
+In this chapter I introduce gauge theories. I will try my best to convince you that gauge theories arise almost necessarily from some very simple mathematical and physical considerations. I originally wrote this chapter appealing to gauge theories as an entirely ad hoc construction, and I think it's actually really helpful to leave most of it that way, in case you don't like my motivations.
 
 I will assume you know at a bit about what a Lie group is, what its Lie algebra is, but not much - vague intuitions should do. Perhaps I will include a chapter on that at a later date. Also, I have tried to use the standard terminology in all places, and not appeal too heavily to my own idiosyncrasies.
 
@@ -13,9 +13,56 @@ Here is the general idea. We have some fields. A field is a quantity defined \te
 \[
 \phi_i (x) = \phi_i (y)
 \]
-But $x$ and $y$ are different points, what does it even mean for \textit{local} quantities at \textit{different} points to take on the same value? Maybe if it was just one real degree of freedom, and we were thinking of it as describing some kind of intensity, we wouldn't have to worry about ambiguity. But as soon as this quantity has direction (spatiotemporal or otherwise), who's to say that the sense of direction should be the same at each point? We don't even need to go to curved spacetime to encounter this issue (although it is extremely relevant): In $2D$, we often use $\hat{r},\hat{\theta}$ or $\hat{x},\hat{y}$ to describe directional quantities, so there is no canonical comparison law: a uniform field pointing in the $\hat{theta}$ direction is constant with the polar basis, while varying in the rectangular basis. Additionally, how can we define parallel transport if these are not necessarily vector quantities? If we keep an open mind, maybe we should allow \textit{the way we describe these degrees of freedom} to vary at each point (think of it like each point having a different basis, later we will see there is an example where we do exactly this). 
+But $x$ and $y$ are different points, what does it even mean for \textit{local} quantities at \textit{different} points to take on the same value? Maybe if it was just one real degree of freedom, and we were thinking of it as describing some kind of intensity, we wouldn't have to worry about ambiguity. But as soon as this quantity has direction (spatiotemporal or otherwise), who's to say that the sense of direction should be the same at each point? We don't even need to go to curved spacetime to encounter this issue (although it is extremely relevant): In $2D$, we often use $\hat{r},\hat{\theta}$ or $\hat{x},\hat{y}$ to describe directional quantities, so there is no canonical comparison law: a uniform field pointing in the $\hat{theta}$ direction is constant with the polar basis, while varying in the rectangular basis. Additionally, how can we define parallel transport if these are not necessarily vector quantities? If we keep an open mind, maybe we should allow \textit{the way we describe these degrees of freedom} to vary at each point.
 
-If we allow this arbitrariness, we will also have to correct for it when we compare the field across different points (i.e., taking a derivative). That is, if we still want the theory to be Lorentz invariant, and now \textit{gauge} invariant, we are forced to introduce new fields which implement such a correction. This has deep consequences: both the charge and spin properties of particles come from these considerations. I leave the spin portion for a later chapter.
+Quite literally, you should think of a gauge transformation as a different choice of basis at each point for these degrees of freedom. A change of basis matrix is determined by a unitary matrix, so doing a change of basis amounts to applying a unitary to the fields at each point. 
+
+This does, however, spell trouble. In field theory we have to take derivatives. Therefore, we have to specify a \textbf{covariant derivative} which transforms in the opposite way when we change the basis. To see this, let's quantify the heuristic example.
+
+\section{Vector fields in $\re^2$}
+Let's be specific about the fields and arbitrariness that I mentioned. Let's consider a vector field in $\re^2$.\footnote{Technically, here we will have $\re^2\setminus\{0\}$.} We'll fix one for the sake of discussion, but it could be arbitrary. I pick the field $\phi$
+\begin{equation} \label{eq:polar}
+\vec{\phi}(r,\theta) = r^2 \hat{\theta}.
+\end{equation}
+Notice I have chosen a particular orthonormal frame for this field: this is a particular choice for the tangent space at each basis. This field has components 
+\begin{equation} \label{eq:polarcomp}
+\phi_r = 0, \quad \phi_\theta = r^2
+\end{equation}
+This field (include diagram) therefore is a vector field pointing counterclockwise, getting bigger as you go out and vanishing at $0$. But we could just as well written it in rectangular coordinates. In these coordinates, we have
+\begin{equation} \label{eq:xy}
+\vec{\phi}(x,y) = (x^2 + y^2)^{3/2} \left(x \hat{x} + y \hat{y} 
+\right)
+\end{equation}
+The component fields are therefore
+\begin{equation} \label{eq:xycomp}
+\phi_x = (x^2 + y^2)^{3/2} x, \quad \phi_y = (x^2 + y^2)^{3/2} y
+\end{equation}
+Now, compare equations (\ref{eq:polarcomp}) and (\ref{eq:xycomp}). If we try to describe $\phi$ entirely in terms of component functions, we have multiple ways of writing down the same field, which amount to the \textit{same field} when we plug back in the orthonormal frame! 
+
+One thing we might want to do is write down a theory where a field is expressed in terms of its component functions, $\phi_1,\phi_2$. If we allow the associated orthonormal frame to vary, though, we have physically equivalent field configurations represented by different component functions, as we just saw. 
+
+How many different orthonormal frames are there? Well, starting with $\hat{x},\hat{y}$, what we could do is just rotate those vectors at each point, getting some smushy frame:
+
+picture
+
+We find, then, that all of the orthonormal frames are related by
+\[
+e' (x) = R(x) e (x), \quad \text{or} \quad e'_{i'} = R_ij e_j
+\]
+where $R(x) \in SO(2)$. We can write the fields
+\[
+\phi (x) = \phi_{i'} e'_{i'}= \phi_i e_i
+\]
+and therefore
+\[
+\phi_{i'} = R^{-1}_{ij} \phi_j
+\]
+If we want this orthonormal frame to be smooth, we find $R_{ij} (x)$ must be smooth, and further each must be in one component of $O(2)$. Let's pick the component connected to the identity, $SO(2)$. Given a point $x$, we find that the matrix relating the fields (and its inverse on the frame) is
+\[
+S(x) = ..
+\]
+We could imagine more general transformations, not just ones which rotate from rectangular to polar frames. Thus, in general, we should consider 
+Continue this section! Talk about this as a gauge theory.
 
 \section{Local gauge transformations and what goes wrong}
 

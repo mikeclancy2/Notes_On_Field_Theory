@@ -1,4 +1,243 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 \chapter{Renormalization}
+Renormalization is one of the most important things you should learn in a course on quantum field theory. If you don't feel comfortable with beta functions, your understanding of standard model physics is stunted. The ideas which culminated in the renormalization group took several decades to become salient; it was first clearly exposed in Ken Wilson's classic 1974 paper on the $\epsilon$ expansion. I have decided not to name this chapter ``the renormalization group'' because I don't want you to worry so much about what part of it is a group just yet; that will come after working through some examples. But I will say something brief to keep you interested. 
+
+One of the most interesting things about renormalization is universality. In renormalization, we typically rescale the system in some way, according to temperature or energy. This process often takes the form having some bare Hamiltonian $\mathcal{H}_0$ describing all microscopic degrees of freedom, and then systematically increasing the scale with some transformation $\tau$,
+\[
+\tau(\mathcal{H}_0) =: \mathcal{H}_1, \tau(\mathcal{H}_1) = \mathcal{H}_2, \cdots
+\]
+and studying the system after some large number of transformations $\tau$. We could also rescale by a different amount and have some other transformation $\sigma$. The incredible thing is that the physics of $\mathcal{H}_n$ depends more on $\tau$ than it does on $\mathcal{H}_0$, because we screwed it up so much with $\tau$. It's a bit like shuffling cards - if I shuffle 15 times, the order of the cards generically depends much less on the initial ordering than it does on the way I shuffled. This is the phenomenon of universality: Many systems with completely different microscopic physics have similar macroscopic behaviors. The \textit{transformations} $\tau$ and $\sigma$, and $\mathcal{H}$'s invariance of form under them, therefore determine the physics more than anything else. We can compose them as well, but they generically do not have inverses. Generally speaking, renormalization has the structure of a semi-group. But let's come back to the level we're ready to talk about.
+
+Instead of having introducing renormalization with some fancy notation to cover a lot of general examples, I will instead introduce it through the best example: block spin renormalization in the Ising model.
+
+\section{Block Spin Renormalization in the Ising Model}
+Let's refer to this program as BSRIM. We will consider the Ising model in $1$ and $2$ dimensions, because we really want to move onto the field theory case but it is incredibly instructive to understand these examples first. 
+
+I will be retelling the story of Cardy (reference cardy) on this part of the story. His explanations are wonderfully clear and provide lots of physical insight. However, I will shuffle around his version of the story a bit. I prefer to start with examples and build up theory later.
+
+In all this, we will be tracing out ``microscoping'' degrees of freedom by zooming out. Whenever I say microscopic, you should be thinking ``short wavelength'' for the field theory case - it is a direct analogy.
+\subsection{Rescaling the 1D BSRIM}
+We write the spin degrees of freedom as $s = \pm_1$. We will have a site at each integer $i$, so in total configurations range over all possible choices of $s(i)$. The energy of a given configuration $s(r)$ is given by
+\[
+E = - \frac{1}{2} \sum_{i,j} K(i,j) s(i) s(j).
+\]
+where $K(i,j)$ represents the coupling of sites $i$ and $j$, and the $\frac{1}{2}$ represents the fact that we've counted each term twice (also, $K(i,i) = 0$).
+
+If there is additionally a spatially varying external field $B (i) = \pm 1$, we pick up a constant $-B(i) s(i)$. In total then our Hamiltonian is 
+\[
+\mathcal{H}(s) = - \frac{1}{2} \sum_{i,j} K(i,j) s(i) s(j) - \sum B(i) s(i)
+\]
+So, the quantum partition function for this system is 
+\begin{equation} \label{Z}
+Z = \tr_s \, e^{-\beta H(s)}.
+\end{equation}
+We will consider the case $B = 0$, i.e. the free system.
+
+Now, let's consider ``blocking'' this system, i.e. trying to simplify the system by removing the number of degrees of freedom in some way. We will group the spins in threes:
+
+show picture
+
+So instead of the degrees of freedom of my system being the spins $s$, they are now going to be $s'$, the spins of the blocks defined as some averaging procedure of the individual spins that is completely up to us to choose - these are new degrees of freedom defined in terms of the old.
+
+We may arrange our indices so $i' = \{3i,3i+1,3i+2\}$ for the original spins $i$. For example, the $0'$ block contains $0,1,2$. We define the spin in the $i'$ block by 
+\begin{equation} \label{blocked}
+s'(i') = s(3i + 1).
+\end{equation}
+That is, we take the spin of the middle block. Technically we should write $i$ instead of $i'$ but I like having the prime there to remind me it's the $i$th block and not the $ith$ site. 
+
+Now we ask: how do the microscopic degrees of freedom $s$ determine a partition function of $s'$? In other words, how are probabilities distributed among the $s'$? 
+
+There are degrees of freedom from the microscopic system in which we are no longer interested. So the probability of being in the $s'$ configuration is the sum of the probabilities of being in the $s$ configurations corresponding to $s'$; that is, all configurations $s$ such that (\ref{blocked}) holds (i.e., fix the $s'$ spins).
+
+At this point we absorb $\beta$ into $K$ to write less symbols. How many terms contribute to the partition function for a given $s'(i'),s'(i'+1)$? Well, it depends on $K$. For now, let us choose
+\[
+K(i,j) = K \delta_{i+1,j}.
+\]
+That is, couple nearest neighbors with coupling constant $K$. This is a general idea: have some function coupling degrees of freedom at different sites, with strength parameter given by a universal constant. The overall hamiltonian can thus be written
+\[
+\mathcal{H} (s) = - K \sum_i s_i s_{i+1}
+\]
+Back to the partition function. Let's take $s'_{0'}$ and $s'_{1'}$. Since $s'_{0'} = s_1$ and $s'_{1'} = s_4$, the terms coupling these together in the original partition function are
+\begin{equation} \label{coupling}
+e^{K s_1 s_2} e^{K s_2 s_3} e^{K s_3 s_4}.
+\end{equation}
+In doing Ising model computations it is enormously useful to use hyperbolic trig functions. The reason for this is twofold: summing a degree of freedom $e^x$ gives $e^x$ and $e^{-x}$, and in hyperbolic trig functions we can pull out $\pm$. 
+
+For arbitrary $x$, we have
+\[
+e^x = \cosh x + \sinh x.
+\]
+Now, in our case, $x = \pm K$, since the product of the spins is $\pm 1$. $\cosh$ doesn't care about $\pm$, and it can be pulled out of $\sinh$. We may pull an overall $\cosh$ outside, yielding 
+\begin{equation} \label{trick1}
+e^{\pm K} = \cosh K (1 \pm \tanh K).
+\end{equation}
+We will rewrite $t$ for $\tanh K$ for short. In all, then, we can rewrite (\ref{coupling}) as 
+\begin{equation} \label{k3}
+(\cosh K)^3 (1 + s_1 s_2 t) (1 + s_2 s_3 t) (1 + s_3 s_4 t) 
+\end{equation}
+Now, we only care about the probabilities involving $s'_{0'} = s_1$ and $s'_{1'} = s_4$. So to average (finding probabilities for the subsystem $s'$), we should sum over $2,3$. When we do this, we need not consider any term involving odd powers of either $s_2$ or $s_3$ - they range over $\pm$ and in total they will cancel. The only surviving terms of (\ref{k3}) are
+\begin{equation} \label{zowee}
+2^2 (\cosh K)^3 (1 + s'_{0'} s'_{1'} t^3)
+\end{equation}
+where the $2^2$ came from the fact that this was a sum of 2 variables taking on 2 values. Let's try to convert this back to an exponential. If we define
+\begin{equation} \label{rgequation}
+K' = \tanh^{-1} ((\tanh K)^3),
+\end{equation}
+then using (\ref{trick1}) again we get
+\begin{align} \label{wowee}
+e^{K' s'_{0'} s'_{1'}} & = \cosh (K') (1 + s'_{0'} s'_{1'} \tanh K') \\ & = \cosh(K')(1 + s'_{0'} s'_{1'} t^3 )
+\end{align}
+It looks like I messed up. But only by a little! I'm only off by a constant of proportionality. So what I need to do is multiply (\ref{wowee}) by a factor to make it look like (\ref{zowee}). This factor is
+\[
+\frac{4(\cosh K)^3}{\cosh K'}.
+\]
+We could achieve this by taking its log and sticking it in the exponential. That is, (\ref{zowee}) is given by
+\[
+\exp{K's'_{0'} s'_{1'} - \ln \left[
+\frac{(\cosh K)^3}{\cosh K'}
+\right] - 2 \ln 2}
+\]
+Let's say there were $N$ sites originally for some large $N$.  Then we get $N/3$ of these extra terms. We will interpret them in just a second. The partition function (\ref{Z}) having summed over the non $s'$ degrees of freedom, becomes
+\[
+Z' = \tr_{s'} \, e^{-\mathcal{H}'(s])},
+\]
+with the new Hamiltonian 
+\[
+\mathcal{H}'(s') = - K \sum_{i'} s'_{i'} s'_{i+1'} + N g(K),
+\]
+where
+\[
+g(K) = \frac{1}{3} \left(-\ln \left[
+\frac{(\cosh K)^3}{\cosh K'} 
+\right]
+-2 \ln 2
+\right).
+\]
+The blocked out sites are still contributing to the overall partition function, but now only in the average: they represent the energy contribution from short distance degrees of freedom that I have summed out! They no longer contribute as degrees of freedom which may change probabilities or expectation values of observables, but they will play an important role later. Importantly, we have learned the following lesson: 
+
+We can scale up a system by summing out microscopic degrees of freedom. When we do this, we get a Hamiltonian \textit{of the same form} just with different parameters! Wow.
+
+There was one equation that may have flown under your radar in terms of importance because I haven't referenced it explicitly but have been using it over and over. It is the \textit{renormalization group equation}, (\ref{rgequation}). It will be incredibly useful in understanding the standard model and theories beyond. A lot of this was extremely handwavy, but I didn't want to get bogged down in formalism before working through an example. Let's restate the entire extent of what we just did in a more bird's eye view, while recalling some facts about statistical mechanics.
+
+\subsection{Some formalities on rescaling}
+We decided to change (really, reduce) the degrees of freedom in our system $s \to s'$. So we should make a new partition function $Z'$. In the partition function $Z'$, the term $e^{-\mathcal{H}'(s')}$ by definition corresponds to the relative probability that the system is in the state $s'$. In other words,
+\[
+P(s') = \frac{1}{Z'} e^{-\mathcal{H}'(s')}.
+\]
+But the fraction of configurations corresponding to the reduced degrees of freedom is already given in terms of the old degrees of freedom. It is
+\begin{equation} \label{meh}
+P(s') = \frac{1}{Z} \sum_{\text{corr.} s} e^{-\mathcal{H}(s)},
+\end{equation}
+where by ``corr. $s$'' I mean all those configurations $s$ which correspond to the configuration $s'$. The $s'$ degrees of freedom were defined as a function of the $s$ degrees of freedom,
+\[
+s'(i') := F_{i'} (s),
+\]
+where or just
+\[
+s' = F(s)
+\]
+In our previous case, we had
+\[
+F_{i'} (s) = s_{3i +1}.
+\]
+
+For a given $s'$ then, we should sum over the level curve $s = F^{-1} (s')$. We may do this by defining the characteristic function $\chi$, 
+\[
+\chi (s',s) = \left\{
+\begin{array}{ll}
+1 & \mbox{if } s' = F(s) \\
+0 & \mbox{if } s' \neq F(s).
+\end{array}
+\right.
+\]
+Then we may write (\ref{meh}) less abstractly via
+\begin{equation} \label{psver1}
+\boxed{
+P(s') = \frac{1}{Z} \sum_s \chi(s',s) e^{-\mathcal{H}(s)},}
+\end{equation}
+or in terms of the trace via
+\begin{equation} \label{psver2}
+P(s') = \frac{1}{Z} \tr_s \chi(s',s) e^{-\mathcal{H}(s)}
+\end{equation}
+We may also think of a component-wise/block-wise version of this, if we define
+\[
+\chi_{i'} (s',s) = \left\{
+\begin{array}{ll} 
+1 & \mbox{if } s' (i') = F_{i'} (s) \\
+0 & \mbox{if } s' (i') \neq F_{i'} (s)
+\end{array}\right. ,
+\]
+Then
+\[
+\chi(s',s) = \prod_{i'} \chi_{i'} (s',s).
+\]
+so (\ref{psver1}) becomes
+\begin{equation} \label{psver3}
+\boxed{P(s') = \frac{1}{Z'} \sum_s e^{-\mathcal{H}(s)}\prod_{i'} \chi_{i'} (s',s) .}
+\end{equation}
+This is just an equation I want to have lying around, because we usually work with components. For example, in the case we worked out, we had
+\[
+\chi_{i'} (s',s) = \delta_{i' (3i + 1)}
+\]
+where again, perhaps this notation is confusing, but $i'$ really is $i$ with a little $'$ to remind you it's a block.
+
+Going back to the from (\ref{psver1}), since probability of any configuration should be $1$, we find
+\begin{align} \label{whatever}
+1 = \sum_{s'} P(s') & = \frac{1}{Z'} \sum_{s'} \sum_s\chi(s',s) e^{-\mathcal{H}(s)} \\
+& = 
+\frac{1}{Z'} \sum_s e^{-\mathcal{H}(s)} \sum_{s'} \chi(s',s)
+\end{align}
+Switching sums here was crucial. If the $\sum_{s'}$ is on the far left, there are many $s$ which correspond to $s'$. With $\sum_s$ on the left, there is only one $s'$ corresponding to it. So
+\[
+\sum_{s'} \chi(s',s) = 1.
+\]
+So (\ref{whatever}) becomes
+\[
+1 = \frac{1}{Z'} \sum_s e^{-\mathcal{H}(s)} = \frac{Z}{Z'}
+\]
+That is, the original and reduced partition functions are the same! So, with this, we define the new Hamiltonian $\mathcal{H}'(s')$ implicitly via
+\begin{equation} \label{reducedH}
+\boxed{e^{-\mathcal{H}'(s')} = 
+\sum_s \chi(s',s) e^{-\mathcal{H}(s)}}
+\end{equation}
+
+In fact, there is a much stronger and much more profound result than just $Z = Z'$; it is a big reason why we are doing all of this in the first place.
+
+Suppose we have some observable which depends on the degrees of freedom, $f'(s')$. This may alternatively be thought of a function of $s$, $f(s) := f'(s') = f'(F(s))$.  Then if we calculate its expectation value with respect to the reduced degrees of freedom,
+\begin{align} \label{expval}
+\langle f'(s') \rangle'& = \frac{1}{Z} \sum_{s'} f'(s') e^{-\mathcal{H}'(s')} \\& = \frac{1}{Z} \sum_{s'} f'(s') \sum_s \chi(s,s') e^{-\mathcal{H}(s)}  \\ &=
+\frac{1}{Z} \sum_{s} \sum_{s'} f'(s') \chi(s,s') e^{-\mathcal{H}(s)}\\ & = \frac{1}{Z} \sum_s f'(s') e^{-\mathcal{H}(s)} \\ & = \frac{1}{Z} \sum_s f(s) e^{-\mathcal{H}(s)} \\ & = \langle f(s) \rangle,
+\end{align}
+where you should make sure you understand the transition from the second to third line (note the orders of the sums). 
+
+This is very cool but also obvious. If there is some observable which depends only on long wavelength degrees of freedom, you can compute its expectation value using only the long wavelength degrees of freedom. If we continue rescaling the system, we the same is true for $s'',s'''$, and so on.
+
+So far, however, we have only reviewed the setup to the previous problem. The most important thing we did was realize that 
+\[
+H' (s') \equiv H(s)
+\]
+up to a choice of parameters, and ignoring the overall extra energy from the short wavelength degrees of freedom. This $\equiv$ is to be read as ``is equivalent to'' in that it takes precisely the same form as $H$. Let's explore this now.
+
+\subsection{Rescaling and Temperature}
+In the work we did, we found that $\mathcal{H}'(s')$ took the same form as $H$ if we updated the parameter via the renormalization group equation
+\[
+K' = \tanh^{-1} (\tanh^3 K).
+\]
+It is easier to analyze this parameter if we encode it instead as $x = \tanh K$. Then our theory has the parameter $x$ but enters in as a $\tanh^{-1} x$ - so either can be read as the parameter of the theory. In this case we may simply write
+\[
+x' = x^3.
+\]
+So what happens as we continue to rescale this system? Well, this is an iterated equation, the discrete version of an integral equation. There are two fixed points of this equation: $x = 0$ and $x = \infty$. $0$ is unstable and $\infty$ is unstable. The parameter ``flows'' from $\epsilon$ to $\infty$ on rescaling.
+
+This is cool and all, but why rescale in the first place? Is it even a physically sensible theory? Well we've had hints of what physically happens when we rescale (short wavelength degrees of freedom don't contribute), but there's a little thing I swept under the rug that you may have thought was problematic: I absorbed $\beta = 1/T$ into $K$. We are doing statistical mechanics, of course I can't just ignore temperature! So $K$ has a factor of $1/T$ in it. 
+
+Since the Hamiltonian $\mathcal{H}'$ looks exactly like $\mathcal{H}$, we may think of each of these Hamiltonians as two different realizations of the same Hamiltonian; that is
+\begin{align*}
+\mathcal{H}'(s') = {\mathcal{H}}(s',\beta K') \\
+\mathcal{H} (s) = {\mathcal{H}}(s,\beta K).
+\end{align*}
+I unfortunately have used the same symbol for the generalized Hamiltonian but it should not cause ambiguity. I have also pulled the $\beta$ out. Since $\mathcal{H}$ depends only on $\beta K$, we can achieve the same \textbf{exact} effect as rescaling as we could by increasing the temperature! So systems at high temperature are described by Hamiltonians with long wavelength degrees of freedom. This is an intuitive idea, but now we have a very concrete quantitative sense in which to express that intuition.
+
+
 \end{document}

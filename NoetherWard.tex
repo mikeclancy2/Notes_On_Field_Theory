@@ -1,0 +1,172 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\chapter{Noether Currents and Ward-Takahashi Identities}
+Symmetry is all over the place in field theory. We have encountered the physics spinors and gauge fields as consequences of a generalized sense of local frame invariance; the latter may be thought of as a symmetry of the Lagrangian under action by a principal G-bundle. Crucially, there is no active interpretation of gauge transformations (at least in the sense that they have no observable physical consequences); the situation is different with Lorentz transformations and various other ``symmetries'' of a theory. In order to derive some very useful and far-reaching results, it will be important to start in the classical case.
+
+We start with the scalar case.
+\section{Noether's theorem and currents}
+This section is a review of Srednicki (refneeded) chapter 22.  Every use of a partial is in fact a functional derivative, so while the notation is perhaps a little self-inconsistent it's consistent with the literature. As a rule: if it's got a variation with respect to $\phi_a (x)$, it's gotta be a functional derivative no matter what the notation.
+
+Consider the classical situation. Let's begin with a set of scalar fields $\phi_a(x)$ and some Lagrangian which depends on $\phi$ and its derivatives. Consider an infinitesimal transformation
+\begin{equation} \label{varphi}
+\phi_a (x) \to \phi_a(x) + \delta \phi_a (x),
+\end{equation}
+for some infinitesimal $\delta \phi_a(x)$. You should see some functional derivatives coming.
+
+Under the transformation \ref{varphi}, the Lagrangian goes to 
+\[
+\mathcal{L}(x) \to \mathcal{L}(x) + \delta \mathcal{L}(x),
+\]
+where the variation $\delta \mathcal{L}$ is given by the chain rule:
+\begin{equation} \label{varL}
+\delta \mathcal{L} (x) = \frac{\delta \mathcal{L}}{\delta \phi_a (x)} \delta \phi_a (x) + \frac{\delta \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x).
+\end{equation}
+The classical equations of motion are satisfied via the action principle
+\[
+\frac{\delta S}{\delta \phi_a (x)} = 0,
+\]
+where $S = \int d^d y S(y)$. Let's rederive the classical equations of motion. We can pass the functional derivative through the integral, so the variation in the action is given by
+\begin{equation} \label{insertL}
+\frac{\delta S}{\delta \phi_a (x)} = \int d^4 y  \frac{\delta \mathcal{L} (y)}{\delta \phi_a (x)}.
+\end{equation}
+Making the substitution \ref{varL} in \ref{insertL} it becomes
+\[
+\frac{\delta S}{\delta \phi_a (x)} = \int d^4 y \left[
+\frac{\delta \mathcal{L} (y)}{\delta \phi_b(y)} \delta_{ba} \delta^d (y-x) + \frac{\delta \mathcal{L}(y)}{\delta (\partial_\mu \phi_b (y)} \delta_{ba} \partial_\mu \delta^d (x - y).
+\right]
+\]
+We can move the derivative off the $\delta$ function if we pick up a $-$ sign. So we have a considerable simplification without the introduction of any symmetry or physical considerations: 
+\begin{equation} \label{derivS}
+\frac{\delta S}{\delta \phi_a (x)} = \frac{\delta \mathcal{L} (y)}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))}.
+\end{equation}
+Therefore, we have derived the Euler-Lagrange equations for a scalar field theory:
+\begin{equation} \label{elequation}
+\frac{\delta\mathcal{L} (y)}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))} = 0.
+\end{equation}
+Now, let's go back to \ref{derivS}. We can use it to rewrite
+\begin{equation} \label{redo}
+\frac{\delta \mathcal{L}(x)}{\delta\phi_a (x)} = \partial_\mu \frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))} + \frac{\delta S}{\delta \phi_a (x)}.
+\end{equation}
+We can make the replacement \ref{redo} in the original variation \ref{varL} to obtain
+\begin{equation} \label{whats}
+\delta \mathcal{L} (x) = \partial_\mu \left(
+\frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))} \delta \phi_a (x)
+\right) + \frac{\delta S}{\delta \phi_a (x)} \delta \phi_a (x).
+\end{equation}
+We make rename the quantity in parentheses of \ref{whats} as a current;
+\begin{equation} \label{noethercurrent}
+j^\mu (x) := \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))} \delta \phi_a (x).
+\end{equation}
+This is the \textit{Noether current}. It isn't physically meaningful yet; everything so far has been looking at variations of quantities due to variations in the underlying field. But there's something very interesting about $j^\mu$. Its divergence is given by a rearrangement of \ref{whats}:
+\begin{equation} \label{divj}
+\partial_\mu j^\mu (x) = \delta \mathcal{L} (x) - \frac{\delta S}{\delta\phi_a (x)} \delta \phi_a (x).
+\end{equation}
+These are two very familiar terms that independently vanish in a wide range of applicable circumstances:
+\begin{enumerate} [(1)]
+\item If $\phi_a (x)$ satisfies the classical equations of motion, then the second term of \ref{divj} vanishes. 
+
+\item If $\delta \phi_a (x)$ is a \textit{continuous symmetry of the Lagrangian}, where by that I mean $\delta \mathcal{L}=0$ in \ref{varL} under \ref{varphi}, then the first term of \ref{divj} vanishes.
+\end{enumerate}
+Under these two conditions, then, $\partial_\mu j^\mu = 0$, and we say $j^\mu$ is \textit{conserved}. We then have the easy to prove and immensely useful theorem of classical fields:
+
+\begin{thm} \label{thm:noether} \textbf{Noether's theorem.}
+Every continuous symmetry of the Lagrangian corresponds to a conserved current, and that current is conserved provided $\phi_a (x)$ satisfies the classical equations of motion.
+\end{thm}
+
+If we express the vanishing divergence of the current by separating space and time, we obtain \textit{local conservation of charge}:
+\begin{equation} \label{conschargelocal}
+\frac{\partial}{\partial t} j^0 (x) = \nabla \cdot \vec{j} (x).
+\end{equation}
+Where I have set $d = 4$, and defined $j^0 (x)$ as the local charge. The intuitive picture is that if local charge $j^0 (x)$ is leaving a point in space at some time, it has to be... leaving that point, in that $\vec{j}$ is satisfies \ref{conschargelocal}. 
+
+Since $\nabla \cdot \vec{j}$ is a total derivative, assuming suitable boundary conditions and integrating over all space, we obtain the \textit{global conservation of charge}
+\[
+\frac{d Q }{dt} = 0,
+\]
+where we have defined
+\[
+Q := \int d^3 x j^0 (x).
+\]
+
+Before proceeding any further let us consider some examples.
+
+\subsection{Symmetry Violation}
+A symmetry violation appears as a diverence of the Noether current \ref{noethercurrent}. That is, stare at \ref{divj}. Assume $\phi$ obeys the classical equations of motion. Then the divergence of $j^\mu$ is given, for a general variation $\delta \phi_a (x)$,
+\begin{equation} \label{varj}
+j^\mu (x) = \delta \mathcal{L} (x).
+\end{equation}
+We already know the variation in $\mathcal{L}$, it is given by \ref{varL}. So if we have some $\mathcal{L}_{sym}$ for which $\phi \to \phi + \delta \phi$ is a symmetry, and we add an extra symmetry violating term $\mathcal{L}_{viol}$:
+\[
+\mathcal{L} = \mathcal{L}_{sym} + \mathcal{L}_{viol},
+\]
+then the divergence of the current is given by 
+\[
+\partial_\mu j^\mu (x) = \delta \mathcal{L}_{viol} (x).
+\]
+d
+\section{Ward-Takahashi identities}
+The question becomes, how much of this powerful machinery survives in the quantum mechanical case, and what modifications do we need to make to get that.
+
+You should think of Ward-Takahashi (W-T) identities as like Ehrenfest's theorem for Noether currents. Recall that the qualitative content of Ehrenfest's theorem is that classical equations of motion hold when you insert expectation values;
+\[
+m\frac{d}{dt} \langle x \rangle = \langle x \rangle
+\]
+and
+\[
+\frac{d}{dt} \langle p \rangle = - \langle V'(x) \rangle
+\]
+As with anything in physics and mathematics, there are generalized versions and simplified versions of a given construction, with multiple equivalent forms. For now, we will focus on the W-T identity that looks most like the divergenceless current \ref{divj}. After we will consider other, much more important forms, and then talk about their applications. 
+
+We work again with scalar fields $\phi_a (x)$. We are going to start with a much stronger analogue of Theorem \ref{thm:noether}, and later come to a more familiar version; perhaps I should fix this later.
+
+\begin{thm} \label{thm:WT1}\textbf{W-T identity pt. 1}
+Let $j^\mu$ denote the Noether current \ref{noethercurrent} associated to the transformation $\delta \phi_a (x)$. If $\delta \phi_a (x)$ is a continuous symmetry of both (i) the Lagrangian and (ii) the path integral measure $D\phi$, then:
+\begin{equation} \label{eq:WT1}
+\partial_\mu \bra{0} T j^\mu (x) \phi_{a_1} (x_1) \cdots \phi_{a_n} (x_n) \ket{0} + i \sum_{j=1}^n \bra{0} T \phi_{a_1} (x_1) \cdots \delta \phi_{a_j} (x) \delta^4 (x-x_j) \cdots \phi_{a_n} (x_n) \ket{0} = 0.
+\end{equation}
+\end{thm}
+That is to say, up to the \textit{contact terms} in \ref{eq:WT1}, Noether's theorem holds for the current inside of a correlation function. The word \textit{contact} here means we only pick up contributions from $x = x_j$ for some $j$.
+
+Now that we have somewhat of an ansatz for the quantum analogue of Noether's theorem, let's go about proving \ref{WT1}.
+
+\begin{proof}
+The proof goes just about as you'd expect. Let's vary $\phi_a (x)$, and have $\delta \phi_a (x)$ be a continuous symmetry of the Lagrangian, $\delta \mathcal{L} = 0$. We're doing quantum field theory, so let's recall the partition function
+\[
+Z(J) = \int \prod_{x,c} d \phi_c (x) \exp{i[S + J_b(x) \phi_b(x)}
+\]
+Under $\phi_a \to \phi_a + \delta \phi_a$, we have
+\[
+d \phi_a (x) \to d\phi_a (x) + d \delta \phi_a (x).
+\]
+Let us write $D'\phi$ for this replacement. If $D'\phi = D\phi$, then each $\phi_a (x)$ is only shifted by a constant. So
+\begin{equation} \label{varZ0}
+\delta Z (J) = 0.
+\end{equation} 
+The fact that this vanishes is what's going to give us \ref{eq:WT1}. If we expand $\delta Z(J)$, we have
+\[
+\delta Z(J) = i \int D \phi e^{i [S + d^4 y J_b (y) \phi_b (y)]} \int d^4 x \left(
+\frac{\delta S}{\delta \phi_a (x)} + J_a (x)
+\right) \delta \phi_a (x)
+\]
+Therefore, differentiation with respect to $J_{a_i} (x_i)$, $i=1,...,n$ yields
+\begin{equation} \label{varZ}
+\frac{\partial}{\partial J} \delta Z(J) = \int D \phi e^{iS} \int d^4 x \left[
+i \frac{\delta S}{\delta \phi_a (x)} \phi_{a_1} (x_1) \cdots \phi_{a_n} (x_n) + \sum_{j=1}^n \phi_{a_1} (x_1) \cdots \delta_{aa_j} \delta (x-x_j) \cdots \phi_{a_n} (x_n)
+\right] \delta \phi_a (x).
+\end{equation}
+Now, we will take a quick detour through Schwinger-Dyson park on our trip to \ref{eq:WT1}. We assumed the measure was left invariant, so from \ref{varZ0} we have \ref{varZ} vanishes. I argue that in order for \ref{varZ} to vanish for all possible $\delta \phi_a (x)$, the insertion of the $d^4 x$ integrand  (without the $\delta \phi_a (x)$) itself in the path integral must also vanish.\footnote{I don't buy this argument fully. How do we know there are enough variations which preserve the measure? We will see soon that certain variations we are interested in making don't preserve the measure. This is a problem left for later, or for the reader if I don't get around to it.} That is,
+\begin{align} \label{sdequation}
+0 = & i \bra{0} T \frac{\delta S}{\delta \phi_a (x)} \phi_{a_1} (x_1) \cdots \phi_{a_n} (x_n) \ket{0} + \\ & \sum_{j=1}^n \bra{0} T \phi_{a_1} (x_1) \cdots \delta_{a a_j} \delta (x - x_j) \cdots \phi_{a_n} (x_n) \ket{0}
+\end{align}
+
+Now, in the middle of trying to prove our little identity \ref{eq:WT1} we have stumbled on the \textit{Schwinger-Dyson} equations of the theory.
+
+Let's return back to \ref{varZ}. If we make a variation $\delta \phi_a (x)$ which leaves $D \phi$ invariant and also leaves $\delta \mathcal{L} = 0$ - that is, if we assume the conditions of the theorem \ref{thm:WT1} - let's see what happens to \ref{varZ}. If we use again the fact that $\delta \phi_a (x)$ is arbitrary, we can drop just the integrand and not $\delta \phi_a (x)$. We may also write the $S$ term of the integrand of \ref{varZ} in its familiar form \ref{divj}, and obtain \ref{eq:WT1}.
+\end{proof}
+
+In fact, I have shown a much stronger version of the quantum Noether's theorem; we can reproduce a much closer quantum analogue Theorem \ref{thm:noether}, which we do now. (maybe this should be swapped - see tong's notes.)
+
+\subsection{QED W-T identities/external photon line version}
+
+Going to have to skip
+\end{document}

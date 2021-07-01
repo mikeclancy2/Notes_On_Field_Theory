@@ -1,0 +1,45 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\chapter{Regularization}
+In order to actually calculate anything in QFT, we need to regularize the theory - to get rid of the infinities. The term referring to all of the systematic schemes for removing these infinities is \textbf{regularization}. In this chapter we will explore several regularization schemes. I am essentially copying Sidney Coleman's notes here, adding some of my own stuff.
+
+One of the common threads in regularization schemes is the introduction of a parameter $\Lambda$, typically some energy scale. When high energies are the problem, we want to cut out high energies, so we ``stop'' at $\Lambda$ in some way. The dumbest way to do this is:
+
+\section{Brute force method}
+In this, any time we see a momentum integral $\int_{0 \to \infty}$, we just replace $\infty$ with $\Lambda$. If the experiment we are doing doesn't involve high energy degrees of freedom, this will give approximately the right answer. However, we pay the price of losing gauge and Lorentz invariance when we do this. We'll come back to this later when we do renormalization.
+
+\section{Pauli-Villars regularization}
+What's another way to do regularization? Well, let's think about where some common divergences come from. The propagator is one: for a scalar field in $d$ dimensions, the free propagator is 
+\[
+\Delta(x-y) = \int \frac{d^d k}{(2\pi)^d} \frac{e^{ik(x-y)}}{k^2 - m^2 + i\epsilon}
+\]
+For a Dirac fermion, the propagator is 
+\[
+S(x-y)_{\alpha \beta} = \int \frac{d^d k}{(2\pi)^d} e^{ik(x-y)} \frac{(-\slashed{k} + m )_{\alpha \beta}}{k^2 - m^2 + i \epsilon}
+\]
+where these are defined by the free theory two-point functions,
+\[
+\Delta(x-y) \equiv  \bra{0} T \Psi(x) \overline{\Psi} (y) \ket{0}
+\]
+and
+\[
+S(x-y)_{\alpha \beta} \equiv \bra{0} T \Psi_\alpha (x) \overline{\Psi}_\beta (y) \ket{0}
+\]
+The momentum space propagators are thus, 
+\[
+\tilde{\Delta}(k) = \frac{i}{k^2 - m^2 + i\epsilon}
+\]
+and, with some simplification
+\[
+\tilde{S} (k) = \frac{i}{\slashed{k} - m + i\epsilon}
+\]
+Something interesting to note is that the physics of these propagators should be dominated by the momentum modes $k$ near $m$. So we can not change the physics much near $m$, very loosely speaking, if we add a term with mass $\Lambda \equiv M$. I'll mostly work with the fermionic case here, I leave the scalar case as an exercise.
+\[
+\frac{1}{\slashed{k}-m} \to \frac{1}{\slashed{k} - m} - \frac{1}{\slashed{k} - M}
+\] 
+Now, near $m$, thing's don't change much, and near $\infty$, instead of having $1/k$ we have $1/k - 1/k$. Multiplying both sides of the above in the obvious way we find
+\[
+\frac{1}{\slashed{k} - m} - \frac{1}{\slashed{k} -M} = \frac{m - M}{(\slashed{k} - m)(\slashed{k} - M)} \propto \frac{1}{k^2} \quad \text{as} \quad k \to \infty
+\]
+Therefore by adding a term with mass $M$, we can integrate over all space and get an answer that depends on $M$. Later we will take the limit $M \to \infty$.
+\end{document}

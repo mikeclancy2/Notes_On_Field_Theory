@@ -1,0 +1,40 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\chapter{Spontaneous Symmetry Breaking, Goldstone Bosons, and the Higgs mechanism}
+In this chapter, I hope to introduce spontaneous symmetry breaking, their relation to goldstone bosons, how these are related to the Higgs mechanism, and how to implement the Higgs mechanism in a standard model lagrangian.
+
+\section{Spontaneous Symmetry Breaking}
+Spontaneous symmetry breaking (SSB) is a very powerful and intuitive idea. Before trying to introduce how it comes up in the standard model, I will define it roughly in physical terms.
+
+\begin{defn} \label{ssb1}
+A \textbf{spontaneously broken symmetry} is a symmetry of a quantum field theory that is not physically manifest at some scale.
+\end{defn}
+This definition isn't mathematically precise. We can't prove theorems with it. But it is the common idea you should keep in your head as we explore some examples.
+
+\subsection{The tiny man and the magnets}
+This is due to Coleman (notes, aspects of symmetry (refneeded).
+
+Consider a physical experiment consisting of a bunch of magnets $M$ at positions $a\vec{n}$, assume $a=1$ for simplicity. The Hamiltonian is
+\[
+H = \sum_{\vec{n},\vec{m}} J(\abs{\vec{n} - \vec{m}}) M(\vec{n}) \cdot M(\vec{m}).
+\]
+This Hamiltonian has a global $O(3)$ symmetry; rotate all the magnets by some $R$ any by definition the dot product won't change.
+
+It doesn't matter much for me to build up the statistical mechanics of this theory - intuition will do. At some low temperature $T$ below the critical temperature, the magnets will all tend to align in a single direction. Let's call this direction $\hat{r}$. If we imagine a man who lives in a world populated by these unidirectional background magnets, all of his compasses in the $\hat{r}$ direction. If he throws electrons in some direction, they are deflected. So at the temperatures where this man typically does experiments, he will not \textbf{observe} the global $O(3)$ symmetry - it is broken by the state of the system he is in! The symmetry is \textit{hiding} from him by virtue of the scale at which he does his physics. If one were to consider all possible states and all possible scales, the symmetry still exists, but when we do physics we have to work \textit{in some state} which may not respect that symmetry.
+
+This suggest a useful criterion and perhaps more specific definition to make for spontaneous symmetry breaking:
+\begin{defn} \label{ssb2}
+A symmetry is \textbf{spontaneously broken} if it is a symmetry of the Hamiltonian/Lagrangian, but whose ground states do not respect that symmetry.
+\end{defn}
+The ground state of the magnet system is all magnets point in the $\hat{r}$ direction; it has an $S^2$-fold degeneracy (one for each $\hat{r}$ on the sphere). It's interesting to note, then, that the symmetry of the theory is still in the woodworks: while the ground state does not respect the symmetry, the number of ground states is in fact specified by the orbit space of $O(3)$ on $R^3$.
+
+Let's inspect an example of this in field theory - first let's go classical. 
+
+\section{SSB and Goldstone bosons}
+
+Consider the Lagrangian 
+
+\section{Giving particles mass}
+Let's assume that we know, by hook or by crook, 
+
+\end{document}

@@ -1,0 +1,47 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\chapter{Representation Theory}
+Representation theory has applications far and wide within particle theory. For phenomenology, it is important to understand what is meant in general when one specifies a ``singlet'' or ``doublet'' or generally a ``multiplet''. As well, particles are characterized by which representation they transform under for each group, be it the spin group, gauge group and so on.
+
+Note: Learn rep proper from Hall. Try to connect with Georgi. Lucidity from Hamilton (although lacking on certain parts).
+
+\section{Overview of Representation Theory}
+Let $G$ be a Lie group, $\mathfrak{g}$ will be its Lie algebra.
+
+A \textbf{real/complex representation} of $G$ is a group homomorphism $\pi: G \to GL(n,\re/\cm)$, the invertible real/complex matrices.
+
+Here's a stupid example that we actually care about quite a bit: Let $G$ be an arbitrary group. Define the \textbf{trivial} representation of $G$ to be the unique map $\pi: G \to \{e\}$, the group of one element. This is trivially a group homomorphism. If we have some field $\phi$ and the group action by $G$ is trivial, we say $\phi$ is a singlet of $G$. This will become more precise later.
+
+We make the same definitions for Lie algebras; instead of being a group homomorphism we require them to be Lie algebra homomorphisms, and instead of just $GL(n)$ we consider all of $\mathfrak{gl} (n)$, that is all linear maps. 
+
+Even when considering real Lie groups and algebras, we will consider both their real and complex representations.
+
+There are some obvious characterizations one can make of representations. A representation is \textbf{faithful} if it is one-to-one. Let's explore some more interesting characterizations of representations. 
+
+Let $V$ be $\re^n$ or $\cm^n$. A subspace $W \subseteq V$ is called \textbf{invariant} under $\pi$ if $\pi(g) w \in W$ for all $w \in W$, and $g \in G$. $W$ is called nontrivial if it is not just $0$ or $V$. A representation with no nontrivial invariant subspaces is called \textbf{irreducible}. (refneeded this if from Hall).
+
+The same terms are defined analagously for Lie algebra representations. Perhaps I will fill these in later.
+
+Let $\Pi_1$ and $\Pi_2$ be representations of $G$, acting on spaces $V_1$ and $V_2$. A map $S:V_1 \to V_2$ is called an \textbf{intertwining map} if 
+\[
+S \Pi_1(g) v = \Pi_2(g) S v
+\]
+for all $v \in V_1$ and $g \in G$. Analagous quantities are defined for Lie algebra representations.
+
+If $S$ is invertible, then it is called an intertwining map of representations. If $V_1$ and $W_2$ are isomorphic then the representations $\Pi_1$ and $\Pi_2$ are said to be equivalent.
+
+Now, we turn to an important result in representation theory: Schur's lemma. It actually has relatively little to do with group structure, but it is important in studying group representations. There are other parts to Schur's lemma that concern intertwining maps, so let's call this the $\lambda I$ part of Schur's lemma.
+
+\begin{lemma} \label{schurli} \textbf{The $\lambda I$ part of Schur's lemma}. 
+Let $\Pi$ be an irreducible complex representation of $G$ on a vector space $V$. If $S$ intertwines $\Pi$ with itself, then $S$ is a scalar multiple of the identity.
+
+\begin{proof}
+Since $\cm$ is algebraically closed, $S$ has an eigenvector $u$ with eigenvalue $\lambda$. Since $\Pi$ is irreducible, for every $v,w \in V$, there is a $g \in G$ such that $w = \Pi(g) v$\footnote{Check this as an exercise.} Therefore, in particular for $v = u$, we have for each $w$ that there is a $g_w$ such that $\Pi(g_w)u = w$. So let's see how $S$ acts on $w$. 
+\[
+Sw = S \Pi(g_w) u = \Pi(g_w) S u = \Pi(g_w) \lambda u = \lambda \Pi(g_w) u = \lambda w.
+\]
+So $S = \lambda I$, since $w$ was arbitrary.
+\end{proof}
+\end{lemma}
+
+\end{document}

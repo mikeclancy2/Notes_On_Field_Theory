@@ -1,0 +1,159 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\chapter{Anomalies}
+An anomaly is a quantum mechanical violation of Noether's theorem. Heuristically, if we start with a current  $j^\mu$ satisfying
+\[
+\partial_\mu j^\mu = 0
+\]
+classically, an anomaly is a term that shows up in the quantum theory,
+\[
+\partial_\mu j^\mu = A \neq 0.
+\]
+To this end, let us consider the axial transformation, which has infinitesimal form
+\[
+\delta \Psi = i \gamma_5 \Psi.
+\]
+We define the axial current $j^\mu_A$
+\[
+j^\mu_A = - \frac{\delta \mathcal{L}}{\delta (\partial_\mu \Psi} \delta \Psi.
+\]
+Then classically 
+\[
+\partial_\mu j^\mu_A = 0.
+\]
+Quantum mechanically, we will find the story is not so simple. 
+
+We saw that the the W-T identities required the measure to be invariant under the transformation $\phi_a \to \phi_a + \delta \phi_a$. We will find that this is violated by the axial transformation. So we have to choose a path integral measure that is also symmetric under axial transformations.
+
+\section{The Chiral Anomaly}
+This is historically the first anomaly that appeared in calculations (and in experiments). (refneeded) find some sources.
+
+Consider the typical measure
+\begin{equation} \label{pimeas}
+D\psi D \overline{\psi}.
+\end{equation}
+Under the transformation
+\[
+\psi \to \psi' = \psi + i \epsilon \gamma^5 \psi,
+\]
+and the same for $\overline{\psi}$, we will pick up a Jacobian.
+
+To do this, it's actually easier to rewrite the measure less abstractly and more concretely. Instead of integrating over field configurations, we will expand field configurations in a basis and integrate over the values of those coefficients. 
+
+So consider the operator $\slashed{D}$ for the spinor. This operator has eigenstates, which satisfy
+\[
+i \slashed{D} \phi_n = \lambda_n \phi_n.
+\]
+These are complex numbers - the grassmann variables appear in the coefficients. An arbitrary spinor may be expanded
+\[
+\psi (x) = \sum_n a_n \phi_n (x),
+\]
+for anticommuting $a_n$. We expand $\overline{\psi}$ in the same way:
+\[
+\overline{\psi} (x) = \sum_n \overline{b}_n \overline{\phi}_n (x).
+\]
+These eigenspinors can be chosen to be orthogonal by diagonalizing any degenerate subspaces,
+\[
+\int d^d x \overline{\phi}_n \phi_m = \delta_{nm}
+\]
+Let's consider a massless action
+\[
+S = \int d^d x i \overline{\psi} \slashed{D} \psi.
+\]
+In the basis expansion we chose this becomes
+\[
+S = \sum_n \lambda_n \overline{b}_n a_n.
+\]
+Therefore, the path integral measure (\ref{pimeas}) becomes
+\[
+\int D \psi D \overline{\psi} = \prod_n \int d\overline{b}_n da_n.
+\]
+The Euclidean path integral then becomes
+\[
+\int D \overline{\psi} D \psi = \prod_n \int d\overline{b}_n da_n e^{-sum_m \lambda_m \overline{b}_m a_m}.
+\]
+But Grassmann integration is easy, we know that this just becomes
+\[
+\prod_n \delta_{mn} \delta{mn} \lambda_m \overline{b}_m a_m = \prod_n \lambda_n = \det i \slashed{D}.
+\]
+The $-$ sign in the exponential went away because we had to pass the $\overline{b}$ through the $a$, really this path integral can be equivalently thought of as a bunch of derivatives since derivatives and integrals are the same thing with Grassmann variables.
+
+Now, let's perform an infinitesimal position dependent chiral rotation on everything.
+\[
+\delta \psi (x) = i \epsilon (x) \gamma^5 \psi (x).
+\]
+This can be expanded using the eigenfunctions as usual:
+\[
+\delta \psi (x) = i \epsilon(x) \sum_m a_m \gamma^5 \phi_m.
+\]
+If we also try to write $\delta \phi$ by itself, we would have parameters $\delta a_n$:
+\[
+\delta \phi (x) = \sum_n \delta a_n \phi_n
+\]
+Exploiting orthogonality relations we find therefore that 
+\[
+\delta a_n = \left( 
+i \int d^4 x \epsilon (x) \overline{\phi}_n \gamma^5 \phi_m
+\right) a_m
+\]
+Let's write $X_{nm}$ for that big boy in parentheses.
+
+We therefore have, in total,
+\[
+\psi' = \sum_n a_n' \phi_n = \sum_n \left( a_n + \delta a_n \right)\phi_n = \sum_n \left( a_n + X_{nm} a_m \right) = \sum_n \left( \delta_{mn} + X_{nm} \right) a_n \phi_n
+\]
+Expanding all math in the $\phi_n$ basis we observe that we may write
+\[
+\psi' = (1 + X) \psi.
+\]
+Under a transformation $\psi \to \psi'$, we must insert an inverse determinant, this should be reasonable from experience with fermionic integrals, and I should do this later, but the important part is that we obtain
+\[
+\prod_n \int d\overline{b}_n da_n = \prod_n  \int d\overline{b}'_n da'_n \frac{1}{(\det (1 + X))^2}.
+\]
+I'm just following Tong here, but it's interesting to note at this point that the fact that $\psi$ and $\overline{\psi}$ transform with the same sign in front of the $i$ for axial transformations means that we get this squared determinant, normally the fact that they are conjugates of one another would make these cancel each other out.
+
+Using
+\[
+\frac{1}{\det A} = e^{-\tr \ln A}, 
+\]
+since $A = 1+X$ we have $\ln (1 + X) = X$, we have
+\[
+\frac{1}{\deta A} = e^{-\tr X}.
+\]
+Let's call the above $J$. Taking the trace of $X$ is easy, since we know its matrix elements. It becomes
+\begin{equation} \label{detJ}
+J = \exp{ 
+-i \int d^d x \epsilon (x) \sum_n \overline{\phi}_n (x) \gamma^5 \phi_n (x)
+}
+\end{equation}
+So far we've made no attempt to regularize our theory. This is the first place we do so. The exponent of \ref{detJ} is perhaps not well defined (Fujikawa). Inside of $J$ we insert a regularization scale $\Lambda$. write \ref{detJ} as $J = e^{iY}$. Define
+\[
+Y(\Lambda) = \int d^d x \epsilon \sum_n \overline{\phi}_n (x) \gamma^5 \phi_n (x) e^{-\lambda^2_n/\Lambda^2}.
+\]
+Cleverly, then, as $\Lambda \to \infty$, $Y(\Lambda) \to Y$. But independently of this, we may replace the eigenvalues with $\slashed{D}$. $Y$ then becomes
+\begin{equation} \label{Yexp}
+Y = \lim_{\Lambda \to \infty} \int d^d x \epsilon (x) \sum_n \overline{\phi}_n (x) \gamma^5 e^{-(i\slashed{D})^2/\Lambda^2} \phi_n.
+\end{equation}
+So far, we've been using a basis of functions $\phi_n$ which were eigenfunctions of $\slashed{D}$. We have found this convention useful for a number of reasons. However, we will instead switch to the plane wave basis instead of $\phi_n$. This means $\sum_n \to \int \frac{d^d k}{(2\pi)^d}$ and $\phi_n (x) \to e^{ikx}$. Then (\ref{Yexp}) becomes:
+\[
+Y(\Lambda) = \int \frac{d^d k}{(2\pi)^d} \tr \left(
+\gamma^5 e^{-ikx} e^{\slashed{D}^2/\Lambda^2} e^{ikx} 
+\right).
+\]
+Now, let's spend some time with this $e^{\slashed{D}^2/\Lambda^2}$. The exponent can be written
+\[
+\slashed{D}^2 = \gamma^\mu \gamma^\nu D_\mu D_\nu.
+\]
+Products of matrices can be replaced by a commutator plus and anticommutator; we have then
+\begin{equation} \label{sd2}
+\slashed{D}^2 = \frac{1}{2} \{ \gamma^{\mu},\gamma^\nu \} D_\mu D_\nu + \frac{1}{2} [\gamma^\mu,\gamma^\nu] D_\mu D_\nu.
+\end{equation}
+Now, pay attention carefully: the anticommutator gives us $2\eta^{\mu \nu}$. So the first term is $D^2$. Now, since the $\mu,\nu$ are summed over, we can switch the commutator from the gamma matrices over to the $D_\mu$ by swapping indices on one of the terms (try for yourself). But we have another name for this commutator;
+\[
+-ig F_{\mu \nu} := [D_\mu,D_\nu].
+\]
+Therefore (\ref{sd2}) becomes
+\[
+\slashed{D^2} = D^2 - \frac{ig}{2} \gamma^\mu \gamma^\nu F_{\mu \nu}.
+\]
+\end{document}

@@ -13,13 +13,13 @@ To this end, let us consider the axial transformation, which has infinitesimal f
 \[
 \delta \Psi = i \gamma_5 \Psi.
 \]
-We define the axial current $j^\mu_A$
-\[
-j^\mu_A = - \frac{\delta \mathcal{L}}{\delta (\partial_\mu \Psi} \delta \Psi.
-\]
+We define the axial current $j^{\mu 5}$ via (fix this later)
+\begin{equation} \label{axialcurrent}
+j^{\mu 5}= - \frac{\delta \mathcal{L}}{\delta (\partial_\mu \Psi)} \delta \Psi.
+\end{equation}
 Then classically 
 \[
-\partial_\mu j^\mu_A = 0.
+\partial_\mu j^{\mu 5} = 0.
 \]
 Quantum mechanically, we will find the story is not so simple. 
 
@@ -33,9 +33,9 @@ Consider the typical measure
 D\psi D \overline{\psi}.
 \end{equation}
 Under the transformation
-\[
+\begin{equation} \label{axialtrans}
 \psi \to \psi' = \psi + i \epsilon \gamma^5 \psi,
-\]
+\end{equation}
 and the same for $\overline{\psi}$, we will pick up a Jacobian.
 
 To do this, it's actually easier to rewrite the measure less abstractly and more concretely. Instead of integrating over field configurations, we will expand field configurations in a basis and integrate over the values of those coefficients. 
@@ -74,11 +74,11 @@ The Euclidean path integral then becomes
 \]
 But Grassmann integration is easy, we know that this just becomes
 \[
-\prod_n \delta_{mn} \delta{mn} \lambda_m \overline{b}_m a_m = \prod_n \lambda_n = \det i \slashed{D}.
+\prod_n \delta_{mn} \delta_{mn} \lambda_m \overline{b}_m a_m = \prod_n \lambda_n = \det i \slashed{D}.
 \]
 The $-$ sign in the exponential went away because we had to pass the $\overline{b}$ through the $a$, really this path integral can be equivalently thought of as a bunch of derivatives since derivatives and integrals are the same thing with Grassmann variables.
 
-Now, let's perform an infinitesimal position dependent chiral rotation on everything.
+Now, let's perform an infinitesimal position dependent axial rotation on everything.
 \[
 \delta \psi (x) = i \epsilon (x) \gamma^5 \psi (x).
 \]
@@ -118,7 +118,7 @@ Using
 \]
 since $A = 1+X$ we have $\ln (1 + X) = X$, we have
 \[
-\frac{1}{\deta A} = e^{-\tr X}.
+\frac{1}{\det A} = e^{-\tr X}.
 \]
 Let's call the above $J$. Taking the trace of $X$ is easy, since we know its matrix elements. It becomes
 \begin{equation} \label{detJ}
@@ -136,7 +136,7 @@ Y = \lim_{\Lambda \to \infty} \int d^d x \epsilon (x) \sum_n \overline{\phi}_n (
 \end{equation}
 So far, we've been using a basis of functions $\phi_n$ which were eigenfunctions of $\slashed{D}$. We have found this convention useful for a number of reasons. However, we will instead switch to the plane wave basis instead of $\phi_n$. This means $\sum_n \to \int \frac{d^d k}{(2\pi)^d}$ and $\phi_n (x) \to e^{ikx}$. Then (\ref{Yexp}) becomes:
 \[
-Y(\Lambda) = \int \frac{d^d k}{(2\pi)^d} \tr \left(
+Y(\Lambda) = \int d^d x \epsilon (x) \int \frac{d^d k}{(2\pi)^d} \tr \left(
 \gamma^5 e^{-ikx} e^{\slashed{D}^2/\Lambda^2} e^{ikx} 
 \right).
 \]
@@ -153,7 +153,138 @@ Now, pay attention carefully: the anticommutator gives us $2\eta^{\mu \nu}$. So 
 -ig F_{\mu \nu} := [D_\mu,D_\nu].
 \]
 Therefore (\ref{sd2}) becomes
-\[
+\begin{equation} \label{d2}
 \slashed{D^2} = D^2 - \frac{ig}{2} \gamma^\mu \gamma^\nu F_{\mu \nu}.
+\end{equation}
+We can make some further simplifications. First, note
+\begin{equation} \label{dk}
+e^{-ikx} D_\mu e^{ikx} = i k_\mu + ig A_\mu.
+\end{equation}
+The quantity we wish to simplify is now
+\begin{equation} \label{man}
+\gamma^5 e^{-ikx} e^{\slashed{D}^2} e^{ikx}.
+\end{equation}
+Using both \ref{d2} and \ref{dk}, we find that expanding \ref{man} to all orders requires the BCH formula. It will turn out that they vanish in the $\Lambda \to \infty$ limit, as per Tong. I will include more about this later. So let's just drop them and further manipulations to omit terms which becomes unity in the $\Lambda \to \infty$ limit.
+
+It is natural to group the gamma matrices together for \ref{man}. We then have
+\[
+\gamma^5 e^{-ikx} e^{\slashed{D}^2/\Lambda^2} e^{ikx} = \gamma^5 e^{(i(k_\mu + g A_\mu(x)^2} e^{\frac{-ig}{2} \gamma^\mu \gamma^\nu F_{\mu \nu}/\Lambda^2.}
+\]
+I'm a little uncertain about this next step but for now will just go with it. Let's drop the $g A_\mu$ in the first term. Then the above becomes
+\[
+= \gamma^5 e^{-k^2/\Lambda^2} \left(
+\gamma^\mu \gamma^\mu F_{\mu \nu} \frac{1}{\Lambda^2} + \cdots
+\right)
+\]
+where we have expanded the exponential in $F$. Higher order terms with $\Lambda$ will vanish in the $\Lambda \to \infty$ limit; we will be working in $d = 2$. Recalling where we came from, we therefore have
+\begin{equation} \label{phigamphi}
+\sum_n \overline{\phi}_n \gamma^5 \phi_n = \lim_{\Lambda \to \infty} \int \frac{d^d k}{(2\pi)^d} e^{-k^2/\Lambda^2} \tr (\frac{-ig}{2}\gamma^5 \gamma^\mu \gamma^\nu F_{\mu \nu} \frac{1}{\Lambda^2})
+\end{equation}
+Let us choose the gamma matrix convention so that
+\[
+\tr \gamma^5 \gamma^\mu \gamma^\nu = 2 i\epsilon^{\mu \nu}.
+\]
+I have to be more careful here...
+
+In any case, let's go back to \ref{phigamphi}. This is a gaussian integral in $k$. So we pick up a $\pi$ from the $2d$ integral in the numerator, and a $\Lambda^2$ in the numerator as well. Therefore \ref{phigamphi} is given by
+\[
+= \frac{1}{(2\pi)^2} g \pi 2 \frac{1}{2} \epsilon^{\mu \nu} F_{\mu \nu} = \frac{e}{4\pi} \epsilon^{\mu \nu} F_{\mu \nu}
+\]
+identifying $g = e$. We will see in a second that this is exactly the anomaly. Recall
+\[
+Y = \int d^2 x \epsilon(x) \frac{e}{4\pi} \epsilon^{\mu \nu} F_{\mu \nu}
+\]
+Lastly, put this in $J = e^{iY}$. Then under the axial transformation \ref{axialtrans}, we pick up a $J^2$, meaning the action acquires a constant term
+\[
+\mathcal{L}_{anom} = \frac{\epsilon}{2\pi} \epsilon^{\mu \nu}F_{\mu \nu}.
+\]
+Since $F$ and $\epsilon$ are both antisymmetric, this can also be written
+\[
+\delta \mathcal{L}_{anom} = \frac{\epsilon}{\pi} F^{01} = \frac{\epsilon}{\pi} E(x)
+\]
+Now, we see exactly how this violates axial symmetry. Under a chiral transformation, we have
+\[
+\partial_\mu j^{\mu 5} = \delta \mathcal{L} (x)
+\]
+with $j^\mu$ the axial current given by \ref{axialcurrent}. If we look at $\delta \mathcal{L}$ just classically, all of its variations can only come from $\mathcal{L}$ itself. In the quantum case, we have also the path integral measure which might vary, and in this case, instead of $\delta mathcal{L} = 0$, we have an anomalous shift in the Lagrangian. We therefore have
+\begin{equation} \label{11chiralanomaly}
+\partial_\mu j^{\mu 5} = \frac{e}{2\pi} \epsilon^{\mu \nu} F_{\mu \nu}.
+\end{equation} 
+This is the chiral anomaly in $1+1$ dimensions. Let us review what has happened.
+\subsection{Anomalous W-T diagram in 1+1 and 3+1 dimensions}
+In this section, I observe the properties of the vacuum polarization diagram in $1+1$ dimensions for a $U(1)$ gauge theory.
+
+That is, consider the diagram
+
+(figure out how to do feynman diagrams, $\gamma^\mu$ at one vertex and $\gamma^5 \gamma^\nu$ at the other, check PnS page 654 (refneeded) for details. 
+
+This is a diagram that arises as the result of a background gauge field. We are not working with external photon lines. Recall the path integral in a background gauge field;
+\begin{equation} \label{bgfpath}
+Z = \int D \overline{\psi} D \psi \exp{
+i \int d^d x \overline{\psi} (i\slashed{D} - m) \psi.}
+\end{equation}
+There is no integration over $DA$ in the path integral - it is something in the background. So we just have a quadratic $Q$ in the Lagrangian of the form $i\slashed{D} - m$; fermionic integrals of the form \ref{bgfpath} just contribute a determinant. So it becomes
+\begin{equation} \label{ferdet}
+Z = \det (i \slashed{D} - m).
+\end{equation}
+Now, we know at the end of the day, that we have to normalize \ref{ferdet} via the free $Z$ (without a background $A$ interaction). So we write
+\[
+Z = \det (i \slashed{D} - m) = \det (i\slashed{\partial} - m - e \slashed{A}) = \det(i \slashed{\partial} - m) \det (1 - \frac{i}{i \slashed{\partial} - m} (-ie\slashed{A})).
+\]
+So after normalizing $Z$ it is apparent that we are interested in
+\begin{equation} \label{ferdet1}
+\det \left(
+1 - \frac{i}{i \slashed{\partial} - m} (-ie\slashed{A})
+\right)
+\end{equation}
+Now we've seen things like $\det (1 - X)$ in the past. For this reason we write
+\[
+\det B = \exp (\tr \log B),
+\]
+so that we may write
+\[
+\log( 1 - X )= -X
+\]
+Then the determinant \ref{ferdet1} as
+\begin{equation} \label{ferdet2}
+\det \left(
+1 - \frac{i}{i \slashed{\partial} - m} (-ie\slashed{A}) \right) = 
+\exp  \left[
+\sum_{n=1}^\infty -\frac{1}{n} \tr \left[
+\left(
+\frac{i}{i\slashed{\partial} - m} (-ie\slashed{A})
+\right)^n
+\right]
+\right].
+\end{equation}
+This is an exact result. However, we are interested only in a few terms. As we will see, the exact expression \ref{bgfpath} will soon obtain a regulator which wipes out most of the terms in \ref{ferdet2}. 
+
+I will skip some steps here, but we find that the diagram
+
+(page 305 in P{\&}S, 9.80)
+
+is given by
+\[
+-\frac{1}{n} \text{Tr} \, \left[
+\left(
+\frac{i}{i\slashed{\partial} - m} (-ie\slashed{A})
+\right)^n
+\right].
+\]
+For now, I won't insert the Pauli-Villars regulators; I will pretend I don't need them. We are interested in the vacuum polarization diagram (pns305,9.80 with 2 external photon lines), which is given by
+\begin{equation}
+-\frac{1}{2} \text{Tr} \, \left[
+\left(
+\frac{i}{i\slashed{\partial} - m} (-ie\slashed{A})
+\right)^2
+\right].
+\end{equation}
+This may also be written less compactly as 
+\[
+= -\frac{1}{2} \int dx dy \tr \left[ (-ie\slashed{A} (x) ) S_F (y -x) (-ie\slashed{A} (y) S_F (x - y) \right],
+\]
+with $\tr$ the trace over spinor indices, and $S_F$ the usual fermion propagator
+\[
+S_F (x_1 - x_2) = \int \frac{d^d k}{(2\pi)^d} \frac{i e^{-ik (x_1 - x_2)}}{\slashed{k} - m + i\epsilon}.
 \]
 \end{document}

@@ -1,17 +1,35 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 \chapter{Noether Currents and Ward-Takahashi Identities}
+
+There is a glaring error in all this. I have functional derivatives summed over on the right side of equations and not on the left. I should fix this notation, or at least comment on it in my section on functional derivatives.
+
+
 Symmetry is all over the place in field theory. We have encountered the physics spinors and gauge fields as consequences of a generalized sense of local frame invariance; the latter may be thought of as a symmetry of the Lagrangian under action by a principal G-bundle. Crucially, there is no active interpretation of gauge transformations (at least in the sense that they have no observable physical consequences); the situation is different with Lorentz transformations and various other ``symmetries'' of a theory. In order to derive some very useful and far-reaching results, it will be important to start in the classical case.
 
 We start with the scalar case.
-\section{Noether's theorem and currents}
+\section{Classical Field Theory and Noether's theorem}
 This section is a review of Srednicki (refneeded) chapter 22.  Every use of a partial is in fact a functional derivative, so while the notation is perhaps a little self-inconsistent it's consistent with the literature. As a rule: if it's got a variation with respect to $\phi_a (x)$, it's gotta be a functional derivative no matter what the notation.
 
 Consider the classical situation. Let's begin with a set of scalar fields $\phi_a(x)$ and some Lagrangian which depends on $\phi$ and its derivatives. Consider an infinitesimal transformation
 \begin{equation} \label{varphi}
 \phi_a (x) \to \phi_a(x) + \delta \phi_a (x),
 \end{equation}
-for some infinitesimal $\delta \phi_a(x)$. You should see some functional derivatives coming.
+for some infinitesimal $\delta \phi_a(x)$. Under this transformation, $\phi$'s derivatives must also change, so we have
+\[
+\partial_\mu \phi_a(x) \to \partial_\mu \phi_a(x) + \delta \partial_\mu \delta \phi_a (x).
+\]
+Clearly,
+\[
+\delta \partial_\mu \phi_a (x)=\partial_\mu \delta \phi_a (x).
+\]
+If you do not believe me, read back through the section on functional derivatives if necessary, and prove it yourself. 
+
+The classical Lagrangian is a function of the field and its derivatives,
+\[
+\mathcal{L} = \mathcal{L} (\phi_a, \partial_\mu \phi_a),
+\]
+running through all values of the indices $a$ and $\mu$. It's important to remember that although $\partial_\mu \phi_a$ depends on $\phi_a$ explicitly, $\mathcal{L}$ must be thought of as a function of two independent objects, and we later plug in the field and its derivatives as those objects.
 
 Under the transformation \ref{varphi}, the Lagrangian goes to 
 \[
@@ -21,36 +39,51 @@ where the variation $\delta \mathcal{L}$ is given by the chain rule:
 \begin{equation} \label{varL}
 \delta \mathcal{L} (x) = \frac{\delta \mathcal{L}}{\delta \phi_a (x)} \delta \phi_a (x) + \frac{\delta \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x).
 \end{equation}
-The classical equations of motion are satisfied via the action principle
+Now let's define the action
 \[
-\frac{\delta S}{\delta \phi_a (x)} = 0,
+S = \int d^d x \mathcal{L} (x).
 \]
-where $S = \int d^d y S(y)$. Let's rederive the classical equations of motion. We can pass the functional derivative through the integral, so the variation in the action is given by
-\begin{equation} \label{insertL}
-\frac{\delta S}{\delta \phi_a (x)} = \int d^4 y  \frac{\delta \mathcal{L} (y)}{\delta \phi_a (x)}.
+The principle of least action is the following: the only classically allowable field configurations $\phi_a$ are those for which 
+\begin{equation} \label{ds0}
+\delta S = 0
 \end{equation}
-Making the substitution \ref{varL} in \ref{insertL} it becomes
+regardless of the infinitesimal $\delta \phi_a$. In other words, $\phi_a$ extremizes the action, i.e. \ref{ds0}. Intuitively, we think of it as minimizing, but there's no reason a priori to assume that from \ref{ds0}; we'd need second derivatives.
+
+But we know how $S$ changes under a given infinitesimal $\delta \phi_a$ since it depends so simply on $\mathcal{L}$, it is
 \[
-\frac{\delta S}{\delta \phi_a (x)} = \int d^4 y \left[
-\frac{\delta \mathcal{L} (y)}{\delta \phi_b(y)} \delta_{ba} \delta^d (y-x) + \frac{\delta \mathcal{L}(y)}{\delta (\partial_\mu \phi_b (y)} \delta_{ba} \partial_\mu \delta^d (x - y).
-\right]
+\delta S = \int d^d x \; \delta \mathcal{L} (x) = \int d^d x \left( \frac{\delta \mathcal{L}}{\delta \phi_a (x)} \delta \phi_a (x) + \frac{\delta \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x) \right).
 \]
-We can move the derivative off the $\delta$ function if we pick up a $-$ sign. So we have a considerable simplification without the introduction of any symmetry or physical considerations: 
-\begin{equation} \label{derivS}
-\frac{\delta S}{\delta \phi_a (x)} = \frac{\delta \mathcal{L} (y)}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))}.
+We can move the derivative off the $\delta$ if we pick up a $-$ sign. So we find
+\begin{equation} \label{almostel}
+\delta S = \int d^d x \left(
+\frac{\delta\mathcal{L}}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))}
+\right) \delta \phi_a (x)
 \end{equation}
-Therefore, we have derived the Euler-Lagrange equations for a scalar field theory:
+Note that by definition of the functional derivative, we have computed the derivatives of $S$ with respect to $\phi_a (x)$:
+\begin{equation} \label{dsx}
+\frac{\delta S}{\delta \phi_a (x)} =
+\frac{\delta\mathcal{L}}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))}.
+\end{equation}
+Now, back to \ref{almostel}. If we want the action to vanish \textit{regardless} of the transformation $\delta \phi_a$, we must have
+\begin{equation} \label{dsx0}
+\frac{\delta S}{\delta \phi_a (x)} = 0.
+\end{equation}
+Therefore, we have derived the Euler-Lagrange equations for a scalar field theory, if we write \ref{dsx0} out using \ref{dsx}:
 \begin{equation} \label{elequation}
-\frac{\delta\mathcal{L} (y)}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))} = 0.
+\frac{\delta\mathcal{L}}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))} = 0.
 \end{equation}
-Now, let's go back to \ref{derivS}. We can use it to rewrite
+Maybe I'll do a couple examples here, like the Dirac equation or Klein-Gordon equation.
+\section{Continuous symmetries}
+Recall the general (loose, but clear) definition of a symmetry: a transformation that leaves something invariant. We have two natural quantities whose invariance we may speak of, $\mathcal{L}$ and $S$.
+
+
 \begin{equation} \label{redo}
-\frac{\delta \mathcal{L}(x)}{\delta\phi_a (x)} = \partial_\mu \frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))} + \frac{\delta S}{\delta \phi_a (x)}.
+\frac{\delta \mathcal{L}}{\delta\phi_a (x)} = \partial_\mu \frac{\delta \mathcal{L} }{\delta (\partial_\mu \phi_a (x))} + \frac{\delta S}{\delta \phi_a (x)}.
 \end{equation}
 We can make the replacement \ref{redo} in the original variation \ref{varL} to obtain
 \begin{equation} \label{whats}
 \delta \mathcal{L} (x) = \partial_\mu \left(
-\frac{\delta \mathcal{L} (x)}{\delta (\partial_\mu \phi_a (x))} \delta \phi_a (x)
+\frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))} \delta \phi_a (x)
 \right) + \frac{\delta S}{\delta \phi_a (x)} \delta \phi_a (x).
 \end{equation}
 We make rename the quantity in parentheses of \ref{whats} as a current;
@@ -165,6 +198,13 @@ Let's return back to \ref{varZ}. If we make a variation $\delta \phi_a (x)$ whic
 \end{proof}
 
 In fact, I have shown a much stronger version of the quantum Noether's theorem; we can reproduce a much closer quantum analogue Theorem \ref{thm:noether}, which we do now. (maybe this should be swapped - see tong's notes.)
+
+\section{What are they good for?}
+What are Ward identities good for? Well let's think for a second, remembering our classical roots. 
+
+In ordinary mechanics, we expect that momentum is conserved in collisions. This is made precise by Noether's theorem! The translational invariance of interaction hamiltonians is what gives us the conservation of the momentum current!
+
+This is part of the reason we focused so hard on the classical case. Understanding the consequences of Noether's theorem in the classical case gives strong hints as to the applicability of Ward identities to computing scattering amplitudes. We make these precise now.
 
 \subsection{QED W-T identities/external photon line version}
 

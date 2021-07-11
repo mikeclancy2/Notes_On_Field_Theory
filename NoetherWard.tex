@@ -8,9 +8,7 @@ There is a glaring error in all this. I have functional derivatives summed over 
 Symmetry is all over the place in field theory. We have encountered the physics spinors and gauge fields as consequences of a generalized sense of local frame invariance; the latter may be thought of as a symmetry of the Lagrangian under action by a principal G-bundle. Crucially, there is no active interpretation of gauge transformations (at least in the sense that they have no observable physical consequences); the situation is different with Lorentz transformations and various other ``symmetries'' of a theory. In order to derive some very useful and far-reaching results, it will be important to start in the classical case.
 
 We start with the scalar case.
-\section{Classical Field Theory and Noether's theorem}
-This section is a review of Srednicki (refneeded) chapter 22.  Every use of a partial is in fact a functional derivative, so while the notation is perhaps a little self-inconsistent it's consistent with the literature. As a rule: if it's got a variation with respect to $\phi_a (x)$, it's gotta be a functional derivative no matter what the notation.
-
+\section{Classical EOM for a field}
 Consider the classical situation. Let's begin with a set of scalar fields $\phi_a(x)$ and some Lagrangian which depends on $\phi$ and its derivatives. Consider an infinitesimal transformation
 \begin{equation} \label{varphi}
 \phi_a (x) \to \phi_a(x) + \delta \phi_a (x),
@@ -37,8 +35,10 @@ Under the transformation \ref{varphi}, the Lagrangian goes to
 \]
 where the variation $\delta \mathcal{L}$ is given by the chain rule:
 \begin{equation} \label{varL}
-\delta \mathcal{L} (x) = \frac{\delta \mathcal{L}}{\delta \phi_a (x)} \delta \phi_a (x) + \frac{\delta \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x).
+\delta \mathcal{L} (x) = \frac{\partial \mathcal{L}}{\partial \phi_a (x)} \delta \phi_a (x) + \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x).
 \end{equation}
+Recall that $\mathcal{L}$ is \textit{local}. It depends only on $\phi(x)$, not $\phi$, so we use partials instead. It's easier to quickly prove that this formula works than to make better notation.
+
 Now let's define the action
 \[
 S = \int d^d x \mathcal{L} (x).
@@ -51,18 +51,18 @@ regardless of the infinitesimal $\delta \phi_a$. In other words, $\phi_a$ extrem
 
 But we know how $S$ changes under a given infinitesimal $\delta \phi_a$ since it depends so simply on $\mathcal{L}$, it is
 \[
-\delta S = \int d^d x \; \delta \mathcal{L} (x) = \int d^d x \left( \frac{\delta \mathcal{L}}{\delta \phi_a (x)} \delta \phi_a (x) + \frac{\delta \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x) \right).
+\delta S = \int d^d x \; \delta \mathcal{L} (x) = \int d^d x \left( \frac{\partial \mathcal{L}}{\partial \phi_a (x)} \delta \phi_a (x) + \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x) \right).
 \]
 We can move the derivative off the $\delta$ if we pick up a $-$ sign. So we find
 \begin{equation} \label{almostel}
 \delta S = \int d^d x \left(
-\frac{\delta\mathcal{L}}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))}
+\frac{\partial \mathcal{L}}{\partial \phi_a (x)} - \partial_\mu \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))}
 \right) \delta \phi_a (x)
 \end{equation}
 Note that by definition of the functional derivative, we have computed the derivatives of $S$ with respect to $\phi_a (x)$:
 \begin{equation} \label{dsx}
 \frac{\delta S}{\delta \phi_a (x)} =
-\frac{\delta\mathcal{L}}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))}.
+\frac{\partial\mathcal{L}}{\partial \phi_a (x)} - \partial_\mu \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))}.
 \end{equation}
 Now, back to \ref{almostel}. If we want the action to vanish \textit{regardless} of the transformation $\delta \phi_a$, we must have
 \begin{equation} \label{dsx0}
@@ -70,41 +70,183 @@ Now, back to \ref{almostel}. If we want the action to vanish \textit{regardless}
 \end{equation}
 Therefore, we have derived the Euler-Lagrange equations for a scalar field theory, if we write \ref{dsx0} out using \ref{dsx}:
 \begin{equation} \label{elequation}
-\frac{\delta\mathcal{L}}{\delta \phi_a (x)} - \partial_\mu \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))} = 0.
+\frac{\partial\mathcal{L}}{\partial \phi_a (x)} - \partial_\mu \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} = 0.
 \end{equation}
 Maybe I'll do a couple examples here, like the Dirac equation or Klein-Gordon equation.
-\section{Continuous symmetries}
-Recall the general (loose, but clear) definition of a symmetry: a transformation that leaves something invariant. We have two natural quantities whose invariance we may speak of, $\mathcal{L}$ and $S$.
+\section{Continuous symmetries and Noether's theorem}
+Recall the general (loose, but clear) definition of a symmetry: a transformation that leaves something invariant. We have two natural quantities whose invariance we may speak of, $\mathcal{L}$ and $S$. 
 
+So, let's make some definitions. When I speak of a continuous field transformation, I mean a shift $\phi \to \phi + \delta_\phi$, where $\delta \phi (x)$ is some infinitesimal transformation, i.e. we may write $\delta \phi (x)= \epsilon \eta (x)$ for infinitesimal $\epsilon$. For brevity, I refer to $\delta \phi$ as the transformation. Anytime I say something like ``$\delta X = 0$,'' I mean ``$\delta X = 0$ under the transformation $\delta \phi$.
 
-\begin{equation} \label{redo}
-\frac{\delta \mathcal{L}}{\delta\phi_a (x)} = \partial_\mu \frac{\delta \mathcal{L} }{\delta (\partial_\mu \phi_a (x))} + \frac{\delta S}{\delta \phi_a (x)}.
-\end{equation}
-We can make the replacement \ref{redo} in the original variation \ref{varL} to obtain
-\begin{equation} \label{whats}
-\delta \mathcal{L} (x) = \partial_\mu \left(
-\frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))} \delta \phi_a (x)
-\right) + \frac{\delta S}{\delta \phi_a (x)} \delta \phi_a (x).
-\end{equation}
-We make rename the quantity in parentheses of \ref{whats} as a current;
-\begin{equation} \label{noethercurrent}
-j^\mu (x) := \frac{\delta \mathcal{L}}{\delta (\partial_\mu \phi_a (x))} \delta \phi_a (x).
-\end{equation}
-This is the \textit{Noether current}. It isn't physically meaningful yet; everything so far has been looking at variations of quantities due to variations in the underlying field. But there's something very interesting about $j^\mu$. Its divergence is given by a rearrangement of \ref{whats}:
-\begin{equation} \label{divj}
-\partial_\mu j^\mu (x) = \delta \mathcal{L} (x) - \frac{\delta S}{\delta\phi_a (x)} \delta \phi_a (x).
-\end{equation}
-These are two very familiar terms that independently vanish in a wide range of applicable circumstances:
-\begin{enumerate} [(1)]
-\item If $\phi_a (x)$ satisfies the classical equations of motion, then the second term of \ref{divj} vanishes. 
+\begin{enumerate}
+\item A transformation $\delta \phi_a (x)$ is a symmetry of the Lagrangian if $\delta \mathcal{L} = 0$. 
 
-\item If $\delta \phi_a (x)$ is a \textit{continuous symmetry of the Lagrangian}, where by that I mean $\delta \mathcal{L}=0$ in \ref{varL} under \ref{varphi}, then the first term of \ref{divj} vanishes.
+\item A transformation $\delta \phi_a (x)$ is a symmetry of the action if $\delta S = 0$.
+
+\item A transformation $\delta \phi_a (x)$ is a \textit{quasisymmetry} of the Lagrangian if $\delta \mathcal{L} = \partial_\mu F^{\mu}$ for some function $F^\mu (\phi(x))$. That is, the variation in the Lagrangian is a total divergence.
 \end{enumerate}
-Under these two conditions, then, $\partial_\mu j^\mu = 0$, and we say $j^\mu$ is \textit{conserved}. We then have the easy to prove and immensely useful theorem of classical fields:
 
-\begin{thm} \label{thm:noether} \textbf{Noether's theorem.}
-Every continuous symmetry of the Lagrangian corresponds to a conserved current, and that current is conserved provided $\phi_a (x)$ satisfies the classical equations of motion.
+We will see why we want quasisymmetries shortly. If the notation $F^\mu (\phi(x))$ bothers you, make your own based on the examples we will explore later. There's something that should bother you more: what the hell am I talking about?
+
+We should be much more careful about what we mean to do transformations. In particular, understanding the variation of the action and Lagrangian depend heavily on what field I started with. So we make two more definitions:
+\begin{enumerate}
+\item A symmetry $\delta \phi_a (x)$ is said to be off-shell if it holds for arbitrary starting configurations $\phi_a (x)$;
+
+\item A symmetry $\delta \phi_a (x)$ is said to be on-shell if it holds in particular for configurations $\phi_a (x)$ which satisfy the classical equations of motion.
+\end{enumerate}
+At first glance, then, we have $3\times 2 = 6$ kinds of symmetries to think about. Transformations are $\phi_a \to \phi_a + \delta \phi_a$, so whether or not something is a symmetry could depend on $\phi_a$ and $\delta \phi_a$. In fact, there are more considerations - we will worry about what it means for a symmetry to be local or global. Before this, let's consider some easy examples that can be stated basically without proof.
+
+\begin{enumerate}
+\item By definition, \textbf{every} transformation is an on-shell symmetry of the action. 
+
+\item Off-shell quasisymmetries of the Lagrangian are symmetries of the action.
+\end{enumerate}
+
+Be careful about the difference between (1) and (2) just listed.  (2) leaves the action invariant \textit{regardless} of the starting configuration $\phi$, but only for a special transformation $\delta \phi$. (1) is completely the opposite: it holds only for $\phi$ satisfying the classical EOM, but all transformations work.
+
+\subsection{Conserved currents} \label{consc}
+Let's say we have an on-shell quasisymmetry of the Lagrangian $\delta \phi_a (x)$. Let's go back in time to the variation in $\mathcal{L}$, eq. \ref{varL}. Then
+\begin{equation} \label{dunno}
+\frac{\partial \mathcal{L}}{\partial \phi_a (x)} \delta \phi_a (x) + \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \partial_\mu \delta \phi_a (x) = \partial_\mu F^\mu (\phi(x))
+\end{equation}
+Now we express $\frac{\delta \mathcal{L}}{\delta \phi_a (x)}$ using Eq. \ref{dsx}. Then Eq. \ref{dunno} becomes
+\begin{equation} \label{dunno2}
+\left( 
+\partial_\mu \frac{\partial \mathcal{L} }{\partial (\partial_\mu \phi_a (x))} + \frac{\delta S}{\delta \phi_a (x)}
+\right) \delta \phi_a (x) + \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))}\partial_\mu \delta \phi_a (x) = \partial_\mu F^\mu
+\end{equation}
+Since we are on-shell, the variation in the action vanishes. The remaining terms on the left hand side of \ref{dunno2} are a product rule. All in all, we therefore have
+\begin{equation} \label{wowj}
+\partial_\mu \left(
+\frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \delta \phi_a (x)
+\right) = \partial_\mu F^\mu
+\end{equation}
+This suggests the definition
+\begin{equation} \label{noethercurrent}
+j^\mu (x) := 
+\frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi_a (x))} \delta \phi_a (x)
+- F^\mu (\phi(x))
+\end{equation}
+This is the \textit{Noether current} associated to the quasisymmetry $\delta \phi_a$. It is divergence free; that is it satisfies
+\begin{equation}\label{divj}
+\partial_\mu j^\mu = 0.
+\end{equation}
+$j$ clearly both depends on both $\mathcal{L}$ and $\delta \phi_a$, the latter implicitly through $F^\mu$. There will be cases where the transformation is a full symmetry, so $F^\mu = 0$ and $j^\mu$ is simpler. 
+
+We also say $j^\mu$ is \textit{conserved}, in that it is divergence free. We'll come to the meaning of this in a second. We summarize the results of this section in a theorem:
+\begin{thm} \label{thm:noether} \textbf{Noether's (first) theorem.}
+Every on-shell quasisymmetry of the Lagrangian is associated to a conserved current.
 \end{thm}
+There are really two theorems that go under this heading, the first and second. Most commonly, the first theorem is just called Noether's theorem, and I will follow that convention. The second theorem is not presently interesting to me, so I haven't bothered to really learn it, and I do not include a discussion of it here.
+
+Before writing down some examples, I will have to make a couple of things precise. In particular, our definition of a transformation was a little naive, and doesn't imply to many important examples. We will see that for the cases we care about things don't change substantially.
+
+\section{Vertical and Horizontal transformations}
+In physics, we typically think of an infinitesimal coordinate transformations like
+\begin{equation} \label{horizontal}
+x \to x' = x + \delta x
+\end{equation}
+while in this chapter we have been considering transformations as
+\begin{equation} \label{vertical}
+\phi(x) \to \phi'(x) = \phi(x) + \delta \phi(x).
+\end{equation}
+If we think of the field as a function whose dependent variable is spacetime location, it therefore graphically makes sense to call transformations of the form \ref{horizontal} \textbf{horizontal}, and the transformations of the form \ref{vertical} \textbf{vertical}. Typically, we have \textbf{general} transformations which change both the coordinates and the components of the field. In this case, we have $\phi(x) \to \phi' (x')$. With the passive interpretation of this transformation - we are describing the same field at the same spacetime point, except the numbers might change. Therefore the proper notion of of the transformation is 
+\[
+\phi(x) \to \phi'(x') = \phi(x) + \delta \phi(x).
+\]
+When will we need to use such a transformation? Well, pretty frequently. Let's consider some useful examples of vertical, horizontal, and general transformations.
+\begin{enumerate}
+\item An example of a \textbf{vertical} transformation is a constant shift in the fields, $\phi(x) \to \phi(x) + v$ for some number $v$. The largest class of examples of vertical transformations are gauge transformations. These are \textit{very important} s
+
+\item An example of a \textbf{horizontal} transformation is the translation of a vector field, or the rotation of a scalar field.
+
+\item An example of a \textbf{general} transformation is the rotation of a vector field.
+\end{enumerate}
+
+What kind of symmetries should we speak of given general transformations? Before, we had symmetries of the Lagrangian and action, and quasi-symmetries of the Lagrangian. We will redefine these precisely shortly. The action is easy - it's just a number, so when the field components and coordinates change that number just changes - the expression $\delta S$ makes no reference to coordinates or fields. 
+
+On the other hand, we have Lagrangians. We keep the passive interpretation of everything. Then the Lagrangian becomes
+\begin{equation} \label{L2}
+\mathcal{L} (x') = \mathcal{L} (\phi'(x')).
+\end{equation}
+So the variation is
+\begin{equation} \label{varL2}
+\delta \mathcal{L} (x) = \mathcal{L}(\phi'(x'))-\mathcal{L}(\phi(x)).
+\end{equation}
+The definitions of symmetries and quasisymmetries are the exact same, except we replace all notions of the change in Lagrangian with \ref{varL2}.
+
+We should be careful about how $S$ and $\mathcal{L}$ are related. In general, $S \to S'$ means
+\[
+\int d^4 x \; \mathcal{L}(\phi(x)) = \int d^4 x' \; \mathcal{L}'(\phi'(x')) 
+\]
+So $\delta S$ is to be read
+\[
+\int d^4 x' \; \mathcal{L}(\phi'(x')) - \int d^4 x \; \delta \mathcal{L}(\phi(x)).
+\]
+You might think that since $x'$ is a dummy integration variable, but $d^4 x' \neq d^4 x$ in general - there might be a Jacobian. We are considering only Poincare transformations, which are isometries of the metric, so this Jacobian is the identity.\footnote{This is an important footnote, so read it. It's not just the lagrangian that changes under transformations. Here it didn't matter because of the special class of transformations we are considering. However, in the quantum mechanical case we will find that the transformation to the path integral measure contributes to anomalies.} 
+
+The important takeaway is that if we try to generalize this we'd have to do much harder math. I don't want to do harder math, so \textit{under the assumption that all horizontal transformations we apply are Poincare transformations}, we have
+\begin{equation}
+\delta S = \int d^4 x \; \delta \mathcal{L} (x)
+\end{equation}
+At this point might appear as though we don't need to substantially change any math from Section \ref{consc}. But there's a little rat hiding in the woodworks that might cause us trouble:
+\begin{equation} \label{deldel}
+\delta \partial_{\mu} \phi (x) \stackrel{?}{=} \partial_\mu \delta \phi(x)
+\end{equation}
+After a line of algebra, this equation becomes
+\begin{equation} \label{dd2}
+\partial_{\mu'} \phi'(x') \stackrel{?}{=} \partial_\mu \phi'(x')
+\end{equation}
+Of course we shouldn't expect this in the general case. Expanding out the left hand side of \ref{dd2}, we find
+\begin{equation} \label{dd3}
+\partial_{\mu'} \phi'(x') = \frac{\partial x^\nu}{\partial x^{\mu'}} \partial_\nu \phi'(x')
+\end{equation}
+So we only expect Eq. \ref{dd2} to hold if $\frac{\partial x^\nu}{\partial x^{\mu'}} = \delta^\nu_{\mu'}$, that is if $x \to x'$ is the identity map. This is to say, Eq. \ref{deldel} is only true if we aren't doing a horizontal transformation whatsoever!
+
+The fact that this fails so horribly and immediately should suggest that we shouldn't expect something as coordinate dependent as \ref{deldel} to hold when considering coordinate transformations, it's not Kosher. Indeed, in the variations of the action we are concerned about, we always sum over repeated $\mu$, as in \ref{varL}. So really what we need is gotta fix this... write things out... think about it... get the asnwer
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial (\partial_\mu' \phi (x))} \delta \partial_\mu \phi(x) \stackrel{?}{=} \frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi (x))} \partial_\mu \delta  \phi(x)
+\end{equation}
+Using all the algebra we did, this is
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi (x))} 
+\frac{\partial x^\nu}{\partial x^{\mu'}} \partial_\nu \phi'(x')
+\stackrel{?}{=}
+\frac{\partial \mathcal{L}}{\partial (\partial_\mu \phi (x))}
+\partial_\mu \phi' (x')
+\end{equation}
+
+In order to really get a feel for this, we need to do some examples.
+\subsection{Examples of symmetries and conserved currents}
+Let's examine some examples of symmetries and conserved currents.
+\begin{enumerate}
+\item spacetime translations and stress-energy momentum tensor
+
+\item rotations and angular momentum
+
+\item chiral transformations
+
+\item maybe charge from $U(1)$.
+
+\end{enumerate}
+Having seen some interesting examples, we now consider something that might go wrong in the quantum case.
+
+\subsection{Symmetry violations}
+Suppose, under the transformation $\delta \phi_a (x)$, we have
+\[
+\delta \mathcal{L} (x) = \delta \mathcal{L}_0 (x) + \mathcal{L}_{viol} (x)
+\]
+where $\mathcal{L}_0 = \partial_\mu F^{\mu}$ is the original quasisymmetry term. If we insert this extra term in Eq. \ref{dunno} and follow the algebra, we instead find
+\[
+\partial_\mu j^\mu = \delta \mathcal{L}_{viol} (x).
+\]
+
+Include chiral symmetry example.
+
+Symmetry violations in the quantum case are called anomalies. On one hand, anomalies make sense: if a particle doesn't satisfy the classical equations of motion, we do not expect our current to be divergence free. 
+\subsection{Conserved currents and charge}
+
+Notice that $j^\mu$ is just a function of $x$. It is some kind of of local observable. Its conservation is a very special property: it means we can basically picture it as like a charge density that evolves in time, while the total charge does not change with time. We make this precise now.
 
 If we express the vanishing divergence of the current by separating space and time, we obtain \textit{local conservation of charge}:
 \begin{equation} \label{conschargelocal}
@@ -124,7 +266,9 @@ Q := \int d^3 x j^0 (x).
 Before proceeding any further let us consider some examples.
 
 \subsection{Symmetry Violation}
-A symmetry violation appears as a diverence of the Noether current \ref{noethercurrent}. That is, stare at \ref{divj}. Assume $\phi$ obeys the classical equations of motion. Then the divergence of $j^\mu$ is given, for a general variation $\delta \phi_a (x)$,
+I'll need a little rewriting given the way I rewrote a couple of sections ago.
+
+A symmetry violation appears as a divergence of the Noether current \ref{noethercurrent}. That is, stare at \ref{divj}. Assume $\phi$ obeys the classical equations of motion. Then the divergence of $j^\mu$ is given, for a general variation $\delta \phi_a (x)$,
 \begin{equation} \label{varj}
 j^\mu (x) = \delta \mathcal{L} (x).
 \end{equation}
@@ -137,6 +281,9 @@ then the divergence of the current is given by
 \partial_\mu j^\mu (x) = \delta \mathcal{L}_{viol} (x).
 \]
 d
+
+
+Examples: Lorentz, rotation, vector fields, etc.
 \section{Ward-Takahashi identities}
 The question becomes, how much of this powerful machinery survives in the quantum mechanical case, and what modifications do we need to make to get that.
 
